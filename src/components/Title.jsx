@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 export default function Title({ title }) {
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box className="text-3xl ">
         <AppBar position="static">
           <Toolbar>
             <IconButton
@@ -24,10 +24,12 @@ export default function Title({ title }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography component="div" sx={{ flexGrow: 1, fontSize: "1.2em" }}>
               {title}
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button color="secondary" variant="contained">
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
