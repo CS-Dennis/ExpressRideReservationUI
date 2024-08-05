@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
 import ReservationProgressView from "../components/ReservationProgressView";
 import TripDetailsForm from "../components/TripDetailsForm";
-import { TRIP_TYPES } from "../constants";
+import { TRIP_TYPES, VEHICLE_TYPES } from "../constants";
+import VehicleForm from "../components/VehicleForm";
 
 export default function Home() {
   const [step, setStep] = useState(0);
@@ -23,6 +24,7 @@ export default function Home() {
 
   const [numOfPassengers, setNumOfPassengers] = useState(1);
   const [numOfLuggages, setNumOfLuggages] = useState(0);
+  const [vehicleType, setVehicleType] = useState(VEHICLE_TYPES[0]);
 
   const backStep = () => {
     if (step == 0) {
@@ -44,6 +46,10 @@ export default function Home() {
     console.log(step);
     console.log(tripDetails);
   }, [step]);
+
+  useEffect(() => {
+    console.log("vehicleType:", vehicleType);
+  }, [vehicleType]);
 
   return (
     <>
@@ -68,7 +74,9 @@ export default function Home() {
 
               {step === 1 && (
                 <>
-                  <Box>Choose a Vehicle</Box>
+                  <Box>
+                    <VehicleForm setVehicleType={setVehicleType} />
+                  </Box>
                 </>
               )}
 
