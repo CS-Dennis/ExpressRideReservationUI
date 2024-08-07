@@ -1,3 +1,4 @@
+export const APP_TITLE = "Jerrad's Transportation Reservation App";
 export const TRIP_TYPES = {
   oneWay: "One way trip (A to B)",
   toAirport: "To Airport",

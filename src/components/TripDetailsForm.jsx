@@ -2,12 +2,13 @@ import {
   Box,
   Divider,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import {
   NUM_OF_LUGGAGES,
   NUM_OF_PASSENGERS,
@@ -16,14 +17,34 @@ import {
 } from "../constants";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { MuiTelInput } from "mui-tel-input";
+import moment from "moment";
+import { capitalizeString } from "../util";
 
 export default function TripDetailsForm({
   tripType,
   setTripType,
+
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
+  phoneNumber,
+  setPhoneNumber,
+  email,
+  setEmail,
+
+  pickupDateTime,
+  setPickupDateTime,
   numOfPassengers,
   setNumOfPassengers,
   numOfLuggages,
   setNumOfLuggages,
+
+  pickupAddress,
+  setPickupAddress,
+  dropoffAddress,
+  setDropoffAddress,
 }) {
   return (
     <>
@@ -51,11 +72,71 @@ export default function TripDetailsForm({
         </FormControl>
       </Box>
 
-      <Box className="flex flex-col justify-between mt-4 font-bold w-full">
+      <Box className="mt-8">
+        <Box className="font-bold">Rider Information</Box>
+        <Grid container>
+          <Grid item xs={12} lg={6}>
+            <Box className="mx-1">
+              <TextField
+                className="w-full"
+                label="First Name"
+                variant="standard"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box className="mx-1">
+              <TextField
+                className="w-full"
+                label="Last Name"
+                variant="standard"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={12} lg={6}>
+            <Box className="mx-1 mt-4 ">
+              <MuiTelInput
+                className="w-full"
+                defaultCountry="US"
+                disableDropdown
+                forceCallingCode
+                value={phoneNumber}
+                onChange={(value) => setPhoneNumber(value)}
+                placeholder="Phone number"
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box className="mx-1 mt-4">
+              <TextField
+                className="w-full"
+                label="Email"
+                variant="standard"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box className="flex flex-col justify-between mt-12 font-bold w-full">
         <Box>Pickup Date & Time</Box>
         <Box>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <DateTimePicker label="" className="w-full" />
+            <DateTimePicker
+              label=""
+              className="w-full"
+              value={pickupDateTime}
+              onChange={(e) => setPickupDateTime(moment(e))}
+            />
           </LocalizationProvider>
         </Box>
       </Box>
@@ -110,11 +191,30 @@ export default function TripDetailsForm({
         </Box>
       </Box>
 
-      <Box className="mt-4 flex w-full justify-evenly">
+      <Box className="mt-12 flex w-full justify-evenly">
         <Box className="mr-2 w-full">
           <Box className="font-bold">Pickup Address</Box>
-          <TextField className="w-full" label="Address" variant="standard" />
-          <TextField className="w-full" label="City" variant="standard" />
+          <TextField
+            className="w-full"
+            label="Address"
+            variant="standard"
+            value={pickupAddress.address}
+            onChange={(e) =>
+              setPickupAddress({ ...pickupAddress, address: e.target.value })
+            }
+          />
+          <TextField
+            className="w-full"
+            label="City"
+            variant="standard"
+            value={pickupAddress.city}
+            onChange={(e) =>
+              setPickupAddress({
+                ...pickupAddress,
+                city: capitalizeString(e.target.value),
+              })
+            }
+          />
           <Select
             labelId="num-of-luggages"
             value={"Texas"}
@@ -133,13 +233,36 @@ export default function TripDetailsForm({
             className="w-full"
             label="Zip (optional)"
             variant="standard"
+            value={pickupAddress.zip}
+            onChange={(e) =>
+              setPickupAddress({ ...pickupAddress, zip: e.target.value })
+            }
           />
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box className="ml-2 w-full">
           <Box className="font-bold">Dropoff Address</Box>
-          <TextField className="w-full" label="Address" variant="standard" />
-          <TextField className="w-full" label="City" variant="standard" />
+          <TextField
+            className="w-full"
+            label="Address"
+            variant="standard"
+            value={dropoffAddress.address}
+            onChange={(e) =>
+              setDropoffAddress({ ...dropoffAddress, address: e.target.value })
+            }
+          />
+          <TextField
+            className="w-full"
+            label="City"
+            variant="standard"
+            value={dropoffAddress.city}
+            onChange={(e) =>
+              setDropoffAddress({
+                ...dropoffAddress,
+                city: capitalizeString(e.target.value),
+              })
+            }
+          />
           <Select
             labelId="num-of-luggages"
             value={"Texas"}
@@ -157,6 +280,10 @@ export default function TripDetailsForm({
             className="w-full"
             label="Zip (optional)"
             variant="standard"
+            value={dropoffAddress.zip}
+            onChange={(e) =>
+              setDropoffAddress({ ...dropoffAddress, zip: e.target.value })
+            }
           />
         </Box>
       </Box>
