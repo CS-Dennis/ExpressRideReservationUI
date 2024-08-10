@@ -10,12 +10,13 @@ import TripConfirmation from "../components/TripConfirmation";
 export default function Home() {
   const [step, setStep] = useState(0);
 
+  // Trip Details Form
   // store the tripType keys
   const [tripType, setTripType] = useState(Object.keys(TRIP_TYPES)[0]);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("+1");
   const [email, setEmail] = useState("");
 
   const [pickupDateTime, setPickupDateTime] = useState(null);
@@ -35,7 +36,87 @@ export default function Home() {
     zip: "",
   });
 
+  // Vehicle Form
   const [vehicleType, setVehicleType] = useState(VEHICLE_TYPES[0]);
+
+  // Trip Details Form Flags
+  const [firstNameFlag, setFirstNameFlag] = useState(null);
+  const [lastNameFlag, setLastNameFlag] = useState(null);
+  const [phoneNumberFlag, setPhoneNumberFlag] = useState(null);
+  const [emailFlag, setEmailFlag] = useState(null);
+  const [pickupDateTimeFlag, setPickupDateTimeFlag] = useState(null);
+
+  const [pickupAddressFlag, setPickupAddressFlag] = useState(null);
+  const [pickupCityFlag, setPickupCityFlag] = useState(null);
+  const [dropoffAddressFlag, setDropoffAddressFlag] = useState(null);
+  const [dropoffCityFlag, setDropoffCityFlag] = useState(null);
+
+  const formValidation = () => {
+    if (firstName.trim() === "") {
+      setFirstNameFlag(true);
+      return false;
+    } else {
+      setFirstNameFlag(false);
+    }
+
+    if (lastName.trim() === "") {
+      setLastNameFlag(true);
+      return false;
+    } else {
+      setLastNameFlag(false);
+    }
+
+    if (phoneNumber.trim() === "+1" || phoneNumber.trim() === "") {
+      setPhoneNumberFlag(true);
+      return false;
+    } else {
+      setPhoneNumberFlag(false);
+    }
+
+    if (email.trim() === "") {
+      setEmailFlag(true);
+      return false;
+    } else {
+      setEmailFlag(false);
+    }
+
+    if (pickupDateTime === null || pickupDateTime === "") {
+      setPickupDateTimeFlag(true);
+      return false;
+    } else {
+      setPickupDateTimeFlag(false);
+    }
+
+    if (pickupAddress.address.trim() === "") {
+      setPickupAddressFlag(true);
+      return false;
+    } else {
+      setPickupAddressFlag(false);
+    }
+
+    if (pickupAddress.city.trim() === "") {
+      setPickupCityFlag(true);
+      return false;
+    } else {
+      setPickupCityFlag(false);
+    }
+
+    if (dropoffAddress.address.trim() === "") {
+      setDropoffAddressFlag(true);
+      return false;
+    } else {
+      setDropoffAddressFlag(false);
+    }
+
+    if (dropoffAddress.city.trim() === "") {
+      setDropoffCityFlag(true);
+      return false;
+    } else {
+      setDropoffCityFlag(false);
+    }
+
+    return true;
+  };
 
   const backStep = () => {
     if (step == 0) {
@@ -48,7 +129,7 @@ export default function Home() {
   const nextStep = () => {
     if (step === 3) {
       return;
-    } else {
+    } else if (formValidation()) {
       setStep((prev) => prev + 1);
     }
   };
@@ -93,6 +174,15 @@ export default function Home() {
                   setPickupAddress={setPickupAddress}
                   dropoffAddress={dropoffAddress}
                   setDropoffAddress={setDropoffAddress}
+                  firstNameFlag={firstNameFlag}
+                  lastNameFlag={lastNameFlag}
+                  phoneNumberFlag={phoneNumberFlag}
+                  emailFlag={emailFlag}
+                  pickupDateTimeFlag={pickupDateTimeFlag}
+                  pickupAddressFlag={pickupAddressFlag}
+                  pickupCityFlag={pickupCityFlag}
+                  dropoffAddressFlag={dropoffAddressFlag}
+                  dropoffCityFlag={dropoffCityFlag}
                 />
               )}
 

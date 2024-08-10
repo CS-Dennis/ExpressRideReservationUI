@@ -15,10 +15,10 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
             <FormControlLabel
               value={VEHICLE_TYPES[0]}
               control={<Radio />}
-              label={<img src="assets/imgs/sedan1.png" className="w-50" />}
+              label={<img src="assets/imgs/tesla.png" className="w-56" />}
             />
             <Box className="font-bold text-xl">
-              <Box>Sedan</Box>
+              <Box>Sedan (Tesla)</Box>
               <Box>4 Passengers - 4 Luggages</Box>
             </Box>
           </Box>
@@ -27,7 +27,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
             <FormControlLabel
               value={VEHICLE_TYPES[1]}
               control={<Radio />}
-              label={<img src="assets/imgs/SUV1.png" className="w-50" />}
+              label={<img src="assets/imgs/SUV1.png" className="w-56" />}
             />
             <Box className="font-bold text-xl">
               <Box>SUV</Box>

@@ -1,4 +1,7 @@
 export const capitalizeString = (rawString) => {
+  if (rawString === "") {
+    return rawString;
+  }
   const words = rawString.split(" ");
   if (words.length === 1) {
     // one word

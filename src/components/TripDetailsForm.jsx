@@ -25,6 +25,7 @@ export default function TripDetailsForm({
   tripType,
   setTripType,
 
+  // required info
   firstName,
   setFirstName,
   lastName,
@@ -34,6 +35,7 @@ export default function TripDetailsForm({
   email,
   setEmail,
 
+  // required info
   pickupDateTime,
   setPickupDateTime,
   numOfPassengers,
@@ -41,10 +43,22 @@ export default function TripDetailsForm({
   numOfLuggages,
   setNumOfLuggages,
 
+  // required info
   pickupAddress,
   setPickupAddress,
   dropoffAddress,
   setDropoffAddress,
+
+  // form flags
+  firstNameFlag,
+  lastNameFlag,
+  phoneNumberFlag,
+  emailFlag,
+  pickupDateTimeFlag,
+  pickupAddressFlag,
+  pickupCityFlag,
+  dropoffAddressFlag,
+  dropoffCityFlag,
 }) {
   return (
     <>
@@ -83,6 +97,8 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                color={firstNameFlag ? "error" : "primary"}
+                focused={firstNameFlag ? true : false}
               />
             </Box>
           </Grid>
@@ -94,6 +110,8 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                color={lastNameFlag ? "error" : "primary"}
+                focused={lastNameFlag ? true : false}
               />
             </Box>
           </Grid>
@@ -110,6 +128,8 @@ export default function TripDetailsForm({
                 value={phoneNumber}
                 onChange={(value) => setPhoneNumber(value)}
                 placeholder="Phone number"
+                color={phoneNumberFlag ? "error" : "primary"}
+                focused={phoneNumberFlag ? true : false}
               />
             </Box>
           </Grid>
@@ -121,6 +141,8 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                color={emailFlag ? "error" : "primary"}
+                focused={emailFlag ? true : false}
               />
             </Box>
           </Grid>
@@ -136,6 +158,12 @@ export default function TripDetailsForm({
               className="w-full"
               value={pickupDateTime}
               onChange={(e) => setPickupDateTime(moment(e))}
+              sx={{
+                borderColor: "red",
+                borderWidth: pickupDateTimeFlag ? "1px" : "0px",
+                borderStyle: "solid",
+                borderRadius: "5px",
+              }}
             />
           </LocalizationProvider>
         </Box>
@@ -202,6 +230,8 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setPickupAddress({ ...pickupAddress, address: e.target.value })
             }
+            color={pickupAddressFlag ? "error" : "primary"}
+            focused={pickupAddressFlag ? true : false}
           />
           <TextField
             className="w-full"
@@ -214,6 +244,8 @@ export default function TripDetailsForm({
                 city: capitalizeString(e.target.value),
               })
             }
+            color={pickupCityFlag ? "error" : "primary"}
+            focused={pickupCityFlag ? true : false}
           />
           <Select
             labelId="num-of-luggages"
@@ -250,6 +282,8 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setDropoffAddress({ ...dropoffAddress, address: e.target.value })
             }
+            color={dropoffAddressFlag ? "error" : "primary"}
+            focused={dropoffAddressFlag ? true : false}
           />
           <TextField
             className="w-full"
@@ -262,6 +296,8 @@ export default function TripDetailsForm({
                 city: capitalizeString(e.target.value),
               })
             }
+            color={dropoffCityFlag ? "error" : "primary"}
+            focused={dropoffCityFlag ? true : false}
           />
           <Select
             labelId="num-of-luggages"
