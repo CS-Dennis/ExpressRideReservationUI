@@ -5,7 +5,7 @@ import { VEHICLE_TYPES } from "../constants";
 export default function VehicleForm({ vehicleType, setVehicleType }) {
   return (
     <>
-      <Box className="font-bold mt-4">Choose Your Vehicle Type</Box>
+      <Box className="font-bold text-4xl mt-4">Vehicle Type</Box>
       <Box>
         <RadioGroup
           value={vehicleType}

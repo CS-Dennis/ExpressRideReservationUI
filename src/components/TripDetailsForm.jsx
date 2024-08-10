@@ -69,16 +69,9 @@ export default function TripDetailsForm({
   return (
     <>
       <Box>
+        <Box className="font-bold text-4xl">Service Type</Box>
         <FormControl variant="standard" className="w-full">
-          <InputLabel
-            id="service-type"
-            className="font-bold"
-            sx={{ fontWeight: "bold" }}
-          >
-            Service Type
-          </InputLabel>
           <Select
-            labelId="service-type"
             value={tripType}
             onChange={(e) => setTripType(e.target.value)}
             sx={{ fontSize: "1.4em" }}
@@ -93,7 +86,7 @@ export default function TripDetailsForm({
       </Box>
 
       <Box className="mt-8">
-        <Box className="font-bold">Rider Information</Box>
+        <Box className="font-bold text-4xl">Rider Information</Box>
         <Grid container>
           <Grid item xs={12} lg={6}>
             <Box className="mx-1">
@@ -105,6 +98,8 @@ export default function TripDetailsForm({
                 onChange={(e) => setFirstName(e.target.value)}
                 color={firstNameFlag ? "error" : "primary"}
                 focused={firstNameFlag ? true : false}
+                inputProps={{ style: { fontSize: "1.4em" } }}
+                InputLabelProps={{ style: { fontSize: "1.4em" } }}
               />
             </Box>
           </Grid>
@@ -118,6 +113,8 @@ export default function TripDetailsForm({
                 onChange={(e) => setLastName(e.target.value)}
                 color={lastNameFlag ? "error" : "primary"}
                 focused={lastNameFlag ? true : false}
+                inputProps={{ style: { fontSize: "1.4em" } }}
+                InputLabelProps={{ style: { fontSize: "1.4em" } }}
               />
             </Box>
           </Grid>
@@ -136,6 +133,8 @@ export default function TripDetailsForm({
                 placeholder="Phone number"
                 color={phoneNumberFlag ? "error" : "primary"}
                 focused={phoneNumberFlag ? true : false}
+                inputProps={{ style: { fontSize: "1.4em" } }}
+                InputLabelProps={{ style: { fontSize: "1.4em" } }}
               />
             </Box>
           </Grid>
@@ -149,6 +148,8 @@ export default function TripDetailsForm({
                 onChange={(e) => setEmail(e.target.value)}
                 color={emailFlag ? "error" : "primary"}
                 focused={emailFlag ? true : false}
+                inputProps={{ style: { fontSize: "1.4em" } }}
+                InputLabelProps={{ style: { fontSize: "1.4em" } }}
               />
             </Box>
           </Grid>
@@ -156,8 +157,8 @@ export default function TripDetailsForm({
       </Box>
 
       <Box className="flex flex-col justify-between mt-12 font-bold w-full">
-        <Box>Pickup Date & Time</Box>
-        <Box>
+        <Box className="text-4xl">Pickup Date & Time</Box>
+        <Box className="mt-4">
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <DateTimePicker
               label=""
@@ -170,6 +171,9 @@ export default function TripDetailsForm({
                 borderStyle: "solid",
                 borderRadius: "5px",
               }}
+
+              // inputProps={{ style: { fontSize: "2em" } }}
+              // InputLabelProps={{ style: { fontSize: "2em" } }}
             />
           </LocalizationProvider>
         </Box>
@@ -188,7 +192,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-passengers"
               className="font-bold"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
             >
               # of Passengers
             </InputLabel>
@@ -215,7 +219,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-luggages"
               className="font-bold"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
             >
               # of Checked Bags
             </InputLabel>
@@ -240,7 +244,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-luggages"
               className="font-bold"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
             >
               # of Carry-On Bags
             </InputLabel>
@@ -265,7 +269,7 @@ export default function TripDetailsForm({
 
       <Box className="mt-12 flex w-full justify-evenly">
         <Box className="mr-2 w-full">
-          <Box className="font-bold">Pickup Address</Box>
+          <Box className="font-bold text-4xl">Pickup Address</Box>
           <TextField
             className="w-full"
             label="Address"
@@ -276,6 +280,8 @@ export default function TripDetailsForm({
             }
             color={pickupAddressFlag ? "error" : "primary"}
             focused={pickupAddressFlag ? true : false}
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
           <TextField
             className="w-full"
@@ -290,11 +296,12 @@ export default function TripDetailsForm({
             }
             color={pickupCityFlag ? "error" : "primary"}
             focused={pickupCityFlag ? true : false}
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
           <Select
-            labelId="num-of-luggages"
             value={"Texas"}
-            // sx={{ fontSize: "1em" }}
+            sx={{ fontSize: "1.4em" }}
             className="w-full mt-4"
             variant="standard"
           >
@@ -312,11 +319,13 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setPickupAddress({ ...pickupAddress, zip: e.target.value })
             }
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box className="ml-2 w-full">
-          <Box className="font-bold">Dropoff Address</Box>
+          <Box className="font-bold text-4xl">Dropoff Address</Box>
           <TextField
             className="w-full"
             label="Address"
@@ -327,6 +336,8 @@ export default function TripDetailsForm({
             }
             color={dropoffAddressFlag ? "error" : "primary"}
             focused={dropoffAddressFlag ? true : false}
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
           <TextField
             className="w-full"
@@ -341,12 +352,14 @@ export default function TripDetailsForm({
             }
             color={dropoffCityFlag ? "error" : "primary"}
             focused={dropoffCityFlag ? true : false}
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
           <Select
-            labelId="num-of-luggages"
             value={"Texas"}
             className="w-full mt-4"
             variant="standard"
+            sx={{ fontSize: "1.4em" }}
           >
             {STATES.map((state) => (
               <MenuItem value={state} key={state} sx={{ fontSize: "1.4em" }}>
@@ -362,6 +375,8 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setDropoffAddress({ ...dropoffAddress, zip: e.target.value })
             }
+            inputProps={{ style: { fontSize: "1.4em" } }}
+            InputLabelProps={{ style: { fontSize: "1.4em" } }}
           />
         </Box>
       </Box>

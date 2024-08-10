@@ -21,7 +21,7 @@ export default function TripConfirmation({
         Trip Detail for Confirmation
       </Box>
 
-      <Paper className="flex flex-co p-4 mt-4" elevation={6}>
+      <Paper className="flex flex-co p-4 mt-4 text-xl" elevation={6}>
         <Box className="w-full">
           <Box>
             <b>Trip Type:</b> {tripType}
@@ -72,6 +72,10 @@ export default function TripConfirmation({
               multiline
               maxRows={10}
               variant="standard"
+              inputProps={{ style: { fontSize: "1.2em" } }}
+              InputLabelProps={{
+                style: { fontSize: "1.2em", fontWeight: "bold" },
+              }}
             />
           </Box>
 

@@ -10,7 +10,7 @@ export default function ReservationProgressView({ step }) {
         <Box className="text-4xl font-bold flex justify-center">
           Express Ride Reservation Details
         </Box>
-        <Box className="font-bold">
+        <Box className="font-bold text-xl">
           Let us know your ride info and we will take care of your trips.
         </Box>
 
