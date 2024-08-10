@@ -8,14 +8,8 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import {
-  NUM_OF_LUGGAGES,
-  NUM_OF_PASSENGERS,
-  STATES,
-  TRIP_TYPES,
-  VEHICLE_TYPES,
-} from "../constants";
+import React, { useEffect } from "react";
+import { STATES, TRIP_TYPES, VEHICLE_TYPES } from "../constants";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { MuiTelInput } from "mui-tel-input";
@@ -61,7 +55,6 @@ export default function TripDetailsForm({
   phoneNumberFlag,
   emailFlag,
   pickupDateTimeFlag,
-  numOfPassengersFlag,
   pickupAddressFlag,
   pickupCityFlag,
   dropoffAddressFlag,

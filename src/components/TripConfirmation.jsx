@@ -1,7 +1,5 @@
-import { Label } from "@mui/icons-material";
 import { Box, Paper, TextField } from "@mui/material";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
 
 export default function TripConfirmation({
   tripType,
@@ -17,23 +15,6 @@ export default function TripConfirmation({
   dropoffAddress,
   vehicleType,
 }) {
-  //   const [tripDetails, setTripDetails] = useState({
-  //     tripType: tripType,
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //     phoneNumber: phoneNumber,
-  //     email: email,
-  //     pickupDateTime: pickupDateTime,
-  //     numOfPassengers: numOfPassengers,
-  //     numOfLuggages: numOfLuggages,
-  //     pickupAddress: pickupAddress,
-  //     dropoffAddress: dropoffAddress,
-  //   });
-
-  useEffect(() => {
-    console.log(pickupAddress);
-  }, []);
-
   return (
     <>
       <Box className="flex justify-center font-bold text-xl mt-4">

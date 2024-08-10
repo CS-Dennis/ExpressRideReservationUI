@@ -4,7 +4,6 @@ import Title from "../components/Title";
 import ReservationProgressView from "../components/ReservationProgressView";
 import TripDetailsForm from "../components/TripDetailsForm";
 import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from "../constants";
-import VehicleForm from "../components/VehicleForm";
 import TripConfirmation from "../components/TripConfirmation";
 
 export default function Home() {
@@ -223,16 +222,26 @@ export default function Home() {
                 </>
               )}
 
-              {step === 3 && (
+              {step === 2 && (
                 <>
-                  <Box>Reservation sent</Box>
+                  <Box className="flex flex-col justify-center place-items-center w-full text-2xl mt-10">
+                    <Box>
+                      Congrats! The reservation request has been sent
+                      successfully!
+                    </Box>
+                    <Box>You can check your request in my email inbox.</Box>
+                    <Box>
+                      The driver will send you the trip confirmation to your
+                      email inbox asap.
+                    </Box>
+                  </Box>
                 </>
               )}
             </Box>
 
             <Box className="flex justify-evenly my-10 w-full">
               <Box className="flex w-full justify-center">
-                {step > 0 && (
+                {step === 1 && (
                   <Button onClick={() => backStep()} variant="contained">
                     Back
                   </Button>
@@ -254,6 +263,16 @@ export default function Home() {
                   </Button>
                 )}
               </Box>
+            </Box>
+            <Box className="flex w-full justify-center">
+              {step === 2 && (
+                <Button
+                  onClick={() => window.location.reload()}
+                  variant="contained"
+                >
+                  Reserve Another Trip
+                </Button>
+              )}
             </Box>
           </Grid>
           <Grid item md={12} lg={1} />

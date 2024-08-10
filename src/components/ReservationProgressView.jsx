@@ -1,6 +1,5 @@
-import { Box, colors, Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import React from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 
 export default function ReservationProgressView({ step }) {
   const steps = ["Trip Details", "Confirm"];
