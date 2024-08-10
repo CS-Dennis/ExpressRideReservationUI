@@ -8,18 +8,20 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   NUM_OF_LUGGAGES,
   NUM_OF_PASSENGERS,
   STATES,
   TRIP_TYPES,
+  VEHICLE_TYPES,
 } from "../constants";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { MuiTelInput } from "mui-tel-input";
 import moment from "moment";
 import { capitalizeString } from "../util";
+import VehicleForm from "./VehicleForm";
 
 export default function TripDetailsForm({
   tripType,
@@ -38,10 +40,14 @@ export default function TripDetailsForm({
   // required info
   pickupDateTime,
   setPickupDateTime,
+  vehicleType,
+  setVehicleType,
   numOfPassengers,
   setNumOfPassengers,
-  numOfLuggages,
-  setNumOfLuggages,
+  numOfLuggagesChecked,
+  setNumOfLuggagesChecked,
+  numOfLuggagesCarryOn,
+  setNumOfLuggagesCarryOn,
 
   // required info
   pickupAddress,
@@ -55,11 +61,18 @@ export default function TripDetailsForm({
   phoneNumberFlag,
   emailFlag,
   pickupDateTimeFlag,
+  numOfPassengersFlag,
   pickupAddressFlag,
   pickupCityFlag,
   dropoffAddressFlag,
   dropoffCityFlag,
 }) {
+  useEffect(() => {
+    setNumOfPassengers(1);
+    setNumOfLuggagesChecked(0);
+    setNumOfLuggagesCarryOn(0);
+  }, [vehicleType]);
+
   return (
     <>
       <Box>
@@ -169,6 +182,13 @@ export default function TripDetailsForm({
         </Box>
       </Box>
 
+      <Box>
+        <VehicleForm
+          vehicleType={vehicleType}
+          setVehicleType={setVehicleType}
+        />
+      </Box>
+
       <Box className="flex w-full mt-4 justify-stretch">
         <Box className="mr-2 w-full">
           <FormControl variant="standard" className="w-full">
@@ -185,7 +205,10 @@ export default function TripDetailsForm({
               onChange={(e) => setNumOfPassengers(e.target.value)}
               sx={{ fontSize: "1.4em" }}
             >
-              {NUM_OF_PASSENGERS.map((num) => (
+              {(vehicleType === VEHICLE_TYPES[0]
+                ? [1, 2, 3, 4]
+                : [1, 2, 3, 4, 5, 6]
+              ).map((num) => (
                 <MenuItem value={num} key={num} className="text-3xl">
                   {num}
                 </MenuItem>
@@ -194,22 +217,50 @@ export default function TripDetailsForm({
           </FormControl>
         </Box>
 
-        <Box className="ml-2 w-full">
+        <Box className="ml-2 w-full flex">
           <FormControl variant="standard" className="w-full">
             <InputLabel
               id="num-of-luggages"
               className="font-bold"
               sx={{ fontWeight: "bold" }}
             >
-              # of Luggages
+              # of Checked Bags
             </InputLabel>
             <Select
               labelId="num-of-luggages"
-              value={numOfLuggages}
-              onChange={(e) => setNumOfLuggages(e.target.value)}
+              value={numOfLuggagesChecked}
+              onChange={(e) => setNumOfLuggagesChecked(e.target.value)}
               sx={{ fontSize: "1.4em" }}
             >
-              {NUM_OF_LUGGAGES.map((num) => (
+              {(vehicleType === VEHICLE_TYPES[0]
+                ? [0, 1, 2]
+                : [0, 1, 2, 3, 4, 5]
+              ).map((num) => (
+                <MenuItem value={num} key={num} className="text-3xl">
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl variant="standard" className="w-full">
+            <InputLabel
+              id="num-of-luggages"
+              className="font-bold"
+              sx={{ fontWeight: "bold" }}
+            >
+              # of Carry-On Bags
+            </InputLabel>
+            <Select
+              labelId="num-of-luggages"
+              value={numOfLuggagesCarryOn}
+              onChange={(e) => setNumOfLuggagesCarryOn(e.target.value)}
+              sx={{ fontSize: "1.4em" }}
+            >
+              {(vehicleType === VEHICLE_TYPES[0]
+                ? [0, 1, 2, 3]
+                : [0, 1, 2, 3, 4, 5, 6]
+              ).map((num) => (
                 <MenuItem value={num} key={num} className="text-3xl">
                   {num}
                 </MenuItem>
@@ -250,7 +301,6 @@ export default function TripDetailsForm({
           <Select
             labelId="num-of-luggages"
             value={"Texas"}
-            onChange={(e) => setNumOfLuggages(e.target.value)}
             // sx={{ fontSize: "1em" }}
             className="w-full mt-4"
             variant="standard"
@@ -302,7 +352,6 @@ export default function TripDetailsForm({
           <Select
             labelId="num-of-luggages"
             value={"Texas"}
-            onChange={(e) => setNumOfLuggages(e.target.value)}
             className="w-full mt-4"
             variant="standard"
           >

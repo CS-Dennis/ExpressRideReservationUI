@@ -21,7 +21,8 @@ export default function Home() {
 
   const [pickupDateTime, setPickupDateTime] = useState(null);
   const [numOfPassengers, setNumOfPassengers] = useState(1);
-  const [numOfLuggages, setNumOfLuggages] = useState(0);
+  const [numOfLuggagesChecked, setNumOfLuggagesChecked] = useState(0);
+  const [numOfLuggagesCarryOn, setNumOfLuggagesCarryOn] = useState(0);
 
   const [pickupAddress, setPickupAddress] = useState({
     address: "",
@@ -127,7 +128,7 @@ export default function Home() {
   };
 
   const nextStep = () => {
-    if (step === 3) {
+    if (step === 2) {
       return;
     } else if (formValidation()) {
       setStep((prev) => prev + 1);
@@ -166,10 +167,14 @@ export default function Home() {
                   setEmail={setEmail}
                   pickupDateTime={pickupDateTime}
                   setPickupDateTime={setPickupDateTime}
+                  vehicleType={vehicleType}
+                  setVehicleType={setVehicleType}
                   numOfPassengers={numOfPassengers}
                   setNumOfPassengers={setNumOfPassengers}
-                  numOfLuggages={numOfLuggages}
-                  setNumOfLuggages={setNumOfLuggages}
+                  numOfLuggagesChecked={numOfLuggagesChecked}
+                  setNumOfLuggagesChecked={setNumOfLuggagesChecked}
+                  numOfLuggagesCarryOn={numOfLuggagesCarryOn}
+                  setNumOfLuggagesCarryOn={setNumOfLuggagesCarryOn}
                   pickupAddress={pickupAddress}
                   setPickupAddress={setPickupAddress}
                   dropoffAddress={dropoffAddress}
@@ -186,7 +191,7 @@ export default function Home() {
                 />
               )}
 
-              {step === 1 && (
+              {/* {step === 1 && (
                 <>
                   <Box>
                     <VehicleForm
@@ -195,9 +200,9 @@ export default function Home() {
                     />
                   </Box>
                 </>
-              )}
+              )} */}
 
-              {step === 2 && (
+              {step === 1 && (
                 <>
                   <Box>
                     <TripConfirmation
@@ -208,7 +213,8 @@ export default function Home() {
                       email={email}
                       pickupDateTime={pickupDateTime}
                       numOfPassengers={numOfPassengers}
-                      numOfLuggages={numOfLuggages}
+                      numOfLuggagesChecked={numOfLuggagesChecked}
+                      numOfLuggagesCarryOn={numOfLuggagesCarryOn}
                       pickupAddress={pickupAddress}
                       dropoffAddress={dropoffAddress}
                       vehicleType={vehicleType}
@@ -233,13 +239,17 @@ export default function Home() {
                 )}
               </Box>
               <Box className="flex justify-center w-full">
-                {step < 2 && (
+                {step < 1 && (
                   <Button onClick={() => nextStep()} variant="contained">
                     Next
                   </Button>
                 )}
-                {step === 2 && (
-                  <Button variant="contained" color="success">
+                {step === 1 && (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => nextStep()}
+                  >
                     Confirm
                   </Button>
                 )}

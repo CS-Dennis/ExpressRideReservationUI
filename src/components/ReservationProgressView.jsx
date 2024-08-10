@@ -3,7 +3,7 @@ import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export default function ReservationProgressView({ step }) {
-  const steps = ["Trip Details", "Choose a Vehicle", "Confirm"];
+  const steps = ["Trip Details", "Confirm"];
 
   return (
     <>

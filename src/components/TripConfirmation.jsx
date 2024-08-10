@@ -1,4 +1,5 @@
-import { Box, Paper } from "@mui/material";
+import { Label } from "@mui/icons-material";
+import { Box, Paper, TextField } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 
@@ -10,7 +11,8 @@ export default function TripConfirmation({
   email,
   pickupDateTime,
   numOfPassengers,
-  numOfLuggages,
+  numOfLuggagesChecked,
+  numOfLuggagesCarryOn,
   pickupAddress,
   dropoffAddress,
   vehicleType,
@@ -39,7 +41,7 @@ export default function TripConfirmation({
       </Box>
 
       <Paper className="flex flex-co p-4 mt-4" elevation={6}>
-        <Box>
+        <Box className="w-full">
           <Box>
             <b>Trip Type:</b> {tripType}
           </Box>
@@ -63,7 +65,10 @@ export default function TripConfirmation({
             <b># of Passengers:</b> {numOfPassengers}
           </Box>
           <Box>
-            <b># of Luggages:</b> {numOfLuggages}
+            <b># of Checked Bags:</b> {numOfLuggagesChecked}
+          </Box>
+          <Box>
+            <b># of Carry-on Bags:</b> {numOfLuggagesCarryOn}
           </Box>
 
           <Box>
@@ -79,8 +84,21 @@ export default function TripConfirmation({
           </Box>
 
           <Box className="mt-10">
+            <TextField
+              fullWidth
+              placeholder="Additional requests"
+              label="Additional requests - optional"
+              multiline
+              maxRows={10}
+              variant="standard"
+            />
+          </Box>
+
+          <Box className="mt-10">
             Once confirmed, the trip request will be send to the driver and your
-            email addresses.
+            email addresses. <br />
+            The driver will send you another confirmation email with final price
+            ASAP.
           </Box>
         </Box>
       </Paper>
