@@ -62,3 +62,15 @@ export const STATES = [
   "Wisconsin",
   "Wyoming",
 ];
+
+export const DASHBAORD_PAGE = {
+  newRequests: "New Requests",
+  pendingRequests: "Pending Requests",
+  upcomingRides: "Upcoming Rides",
+  history: "History",
+};
+
+export const COLORS = {
+  blue: "#0ea5e9",
+  grey: "#647687",
+};
