@@ -14,6 +14,8 @@ export default function TripConfirmation({
   pickupAddress,
   dropoffAddress,
   vehicleType,
+  notes,
+  setNotes,
 }) {
   return (
     <>
@@ -72,6 +74,10 @@ export default function TripConfirmation({
               multiline
               maxRows={10}
               variant="standard"
+              value={notes}
+              onChange={(e) => {
+                setNotes(e.target.value);
+              }}
               inputProps={{ style: { fontSize: "1.2em" } }}
               InputLabelProps={{
                 style: { fontSize: "1.2em", fontWeight: "bold" },

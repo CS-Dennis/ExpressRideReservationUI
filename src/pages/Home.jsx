@@ -1,10 +1,12 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
 import ReservationProgressView from "../components/ReservationProgressView";
 import TripDetailsForm from "../components/TripDetailsForm";
 import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from "../constants";
 import TripConfirmation from "../components/TripConfirmation";
+import moment from "moment";
+import { submitRideRequest } from "../services/apis";
 
 export default function Home() {
   const [step, setStep] = useState(0);
@@ -39,6 +41,8 @@ export default function Home() {
   // Vehicle Form
   const [vehicleType, setVehicleType] = useState(VEHICLE_TYPES[0]);
 
+  const [notes, setNotes] = useState("");
+
   // Trip Details Form Flags
   const [firstNameFlag, setFirstNameFlag] = useState(null);
   const [lastNameFlag, setLastNameFlag] = useState(null);
@@ -50,6 +54,9 @@ export default function Home() {
   const [pickupCityFlag, setPickupCityFlag] = useState(null);
   const [dropoffAddressFlag, setDropoffAddressFlag] = useState(null);
   const [dropoffCityFlag, setDropoffCityFlag] = useState(null);
+
+  // loading
+  const [loading, setLoading] = useState(false);
 
   const formValidation = () => {
     if (firstName.trim() === "") {
@@ -134,6 +141,44 @@ export default function Home() {
     }
   };
 
+  const rideRequestConfirmation = () => {
+    const request = {
+      tripType: tripType,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      email: email,
+      pickupDateTime: moment(pickupDateTime).toLocaleString(),
+      numOfPassengers: numOfPassengers,
+      numOfCheckedBags: numOfLuggagesChecked,
+      numOfCarryOnBags: numOfLuggagesCarryOn,
+      pickupAddress: pickupAddress.address,
+      pickupCity: pickupAddress.city,
+      pickupState: pickupAddress.state,
+      pickupZip: pickupAddress.zip,
+      dropoffAddress: dropoffAddress.address,
+      dropoffCity: dropoffAddress.city,
+      dropoffState: dropoffAddress.state,
+      dropoffZip: dropoffAddress.zip,
+      vehicleType: vehicleType,
+      notes: notes,
+    };
+    console.log(request);
+    setLoading(true);
+    submitRideRequest(request).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        setLoading(false);
+        console.log("success");
+        nextStep();
+      } else {
+        // error
+        setLoading(false);
+        console.log("error");
+      }
+    });
+  };
+
   useEffect(() => {
     console.log(step);
   }, [step]);
@@ -190,17 +235,6 @@ export default function Home() {
                 />
               )}
 
-              {/* {step === 1 && (
-                <>
-                  <Box>
-                    <VehicleForm
-                      vehicleType={vehicleType}
-                      setVehicleType={setVehicleType}
-                    />
-                  </Box>
-                </>
-              )} */}
-
               {step === 1 && (
                 <>
                   <Box>
@@ -217,6 +251,8 @@ export default function Home() {
                       pickupAddress={pickupAddress}
                       dropoffAddress={dropoffAddress}
                       vehicleType={vehicleType}
+                      notes={notes}
+                      setNotes={setNotes}
                     />
                   </Box>
                 </>
@@ -257,7 +293,7 @@ export default function Home() {
                   <Button
                     variant="contained"
                     color="success"
-                    onClick={() => nextStep()}
+                    onClick={() => rideRequestConfirmation()}
                   >
                     Confirm
                   </Button>
@@ -278,6 +314,10 @@ export default function Home() {
           <Grid item md={12} lg={1} />
         </Grid>
       </Box>
+
+      <Backdrop open={loading}>
+        <CircularProgress color="secondary" />
+      </Backdrop>
     </>
   );
 }

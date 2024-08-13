@@ -171,9 +171,6 @@ export default function TripDetailsForm({
                 borderStyle: "solid",
                 borderRadius: "5px",
               }}
-
-              // inputProps={{ style: { fontSize: "2em" } }}
-              // InputLabelProps={{ style: { fontSize: "2em" } }}
             />
           </LocalizationProvider>
         </Box>
