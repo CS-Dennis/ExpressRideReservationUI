@@ -4,8 +4,10 @@ import { COLORS, DASHBAORD_PAGE } from "../constants";
 import { Box, Button, Chip, Grid, Paper } from "@mui/material";
 import { getRideRequestsByType } from "../services/apis";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [rideRequests, setRideRequests] = useState(null);
   const [tab, setTab] = useState(DASHBAORD_PAGE.newRequests);
   useEffect(() => {
@@ -92,7 +94,12 @@ export default function Dashboard() {
                       </Box>
 
                       <Box className="flex justify-end">
-                        <Button variant="contained">Details</Button>
+                        <Button
+                          variant="contained"
+                          onClick={() => navigate(`/detail?id=${request.id}`)}
+                        >
+                          Details
+                        </Button>
                       </Box>
                     </Box>
                   </Paper>

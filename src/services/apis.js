@@ -19,3 +19,9 @@ export const getRideRequestsByType = (type) => {
     `?type=${type}`;
   return axios.get(url);
 };
+
+export const getRideRequestById = (id) => {
+  const url = env.VITE_ETA_BASE_URL + env.VITE_SAVE_RIDE_REQUEST;
+
+  return axios.get(url + "?id=" + id);
+};
