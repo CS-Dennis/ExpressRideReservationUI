@@ -9,17 +9,45 @@ import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
   const navigate = useNavigate();
   const [rideRequests, setRideRequests] = useState(null);
-  const [tab, setTab] = useState(DASHBAORD_PAGE.newRequests);
+  const [tab, setTab] = useState(0);
+  const [tabTitle, setTabTitle] = useState(DASHBAORD_PAGE.newRequests);
+
+  const changeTab = (newTab) => {
+    setTab(newTab);
+
+    switch (newTab) {
+      case 0:
+        setTabTitle(DASHBAORD_PAGE.newRequests);
+        break;
+      case 1:
+        setTabTitle(DASHBAORD_PAGE.pendingRequests);
+        break;
+      case 2:
+        setTabTitle(DASHBAORD_PAGE.upcomingRides);
+        break;
+      case 3:
+        setTabTitle(DASHBAORD_PAGE.history);
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
-    getRideRequestsByType(0)
+    getRideRequestsByType(tab)
       .then((res) => {
         console.log(res.data);
-        setRideRequests(res.data);
+        if (res.data !== null && res.data !== "") {
+          setRideRequests(res.data);
+        } else {
+          setRideRequests(null);
+        }
       })
       .catch((err) => {
+        setRideRequests(null);
         console.log(err);
       });
-  }, []);
+  }, [tab]);
 
   return (
     <>
@@ -27,18 +55,42 @@ export default function Dashboard() {
         <Grid container>
           <Grid item md={12} lg={1} />
           <Grid item md={12} lg={10} className="w-full">
-            <Title title={tab} />
+            <Title title={tabTitle} />
             <Box className="flex justify-evenly mt-4 mb-2">
-              <Button variant="contained" sx={{ backgroundColor: COLORS.blue }}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: COLORS.blue }}
+                onClick={() => {
+                  changeTab(0);
+                }}
+              >
                 {DASHBAORD_PAGE.newRequests}
               </Button>
-              <Button variant="contained" color="secondary">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  changeTab(1);
+                }}
+              >
                 {DASHBAORD_PAGE.pendingRequests}
               </Button>
-              <Button variant="contained" color="success">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => {
+                  changeTab(2);
+                }}
+              >
                 {DASHBAORD_PAGE.upcomingRides}
               </Button>
-              <Button variant="contained" sx={{ backgroundColor: COLORS.grey }}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: COLORS.grey }}
+                onClick={() => {
+                  changeTab(3);
+                }}
+              >
                 {DASHBAORD_PAGE.history}
               </Button>
             </Box>
@@ -60,8 +112,16 @@ export default function Dashboard() {
                       </Box>
                       <Box>
                         <Chip
-                          label="New request"
-                          sx={{ backgroundColor: "#0ea5e9", color: "#fff" }}
+                          label={tabTitle}
+                          sx={{
+                            backgroundColor:
+                              tab === 0
+                                ? "#0ea5e9"
+                                : tab === 1
+                                ? "#fe9800"
+                                : "#000",
+                            color: tab === 1 ? "#000" : "#fff",
+                          }}
                         />
                       </Box>
                     </Box>
