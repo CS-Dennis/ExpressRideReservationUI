@@ -97,7 +97,7 @@ export default function Dashboard() {
 
             <Box>
               {rideRequests !== null &&
-                `You are ${rideRequests.length} new requests pending your confirmation`}
+                `You have ${rideRequests.length} ${tabTitle}`}
             </Box>
             <Box>
               {rideRequests !== null &&
@@ -106,9 +106,9 @@ export default function Dashboard() {
                     <Box className="p-2 bg-slate-200 flex w-full rounded-t-lg">
                       <Box className="w-full flex self-center">
                         {`Request submitted on: ` +
-                          moment(
-                            `${request.created[0]}-${request.created[1]}-${request.created[2]} ${request.created[3]}:${request.created[4]}:${request.created[5]}`
-                          ).format("YYYY-MM-DD hh:mm:ss A")}
+                          moment(request?.created * 1000).format(
+                            "YYYY-MM-DD hh:mm:ss A"
+                          )}
                       </Box>
                       <Box>
                         <Chip

@@ -25,3 +25,8 @@ export const getRideRequestById = (id) => {
 
   return axios.get(url + "?id=" + id);
 };
+
+export const confirmRideRequest = (payload) => {
+  const url = env.VITE_ETA_BASE_URL + env.VITE_CONFIRM_RIDE_REQUEST;
+  return axios.post(url, payload);
+};

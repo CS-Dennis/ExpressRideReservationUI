@@ -1,3 +1,5 @@
+import { DASHBAORD_PAGE } from "./constants";
+
 export const capitalizeString = (rawString) => {
   if (rawString === "") {
     return rawString;
@@ -20,5 +22,25 @@ export const capitalizeString = (rawString) => {
   } else if (words.length > 1) {
     // mutiple words
     return "";
+  }
+};
+
+export const getRideRequestType = (rideRequest) => {
+  if (rideRequest?.driverConfirmed === false) {
+    return DASHBAORD_PAGE.newRequests;
+  } else if (
+    rideRequest?.driverConfirmed === true &&
+    rideRequest?.customerConfirmed === false
+  ) {
+    return DASHBAORD_PAGE.pendingRequests;
+  } else if (
+    rideRequest?.driverConfirmed === true &&
+    rideRequest?.customerConfirmed === true
+  ) {
+    return DASHBAORD_PAGE.upcomingRides;
+  } else if (rideRequest?.tripCompleted === true) {
+    return DASHBAORD_PAGE.history;
+  } else {
+    return "Unknown Status";
   }
 };
