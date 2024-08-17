@@ -119,7 +119,9 @@ export default function Dashboard() {
                                 ? "#0ea5e9"
                                 : tab === 1
                                 ? "#fe9800"
-                                : "#000",
+                                : tab === 2
+                                ? "#2c7f2c"
+                                : "#667688",
                             color: tab === 1 ? "#000" : "#fff",
                           }}
                         />
@@ -135,8 +137,6 @@ export default function Dashboard() {
                         <Box>
                           <b>Passengers:</b> {request.numOfPassengers}
                         </Box>
-                        {/* <Box>Checked: {request.numOfCheckedBags}</Box>
-                        <Box>Carry-on: {request.numOfCarryOnBags}</Box> */}
                       </Box>
                       <Box>
                         <b>Pickup time:</b>{" "}

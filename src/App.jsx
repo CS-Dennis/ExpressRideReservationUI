@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import RideRequestDetail from "./pages/RideRequestDetail";
+import { Box } from "@mui/material";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path="/detail" element={<RideRequestDetail />} />
         </Routes>
       </BrowserRouter>
+
+      {/* add snackbar with context flag for user notification */}
     </>
   );
 }

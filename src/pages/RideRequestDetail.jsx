@@ -12,7 +12,11 @@ import {
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Title from "../components/Title";
-import { confirmRideRequest, getRideRequestById } from "../services/apis";
+import {
+  completeRideRequest,
+  confirmRideRequest,
+  getRideRequestById,
+} from "../services/apis";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import moment from "moment";
 import { DASHBAORD_PAGE } from "../constants";
@@ -35,6 +39,9 @@ export default function RideRequestDetail() {
 
   const [modifiyFlag, setModifiyFlag] = useState(false);
 
+  const [completeFlag, setCompleteFlag] = useState(false);
+
+  // driver to confirm new ride requests
   const confirm = () => {
     setPriceFlag(false);
     if (price <= 0 || price === null || price === "") {
@@ -60,6 +67,7 @@ export default function RideRequestDetail() {
     }
   };
 
+  // re-confirm with price or notes update for pending ride requests
   const reconfirm = () => {
     setPriceUpdateFlag(false);
     if (priceUpdate <= 0 || priceUpdate === null || priceUpdate === "") {
@@ -87,9 +95,26 @@ export default function RideRequestDetail() {
     }
   };
 
+  // TODO
+  // reject new ride requests
   const reject = () => {
     // submit rejection request
     return false;
+  };
+
+  // complete a upcoming ride request
+  const completeTrip = () => {
+    completeRideRequest(id)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("completed trip successfully");
+        } else {
+          // error
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -138,12 +163,16 @@ export default function RideRequestDetail() {
                     label={getRideRequestType(rideRequest)}
                     sx={{
                       backgroundColor:
-                        rideRequest?.driverConfirmed === false
+                        getRideRequestType(rideRequest) ===
+                        DASHBAORD_PAGE.newRequests
                           ? "#0ea5e9"
-                          : rideRequest?.driverConfirmed === true &&
-                            rideRequest?.customerConfirmed === false
+                          : getRideRequestType(rideRequest) ===
+                            DASHBAORD_PAGE.pendingRequests
                           ? "#fe9800"
-                          : "#000",
+                          : getRideRequestType(rideRequest) ===
+                            DASHBAORD_PAGE.upcomingRides
+                          ? "#2c7f2c"
+                          : "#667688",
                       color:
                         rideRequest?.driverConfirmed === true &&
                         rideRequest?.customerConfirmed === false
@@ -162,9 +191,43 @@ export default function RideRequestDetail() {
             </Box>
 
             <Box className="mb-4">
-              <Paper>
+              {(getRideRequestType(rideRequest) ===
+                DASHBAORD_PAGE.pendingRequests ||
+                getRideRequestType(rideRequest) ===
+                  DASHBAORD_PAGE.upcomingRides ||
+                getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
+                <Box
+                  className="font-bold pl-4"
+                  sx={{ backgroundColor: "#fe9800" }}
+                >
+                  {`Confirmation emailed to customer on ${moment(
+                    rideRequest?.driverConfirmedDateTime * 1000
+                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                </Box>
+              )}
+              {(getRideRequestType(rideRequest) ===
+                DASHBAORD_PAGE.upcomingRides ||
+                getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
+                <Box
+                  className="font-bold text-white pl-4"
+                  sx={{ backgroundColor: "#2c7f2c" }}
+                >
+                  {`Customer confirmed on ${moment(
+                    rideRequest?.customerConfirmedDateTime * 1000
+                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                </Box>
+              )}
+              {getRideRequestType(rideRequest) === DASHBAORD_PAGE.history && (
+                <Box className="font-bold text-white bg-slate-500 pl-4">
+                  {`Trip completed on ${moment(
+                    rideRequest?.tripCompletedDateTime * 1000
+                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                </Box>
+              )}
+
+              <Paper className="mt-4">
                 <Box>
-                  <Box className="p-4 bg-slate-200">
+                  <Box className="p-4 bg-slate-200 ">
                     <b>Client Info</b>
                   </Box>
                   <Box className="p-4">
@@ -259,16 +322,6 @@ export default function RideRequestDetail() {
                     }
                   />
                 </Box>
-                {getRideRequestType(rideRequest) !==
-                  DASHBAORD_PAGE.newRequests && (
-                  <>
-                    <b>
-                      {`Confirmation emailed to customer on ${moment(
-                        rideRequest?.driverConfirmedDateTime * 1000
-                      ).format("YYYY-MM-DD hh:mm:ss A")}`}
-                    </b>
-                  </>
-                )}
               </Paper>
             </Box>
 
@@ -297,9 +350,23 @@ export default function RideRequestDetail() {
               <Box className="flex justify-center mb-4">
                 <Button
                   variant="contained"
+                  color="secondary"
                   onClick={() => setModifiyFlag(true)}
                 >
-                  Modifiy
+                  Modify
+                </Button>
+              </Box>
+            )}
+
+            {getRideRequestType(rideRequest) ===
+              DASHBAORD_PAGE.upcomingRides && (
+              <Box className="flex justify-center mb-4">
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => setCompleteFlag(true)}
+                >
+                  Complete Trip
                 </Button>
               </Box>
             )}
@@ -356,6 +423,27 @@ export default function RideRequestDetail() {
               color="primary"
               onClick={() => setModifiyFlag(false)}
             >
+              Back
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* modal for completing the trip */}
+      <Modal open={completeFlag}>
+        <Box className="fixed top-0 bottom-0 left-0 right-0 bg-white m-auto h-fit w-fit p-10">
+          <Box className="font-bold text-xl">
+            Please confirm to complete this trip
+          </Box>
+          <Box className="flex justify-evenly mt-4">
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => completeTrip()}
+            >
+              Confirm
+            </Button>
+            <Button variant="contained" onClick={() => setCompleteFlag(false)}>
               Back
             </Button>
           </Box>

@@ -35,7 +35,8 @@ export const getRideRequestType = (rideRequest) => {
     return DASHBAORD_PAGE.pendingRequests;
   } else if (
     rideRequest?.driverConfirmed === true &&
-    rideRequest?.customerConfirmed === true
+    rideRequest?.customerConfirmed === true &&
+    rideRequest?.tripCompleted === false
   ) {
     return DASHBAORD_PAGE.upcomingRides;
   } else if (rideRequest?.tripCompleted === true) {
