@@ -4,7 +4,8 @@ import { COLORS, DASHBAORD_PAGE } from "../constants";
 import { Box, Button, Chip, Grid, Paper } from "@mui/material";
 import { getRideRequestsByType } from "../services/apis";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -95,10 +96,27 @@ export default function Dashboard() {
               </Button>
             </Box>
 
-            <Box>
-              {rideRequests !== null &&
-                `You have ${rideRequests.length} ${tabTitle}`}
-            </Box>
+            {rideRequests !== null && (
+              <Box className="mb-2">
+                You have{" "}
+                <Chip
+                  label={rideRequests.length}
+                  sx={{
+                    backgroundColor:
+                      tab === 0
+                        ? "#0ea5e9"
+                        : tab === 1
+                        ? "#fe9800"
+                        : tab === 2
+                        ? "#2c7f2c"
+                        : "#667688",
+                    color: tab === 1 ? "#000" : "#fff",
+                  }}
+                />{" "}
+                {tabTitle}
+              </Box>
+            )}
+
             <Box>
               {rideRequests !== null &&
                 rideRequests.map((request, i) => (
@@ -151,6 +169,18 @@ export default function Dashboard() {
                       <Box>
                         <b>Dropoff address:</b>{" "}
                         {`${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
+                      </Box>
+
+                      <Box>
+                        <b>
+                          Direction:{" "}
+                          <Link
+                            to={`https://www.google.com/maps/dir/${request.pickupAddress}, ${request.pickupCity}, ${request.pickupState} ${request.pickupZip}/${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
+                            target="_blank"
+                          >
+                            <LocationOnIcon />
+                          </Link>
+                        </b>
                       </Box>
 
                       <Box className="flex justify-end">

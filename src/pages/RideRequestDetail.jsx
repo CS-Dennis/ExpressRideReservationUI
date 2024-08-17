@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 import {
   completeRideRequest,
@@ -21,6 +21,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import moment from "moment";
 import { DASHBAORD_PAGE } from "../constants";
 import { getRideRequestType } from "../util";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export default function RideRequestDetail() {
   const navigate = useNavigate();
@@ -241,8 +242,14 @@ export default function RideRequestDetail() {
 
             <Box className="mb-4">
               <Paper>
-                <Box className="p-4 bg-slate-200">
+                <Box className="p-4 bg-slate-200 flex justify-between">
                   <b>Trip Info</b>
+                  <Link
+                    to={`https://www.google.com/maps/dir/${rideRequest?.pickupAddress}, ${rideRequest?.pickupCity}, ${rideRequest?.pickupState} ${rideRequest?.pickupZip}/${rideRequest?.dropoffAddress}, ${rideRequest?.dropoffCity}, ${rideRequest?.dropoffState} ${rideRequest?.dropoffZip}`}
+                    target="_blank"
+                  >
+                    <LocationOnIcon />
+                  </Link>
                 </Box>
                 <Box className="p-4">
                   <Box>{`Vehicle type: ${rideRequest?.vehicleType}`}</Box>
