@@ -9,7 +9,7 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Title from "../components/Title";
 import {
@@ -22,17 +22,20 @@ import moment from "moment";
 import { DASHBAORD_PAGE } from "../constants";
 import { getRideRequestType } from "../util";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { AppContext } from "../App";
 
 export default function RideRequestDetail() {
+  const appContext = useContext(AppContext);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [id, setId] = useState(null);
   const [rideRequest, setRideRequest] = useState(null);
 
-  const [price, setPrice] = useState(null);
+  const [price, setPrice] = useState(0);
   const [driverNotes, setDriverNotes] = useState("");
 
-  const [priceUpdate, setPriceUpdate] = useState(null);
+  const [priceUpdate, setPriceUpdate] = useState("");
   const [driverNotesUpdate, setDriverNotesUpdate] = useState("");
 
   const [priceFlag, setPriceFlag] = useState(false);
@@ -47,6 +50,9 @@ export default function RideRequestDetail() {
     setPriceFlag(false);
     if (price <= 0 || price === null || price === "") {
       setPriceFlag(true);
+      appContext.setSnackbarFlag(true);
+      appContext.setSnackbarType("error");
+      appContext.setSnackbarMessage("Please add price");
     } else {
       // submit confirmation request
       const payload = {
@@ -254,7 +260,7 @@ export default function RideRequestDetail() {
                 <Box className="p-4">
                   <Box>{`Vehicle type: ${rideRequest?.vehicleType}`}</Box>
                   <Box>{`Pickup time: ${moment(
-                    rideRequest?.pickupDateTime
+                    new Date(rideRequest?.pickupDateTime)
                   ).format("YYYY-MM-DD hh:mm:ss A")}`}</Box>
                   <Box>{`Pickup Address: ${rideRequest?.pickupAddress}, ${rideRequest?.pickupCity}, ${rideRequest?.pickupState} ${rideRequest?.pickupZip}`}</Box>
                   <Box>{`Dropoff Address: ${rideRequest?.dropoffAddress}, ${rideRequest?.dropoffCity}, ${rideRequest?.dropoffState} ${rideRequest?.dropoffZip}`}</Box>
@@ -293,7 +299,7 @@ export default function RideRequestDetail() {
                       getRideRequestType(rideRequest) ==
                       DASHBAORD_PAGE.newRequests
                         ? price
-                        : rideRequest?.price
+                        : rideRequest?.price || 0
                     }
                     color={priceFlag ? `error` : "primary"}
                     focused
