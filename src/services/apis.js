@@ -3,7 +3,10 @@ import axios from "axios";
 const env = import.meta.env;
 
 export const submitRideRequest = (payload) => {
-  const url = env.VITE_ETA_BASE_URL + env.VITE_SAVE_RIDE_REQUEST;
+  const url =
+    env.VITE_ETA_BASE_URL +
+    env.VITE_SAVE_RIDE_REQUEST +
+    `?disable_email=${payload?.disableEamil}`;
   return axios.post(url, payload);
 };
 

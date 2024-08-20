@@ -1,5 +1,13 @@
-import { Box, Paper, TextField } from "@mui/material";
+import { CheckBox } from "@mui/icons-material";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  TextField,
+} from "@mui/material";
 import moment from "moment";
+import { useState } from "react";
 
 export default function TripConfirmation({
   tripType,
@@ -16,11 +24,13 @@ export default function TripConfirmation({
   vehicleType,
   notes,
   setNotes,
+  disableEamil,
+  setDisableEamil,
 }) {
   return (
     <>
       <Box className="flex justify-center font-bold text-xl mt-4">
-        Trip Detail for Confirmation
+        Trip Request Detail for Confirmation
       </Box>
 
       <Paper className="flex flex-co p-4 mt-4 text-xl" elevation={6}>
@@ -90,6 +100,17 @@ export default function TripConfirmation({
             email addresses. <br />
             The driver will send you another confirmation email with final price
             ASAP.
+          </Box>
+          <Box className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={disableEamil}
+                  onClick={() => setDisableEamil(!disableEamil)}
+                />
+              }
+              label={`Disable Email Confirmation (for test only)`}
+            />
           </Box>
         </Box>
       </Paper>

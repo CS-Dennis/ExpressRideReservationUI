@@ -55,6 +55,8 @@ export default function Home() {
   const [dropoffAddressFlag, setDropoffAddressFlag] = useState(null);
   const [dropoffCityFlag, setDropoffCityFlag] = useState(null);
 
+  const [disableEamil, setDisableEamil] = useState(true);
+
   // loading
   const [loading, setLoading] = useState(false);
 
@@ -162,6 +164,7 @@ export default function Home() {
       dropoffZip: dropoffAddress.zip,
       vehicleType: vehicleType,
       notes: notes,
+      disableEamil: disableEamil,
     };
     console.log(request);
     setLoading(true);
@@ -253,6 +256,8 @@ export default function Home() {
                       vehicleType={vehicleType}
                       notes={notes}
                       setNotes={setNotes}
+                      disableEamil={disableEamil}
+                      setDisableEamil={setDisableEamil}
                     />
                   </Box>
                 </>
