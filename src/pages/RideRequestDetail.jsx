@@ -63,10 +63,8 @@ export default function RideRequestDetail() {
         price: price,
         driverNotes: driverNotes,
       };
-      console.log(payload);
       confirmRideRequest(payload, disableEmail)
         .then((res) => {
-          console.log(res.data);
           if (res.status === 200) {
             // show snackbar for confirmation success
             setPriceFlag(false);
@@ -99,10 +97,8 @@ export default function RideRequestDetail() {
         price: priceUpdate,
         driverNotes: driverNotesUpdate,
       };
-      console.log(payload);
       confirmRideRequest(payload, disableEmail)
         .then((res) => {
-          console.log(res.data);
           if (res.status === 200) {
             // show snackbar for confirmation success
             appContext.setSnackbarFlag(true);
@@ -154,10 +150,8 @@ export default function RideRequestDetail() {
   useEffect(() => {
     if (location.search.split('?id=')[1]) {
       setId(location.search.split('?id=')[1]);
-      console.log(location.search.split('?id=')[1]);
       getRideRequestById(location.search.split('?id=')[1])
         .then((res) => {
-          console.log(res.data);
           if (res.status === 200) {
             setRideRequest(res.data);
             setPriceUpdate(res.data.price);

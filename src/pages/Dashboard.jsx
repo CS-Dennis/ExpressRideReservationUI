@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Title from "../components/Title";
-import { COLORS, DASHBAORD_PAGE } from "../constants";
-import { Box, Button, Chip, Grid, Paper } from "@mui/material";
-import { getRideRequestsByType } from "../services/apis";
-import moment from "moment";
-import { Link, useNavigate } from "react-router-dom";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import React, { useEffect, useState } from 'react';
+import Title from '../components/Title';
+import { COLORS, DASHBAORD_PAGE } from '../constants';
+import { Box, Button, Chip, Grid, Paper } from '@mui/material';
+import { getRideRequestsByType } from '../services/apis';
+import moment from 'moment';
+import { Link, useNavigate } from 'react-router-dom';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -37,8 +37,7 @@ export default function Dashboard() {
   useEffect(() => {
     getRideRequestsByType(tab)
       .then((res) => {
-        console.log(res.data);
-        if (res.data !== null && res.data !== "") {
+        if (res.data !== null && res.data !== '') {
           setRideRequests(res.data);
         } else {
           setRideRequests(null);
@@ -98,21 +97,21 @@ export default function Dashboard() {
 
             {rideRequests !== null && (
               <Box className="mb-2">
-                You have{" "}
+                You have{' '}
                 <Chip
                   label={rideRequests.length}
                   sx={{
                     backgroundColor:
                       tab === 0
-                        ? "#0ea5e9"
+                        ? '#0ea5e9'
                         : tab === 1
-                        ? "#fe9800"
+                        ? '#fe9800'
                         : tab === 2
-                        ? "#2c7f2c"
-                        : "#667688",
-                    color: tab === 1 ? "#000" : "#fff",
+                        ? '#2c7f2c'
+                        : '#667688',
+                    color: tab === 1 ? '#000' : '#fff',
                   }}
-                />{" "}
+                />{' '}
                 {tabTitle}
               </Box>
             )}
@@ -125,7 +124,7 @@ export default function Dashboard() {
                       <Box className="w-full flex self-center">
                         {`Request submitted on: ` +
                           moment(request?.created * 1000).format(
-                            "YYYY-MM-DD hh:mm:ss A"
+                            'YYYY-MM-DD hh:mm:ss A',
                           )}
                       </Box>
                       <Box>
@@ -134,13 +133,13 @@ export default function Dashboard() {
                           sx={{
                             backgroundColor:
                               tab === 0
-                                ? "#0ea5e9"
+                                ? '#0ea5e9'
                                 : tab === 1
-                                ? "#fe9800"
+                                ? '#fe9800'
                                 : tab === 2
-                                ? "#2c7f2c"
-                                : "#667688",
-                            color: tab === 1 ? "#000" : "#fff",
+                                ? '#2c7f2c'
+                                : '#667688',
+                            color: tab === 1 ? '#000' : '#fff',
                           }}
                         />
                       </Box>
@@ -157,23 +156,23 @@ export default function Dashboard() {
                         </Box>
                       </Box>
                       <Box>
-                        <b>Pickup time:</b>{" "}
+                        <b>Pickup time:</b>{' '}
                         {moment(request.pickupDateTime).format(
-                          "YYYY-MM-DD hh:mm:ss A"
+                          'YYYY-MM-DD hh:mm:ss A',
                         )}
                       </Box>
                       <Box>
-                        <b>Pickup address:</b>{" "}
+                        <b>Pickup address:</b>{' '}
                         {`${request.pickupAddress}, ${request.pickupCity}, ${request.pickupState} ${request.pickupZip}`}
                       </Box>
                       <Box>
-                        <b>Dropoff address:</b>{" "}
+                        <b>Dropoff address:</b>{' '}
                         {`${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
                       </Box>
 
                       <Box>
                         <b>
-                          Direction:{" "}
+                          Direction:{' '}
                           <Link
                             to={`https://www.google.com/maps/dir/${request.pickupAddress}, ${request.pickupCity}, ${request.pickupState} ${request.pickupZip}/${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
                             target="_blank"

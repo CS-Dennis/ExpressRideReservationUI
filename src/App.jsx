@@ -4,9 +4,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import RideRequestDetail from './pages/RideRequestDetail';
-import { Alert, Box, Snackbar } from '@mui/material';
-import { createContext, useContext, useState } from 'react';
+import { Alert, Snackbar } from '@mui/material';
+import { createContext, useState } from 'react';
 import CustomerConfirmation from './pages/CustomerConfirmation';
+import CustomerTripReceipt from './pages/CustomerTripReceipt';
 
 export const AppContext = createContext();
 
@@ -33,6 +34,11 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/detail" element={<RideRequestDetail />} />
             <Route path="/confirmtrip" element={<CustomerConfirmation />} />
+            <Route
+              path="/tripstatus/:confirmationCode"
+              element={<CustomerTripReceipt />}
+            />
+            <Route path="*" element={<Home />} />
           </Routes>
         </BrowserRouter>
 

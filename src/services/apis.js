@@ -23,6 +23,14 @@ export const getRideRequestsByType = (type) => {
   return axios.get(url);
 };
 
+export const getRideRequestByConfirmationCode = (confirmationCode) => {
+  const url =
+    env.VITE_ETA_BASE_URL +
+    env.VITE_GET_RIDE_REQUEST_BY_CONFIRMATION_CODE +
+    `/${confirmationCode}`;
+  return axios.get(url);
+};
+
 export const getRideRequestById = (id) => {
   const url = env.VITE_ETA_BASE_URL + env.VITE_SAVE_RIDE_REQUEST;
 

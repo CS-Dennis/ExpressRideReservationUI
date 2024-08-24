@@ -12,11 +12,9 @@ export default function CustomerConfirmation() {
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   useEffect(() => {
     const confirmationCode = location.search.split('confirmation_code=')[1];
-    console.log(confirmationCode);
     if (confirmationCode) {
       confirmTrip(confirmationCode)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             setShowSuccessMsg(true);
             appContext.setSnackbarFlag(true);

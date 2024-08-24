@@ -1,12 +1,12 @@
-import { Backdrop, Box, Button, CircularProgress, Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import Title from "../components/Title";
-import ReservationProgressView from "../components/ReservationProgressView";
-import TripDetailsForm from "../components/TripDetailsForm";
-import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from "../constants";
-import TripConfirmation from "../components/TripConfirmation";
-import moment from "moment";
-import { submitRideRequest } from "../services/apis";
+import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import Title from '../components/Title';
+import ReservationProgressView from '../components/ReservationProgressView';
+import TripDetailsForm from '../components/TripDetailsForm';
+import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from '../constants';
+import TripConfirmation from '../components/TripConfirmation';
+import moment from 'moment';
+import { submitRideRequest } from '../services/apis';
 
 export default function Home() {
   const [step, setStep] = useState(0);
@@ -15,10 +15,10 @@ export default function Home() {
   // store the tripType keys
   const [tripType, setTripType] = useState(Object.keys(TRIP_TYPES)[0]);
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("+1");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('+1');
+  const [email, setEmail] = useState('');
 
   const [pickupDateTime, setPickupDateTime] = useState(null);
   const [numOfPassengers, setNumOfPassengers] = useState(1);
@@ -26,22 +26,22 @@ export default function Home() {
   const [numOfLuggagesCarryOn, setNumOfLuggagesCarryOn] = useState(0);
 
   const [pickupAddress, setPickupAddress] = useState({
-    address: "",
-    city: "",
-    state: "Texas",
-    zip: "",
+    address: '',
+    city: '',
+    state: 'Texas',
+    zip: '',
   });
   const [dropoffAddress, setDropoffAddress] = useState({
-    address: "",
-    city: "",
-    state: "Texas",
-    zip: "",
+    address: '',
+    city: '',
+    state: 'Texas',
+    zip: '',
   });
 
   // Vehicle Form
   const [vehicleType, setVehicleType] = useState(VEHICLE_TYPES[0]);
 
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState('');
 
   // Trip Details Form Flags
   const [firstNameFlag, setFirstNameFlag] = useState(null);
@@ -61,63 +61,63 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const formValidation = () => {
-    if (firstName.trim() === "") {
+    if (firstName.trim() === '') {
       setFirstNameFlag(true);
       return false;
     } else {
       setFirstNameFlag(false);
     }
 
-    if (lastName.trim() === "") {
+    if (lastName.trim() === '') {
       setLastNameFlag(true);
       return false;
     } else {
       setLastNameFlag(false);
     }
 
-    if (phoneNumber.trim() === "+1" || phoneNumber.trim() === "") {
+    if (phoneNumber.trim() === '+1' || phoneNumber.trim() === '') {
       setPhoneNumberFlag(true);
       return false;
     } else {
       setPhoneNumberFlag(false);
     }
 
-    if (email.trim() === "") {
+    if (email.trim() === '') {
       setEmailFlag(true);
       return false;
     } else {
       setEmailFlag(false);
     }
 
-    if (pickupDateTime === null || pickupDateTime === "") {
+    if (pickupDateTime === null || pickupDateTime === '') {
       setPickupDateTimeFlag(true);
       return false;
     } else {
       setPickupDateTimeFlag(false);
     }
 
-    if (pickupAddress.address.trim() === "") {
+    if (pickupAddress.address.trim() === '') {
       setPickupAddressFlag(true);
       return false;
     } else {
       setPickupAddressFlag(false);
     }
 
-    if (pickupAddress.city.trim() === "") {
+    if (pickupAddress.city.trim() === '') {
       setPickupCityFlag(true);
       return false;
     } else {
       setPickupCityFlag(false);
     }
 
-    if (dropoffAddress.address.trim() === "") {
+    if (dropoffAddress.address.trim() === '') {
       setDropoffAddressFlag(true);
       return false;
     } else {
       setDropoffAddressFlag(false);
     }
 
-    if (dropoffAddress.city.trim() === "") {
+    if (dropoffAddress.city.trim() === '') {
       setDropoffCityFlag(true);
       return false;
     } else {
@@ -165,29 +165,24 @@ export default function Home() {
       vehicleType: vehicleType,
       notes: notes,
     };
-    console.log(request);
     setLoading(true);
     submitRideRequest(request, disableEamil).then((res) => {
       console.log(res);
       if (res.status === 200) {
         setLoading(false);
-        console.log("success");
+        console.log('success');
         nextStep();
       } else {
         // error
         setLoading(false);
-        console.log("error");
+        console.log('error');
       }
     });
   };
 
-  useEffect(() => {
-    console.log(step);
-  }, [step]);
+  useEffect(() => {}, [step]);
 
-  useEffect(() => {
-    console.log("vehicleType:", vehicleType);
-  }, [vehicleType]);
+  useEffect(() => {}, [vehicleType]);
 
   return (
     <>
