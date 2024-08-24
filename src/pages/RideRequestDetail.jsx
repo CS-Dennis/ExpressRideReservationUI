@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Chip,
   Grid,
   IconButton,
@@ -8,21 +9,21 @@ import {
   Modal,
   Paper,
   TextField,
-} from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Title from "../components/Title";
+} from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Title from '../components/Title';
 import {
   completeRideRequest,
   confirmRideRequest,
   getRideRequestById,
-} from "../services/apis";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import moment from "moment";
-import { DASHBAORD_PAGE } from "../constants";
-import { getRideRequestType } from "../util";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { AppContext } from "../App";
+} from '../services/apis';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import moment from 'moment';
+import { DASHBAORD_PAGE } from '../constants';
+import { getRideRequestType } from '../util';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { AppContext } from '../App';
 
 export default function RideRequestDetail() {
   const appContext = useContext(AppContext);
@@ -33,10 +34,10 @@ export default function RideRequestDetail() {
   const [rideRequest, setRideRequest] = useState(null);
 
   const [price, setPrice] = useState(0);
-  const [driverNotes, setDriverNotes] = useState("");
+  const [driverNotes, setDriverNotes] = useState('');
 
-  const [priceUpdate, setPriceUpdate] = useState("");
-  const [driverNotesUpdate, setDriverNotesUpdate] = useState("");
+  const [priceUpdate, setPriceUpdate] = useState('');
+  const [driverNotesUpdate, setDriverNotesUpdate] = useState('');
 
   const [priceFlag, setPriceFlag] = useState(false);
   const [priceUpdateFlag, setPriceUpdateFlag] = useState(false);
@@ -45,14 +46,16 @@ export default function RideRequestDetail() {
 
   const [completeFlag, setCompleteFlag] = useState(false);
 
+  const [disableEmail, setDisableEmail] = useState(true);
+
   // driver to confirm new ride requests
   const confirm = () => {
     setPriceFlag(false);
-    if (price <= 0 || price === null || price === "") {
+    if (price <= 0 || price === null || price === '') {
       setPriceFlag(true);
       appContext.setSnackbarFlag(true);
-      appContext.setSnackbarType("error");
-      appContext.setSnackbarMessage("Please add price");
+      appContext.setSnackbarType('error');
+      appContext.setSnackbarMessage('Please add price');
     } else {
       // submit confirmation request
       const payload = {
@@ -61,11 +64,21 @@ export default function RideRequestDetail() {
         driverNotes: driverNotes,
       };
       console.log(payload);
-      confirmRideRequest(payload)
+      confirmRideRequest(payload, disableEmail)
         .then((res) => {
           console.log(res.data);
           if (res.status === 200) {
             // show snackbar for confirmation success
+            setPriceFlag(false);
+            appContext.setSnackbarFlag(true);
+            appContext.setSnackbarType('success');
+            appContext.setSnackbarMessage(
+              'Ride request confirmed. Confirmation email sent to the customer.',
+            );
+            setRideRequest(res.data);
+
+            setPriceUpdate(res.data.price);
+            setDriverNotesUpdate(res.data.driverNotes);
           }
         })
         .catch((err) => {
@@ -77,7 +90,7 @@ export default function RideRequestDetail() {
   // re-confirm with price or notes update for pending ride requests
   const reconfirm = () => {
     setPriceUpdateFlag(false);
-    if (priceUpdate <= 0 || priceUpdate === null || priceUpdate === "") {
+    if (priceUpdate <= 0 || priceUpdate === null || priceUpdate === '') {
       setPriceUpdateFlag(true);
     } else {
       // submit confirmation request
@@ -87,11 +100,16 @@ export default function RideRequestDetail() {
         driverNotes: driverNotesUpdate,
       };
       console.log(payload);
-      confirmRideRequest(payload)
+      confirmRideRequest(payload, disableEmail)
         .then((res) => {
           console.log(res.data);
           if (res.status === 200) {
             // show snackbar for confirmation success
+            appContext.setSnackbarFlag(true);
+            appContext.setSnackbarType('success');
+            appContext.setSnackbarMessage(
+              'Ride request confirmed. Confirmation email sent to the customer.',
+            );
             setRideRequest(res.data);
             setModifiyFlag(false);
           }
@@ -114,21 +132,30 @@ export default function RideRequestDetail() {
     completeRideRequest(id)
       .then((res) => {
         if (res.status === 200) {
-          console.log("completed trip successfully");
+          console.log('completed trip successfully');
+          appContext.setSnackbarFlag(true);
+          appContext.setSnackbarType('success');
+          appContext.setSnackbarMessage('Trip completed successfully');
+          setCompleteFlag(false);
+
+          setRideRequest(res.data);
         } else {
           // error
         }
       })
       .catch((err) => {
         console.log(err);
+        appContext.setSnackbarFlag(true);
+        appContext.setSnackbarType('error');
+        appContext.setSnackbarMessage(err);
       });
   };
 
   useEffect(() => {
-    if (location.search.split("?id=")[1]) {
-      setId(location.search.split("?id=")[1]);
-      console.log(location.search.split("?id=")[1]);
-      getRideRequestById(location.search.split("?id=")[1])
+    if (location.search.split('?id=')[1]) {
+      setId(location.search.split('?id=')[1]);
+      console.log(location.search.split('?id=')[1]);
+      getRideRequestById(location.search.split('?id=')[1])
         .then((res) => {
           console.log(res.data);
           if (res.status === 200) {
@@ -156,7 +183,7 @@ export default function RideRequestDetail() {
               <IconButton
                 color="primary"
                 size="large"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate('/dashboard')}
               >
                 <ArrowBackIcon fontSize="large" />
               </IconButton>
@@ -172,26 +199,26 @@ export default function RideRequestDetail() {
                       backgroundColor:
                         getRideRequestType(rideRequest) ===
                         DASHBAORD_PAGE.newRequests
-                          ? "#0ea5e9"
+                          ? '#0ea5e9'
                           : getRideRequestType(rideRequest) ===
                             DASHBAORD_PAGE.pendingRequests
-                          ? "#fe9800"
+                          ? '#fe9800'
                           : getRideRequestType(rideRequest) ===
                             DASHBAORD_PAGE.upcomingRides
-                          ? "#2c7f2c"
-                          : "#667688",
+                          ? '#2c7f2c'
+                          : '#667688',
                       color:
                         rideRequest?.driverConfirmed === true &&
                         rideRequest?.customerConfirmed === false
-                          ? "#000"
-                          : "#fff",
+                          ? '#000'
+                          : '#fff',
                     }}
                   />
                 </Box>
                 <Box className="w-full flex self-center p-4">
                   {`Submitted on: ` +
                     moment(rideRequest?.created * 1000).format(
-                      "YYYY-MM-DD hh:mm:ss A"
+                      'YYYY-MM-DD hh:mm:ss A',
                     )}
                 </Box>
               </Paper>
@@ -205,11 +232,11 @@ export default function RideRequestDetail() {
                 getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
                 <Box
                   className="font-bold pl-4"
-                  sx={{ backgroundColor: "#fe9800" }}
+                  sx={{ backgroundColor: '#fe9800' }}
                 >
                   {`Confirmation emailed to customer on ${moment(
-                    rideRequest?.driverConfirmedDateTime * 1000
-                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                    rideRequest?.driverConfirmedDateTime * 1000,
+                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
                 </Box>
               )}
               {(getRideRequestType(rideRequest) ===
@@ -217,18 +244,18 @@ export default function RideRequestDetail() {
                 getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
                 <Box
                   className="font-bold text-white pl-4"
-                  sx={{ backgroundColor: "#2c7f2c" }}
+                  sx={{ backgroundColor: '#2c7f2c' }}
                 >
                   {`Customer confirmed on ${moment(
-                    rideRequest?.customerConfirmedDateTime * 1000
-                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                    rideRequest?.customerConfirmedDateTime * 1000,
+                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
                 </Box>
               )}
               {getRideRequestType(rideRequest) === DASHBAORD_PAGE.history && (
                 <Box className="font-bold text-white bg-slate-500 pl-4">
                   {`Trip completed on ${moment(
-                    rideRequest?.tripCompletedDateTime * 1000
-                  ).format("YYYY-MM-DD hh:mm:ss A")}`}
+                    rideRequest?.tripCompletedDateTime * 1000,
+                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
                 </Box>
               )}
 
@@ -260,8 +287,8 @@ export default function RideRequestDetail() {
                 <Box className="p-4">
                   <Box>{`Vehicle type: ${rideRequest?.vehicleType}`}</Box>
                   <Box>{`Pickup time: ${moment(
-                    new Date(rideRequest?.pickupDateTime)
-                  ).format("YYYY-MM-DD hh:mm:ss A")}`}</Box>
+                    new Date(rideRequest?.pickupDateTime),
+                  ).format('YYYY-MM-DD hh:mm:ss A')}`}</Box>
                   <Box>{`Pickup Address: ${rideRequest?.pickupAddress}, ${rideRequest?.pickupCity}, ${rideRequest?.pickupState} ${rideRequest?.pickupZip}`}</Box>
                   <Box>{`Dropoff Address: ${rideRequest?.dropoffAddress}, ${rideRequest?.dropoffCity}, ${rideRequest?.dropoffState} ${rideRequest?.dropoffZip}`}</Box>
                   <Box>{`# of passenger(s): ${rideRequest?.numOfPassengers}`}</Box>
@@ -276,7 +303,7 @@ export default function RideRequestDetail() {
                 <Box className="p-4 bg-slate-200">
                   <b>Notes</b>
                 </Box>
-                <Box className="p-4" whiteSpace={"break-spaces"}>
+                <Box className="p-4" whiteSpace={'break-spaces'}>
                   {rideRequest?.notes}
                 </Box>
               </Paper>
@@ -285,7 +312,7 @@ export default function RideRequestDetail() {
             <Box className="mb-4">
               <Paper className="p-4">
                 <b>Suggested Trip Price</b>
-                <Box>
+                <Box className="mb-4">
                   <TextField
                     InputProps={{
                       startAdornment: (
@@ -301,7 +328,7 @@ export default function RideRequestDetail() {
                         ? price
                         : rideRequest?.price || 0
                     }
-                    color={priceFlag ? `error` : "primary"}
+                    color={priceFlag ? `error` : 'primary'}
                     focused
                     onChange={(e) => setPrice(e.target.value)}
                     disabled={
@@ -335,6 +362,21 @@ export default function RideRequestDetail() {
                     }
                   />
                 </Box>
+
+                {(getRideRequestType(rideRequest) ===
+                  DASHBAORD_PAGE.newRequests ||
+                  getRideRequestType(rideRequest) ===
+                    DASHBAORD_PAGE.pendingRequests) && (
+                  <Box className="flex place-items-center">
+                    <Checkbox
+                      checked={disableEmail}
+                      onChange={() => {
+                        setDisableEmail(!disableEmail);
+                      }}
+                    />
+                    <Box>Disable Email (Test purpose only)</Box>
+                  </Box>
+                )}
               </Paper>
             </Box>
 
@@ -407,10 +449,10 @@ export default function RideRequestDetail() {
             type="number"
             fullWidth
             value={priceUpdate}
-            color={priceUpdateFlag ? `error` : "primary"}
+            color={priceUpdateFlag ? `error` : 'primary'}
             focused
             onChange={(e) => setPriceUpdate(e.target.value)}
-            sx={{ marginBottom: "2em" }}
+            sx={{ marginBottom: '2em' }}
           />
 
           <b>Your notes for the customer:</b>

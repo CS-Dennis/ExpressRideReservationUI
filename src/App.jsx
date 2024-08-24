@@ -1,18 +1,18 @@
-import "./App.css";
-import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import RideRequestDetail from "./pages/RideRequestDetail";
-import { Box, Snackbar } from "@mui/material";
-import { createContext, useContext, useState } from "react";
+import './App.css';
+import './index.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import RideRequestDetail from './pages/RideRequestDetail';
+import { Alert, Box, Snackbar } from '@mui/material';
+import { createContext, useContext, useState } from 'react';
 
 export const AppContext = createContext();
 
 function App() {
   const [snackbarFlag, setSnackbarFlag] = useState(false);
-  const [snackbarType, setSnackbarType] = useState("error");
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState('error');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   return (
     <>
@@ -37,11 +37,14 @@ function App() {
         {/* add snackbar with context flag for user notification */}
         <Snackbar
           open={snackbarFlag}
-          message={snackbarMessage || "123"}
-          security={snackbarType}
-          autoHideDuration={1000}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        />
+          autoHideDuration={2000}
+          onClose={() => setSnackbarFlag(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert variant="filled" severity={snackbarType}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </AppContext.Provider>
     </>
   );

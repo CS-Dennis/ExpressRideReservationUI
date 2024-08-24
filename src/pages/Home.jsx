@@ -164,11 +164,10 @@ export default function Home() {
       dropoffZip: dropoffAddress.zip,
       vehicleType: vehicleType,
       notes: notes,
-      disableEamil: disableEamil,
     };
     console.log(request);
     setLoading(true);
-    submitRideRequest(request).then((res) => {
+    submitRideRequest(request, disableEamil).then((res) => {
       console.log(res);
       if (res.status === 200) {
         setLoading(false);

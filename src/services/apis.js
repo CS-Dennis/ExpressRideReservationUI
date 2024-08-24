@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 const env = import.meta.env;
 
-export const submitRideRequest = (payload) => {
+export const submitRideRequest = (payload, disableEmail) => {
   const url =
     env.VITE_ETA_BASE_URL +
     env.VITE_SAVE_RIDE_REQUEST +
-    `?disable_email=${payload?.disableEamil}`;
+    `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
 };
 
@@ -26,11 +26,14 @@ export const getRideRequestsByType = (type) => {
 export const getRideRequestById = (id) => {
   const url = env.VITE_ETA_BASE_URL + env.VITE_SAVE_RIDE_REQUEST;
 
-  return axios.get(url + "?id=" + id);
+  return axios.get(url + '?id=' + id);
 };
 
-export const confirmRideRequest = (payload) => {
-  const url = env.VITE_ETA_BASE_URL + env.VITE_CONFIRM_RIDE_REQUEST;
+export const confirmRideRequest = (payload, disableEmail) => {
+  const url =
+    env.VITE_ETA_BASE_URL +
+    env.VITE_CONFIRM_RIDE_REQUEST +
+    `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
 };
 
