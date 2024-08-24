@@ -29,12 +29,22 @@ export const getRideRequestById = (id) => {
   return axios.get(url + '?id=' + id);
 };
 
+// for driver to confirm user's ride request
 export const confirmRideRequest = (payload, disableEmail) => {
   const url =
     env.VITE_ETA_BASE_URL +
     env.VITE_CONFIRM_RIDE_REQUEST +
     `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
+};
+
+// used for customer to confirm the trip
+export const confirmTrip = (confirmationCode) => {
+  const url =
+    env.VITE_ETA_BASE_URL +
+    env.VITE_CONFIRM_TRIP +
+    `?confirmation_code=${confirmationCode}`;
+  return axios.get(url);
 };
 
 export const completeRideRequest = (id) => {

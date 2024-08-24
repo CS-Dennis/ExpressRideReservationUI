@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import RideRequestDetail from './pages/RideRequestDetail';
 import { Alert, Box, Snackbar } from '@mui/material';
 import { createContext, useContext, useState } from 'react';
+import CustomerConfirmation from './pages/CustomerConfirmation';
 
 export const AppContext = createContext();
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/detail" element={<RideRequestDetail />} />
+            <Route path="/confirmtrip" element={<CustomerConfirmation />} />
           </Routes>
         </BrowserRouter>
 
