@@ -17,6 +17,7 @@ import {
   completeRideRequest,
   confirmRideRequest,
   getRideRequestById,
+  updatePersonalNotes,
 } from '../services/apis';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import moment from 'moment';
@@ -38,6 +39,9 @@ export default function RideRequestDetail() {
 
   const [priceUpdate, setPriceUpdate] = useState('');
   const [driverNotesUpdate, setDriverNotesUpdate] = useState('');
+
+  const [personalNotes, setPersonalNotes] = useState('');
+  const [personalNotesDisabled, setPersonalNotesDisabled] = useState(true);
 
   const [priceFlag, setPriceFlag] = useState(false);
   const [priceUpdateFlag, setPriceUpdateFlag] = useState(false);
@@ -62,6 +66,7 @@ export default function RideRequestDetail() {
         id: id,
         price: price,
         driverNotes: driverNotes,
+        personalNotes: personalNotes,
       };
       confirmRideRequest(payload, disableEmail)
         .then((res) => {
@@ -147,6 +152,31 @@ export default function RideRequestDetail() {
       });
   };
 
+  // update driver's personal notes
+  const updateDriverPersonalNotes = () => {
+    const payload = {
+      id: rideRequest.id,
+      personalNotes: personalNotes,
+    };
+
+    updatePersonalNotes(payload)
+      .then((res) => {
+        console.log(res.data);
+        // successful
+        if (res.status === 200) {
+          appContext.setSnackbarFlag(true);
+          appContext.setSnackbarType('success');
+          appContext.setSnackbarMessage(
+            'Your personal notes updated successfully',
+          );
+          setPersonalNotesDisabled(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     if (location.search.split('?id=')[1]) {
       setId(location.search.split('?id=')[1]);
@@ -156,6 +186,8 @@ export default function RideRequestDetail() {
             setRideRequest(res.data);
             setPriceUpdate(res.data.price);
             setDriverNotesUpdate(res.data.driverNotes);
+
+            setPersonalNotes(res.data.personalNotes);
           }
         })
         .catch((err) => {
@@ -295,7 +327,7 @@ export default function RideRequestDetail() {
             <Box className="mb-4">
               <Paper>
                 <Box className="p-4 bg-slate-200">
-                  <b>Notes</b>
+                  <b>Client's Notes</b>
                 </Box>
                 <Box className="p-4" whiteSpace={'break-spaces'}>
                   {rideRequest?.notes}
@@ -304,9 +336,11 @@ export default function RideRequestDetail() {
             </Box>
 
             <Box className="mb-4">
-              <Paper className="p-4">
-                <b>Suggested Trip Price</b>
-                <Box className="mb-4">
+              <Paper>
+                <Box className="bg-green-700 p-4 text-white font-bold">
+                  Suggested Trip Price
+                </Box>
+                <Box className="p-4">
                   <TextField
                     InputProps={{
                       startAdornment: (
@@ -334,8 +368,10 @@ export default function RideRequestDetail() {
                   />
                 </Box>
 
-                <b>Your notes for the customer</b>
-                <Box>
+                <Box className="bg-green-700 p-4 text-white font-bold">
+                  Your notes to the customer
+                </Box>
+                <Box className="p-4">
                   <TextField
                     multiline
                     maxRows={10}
@@ -353,6 +389,65 @@ export default function RideRequestDetail() {
                       DASHBAORD_PAGE.newRequests
                         ? true
                         : false
+                    }
+                  />
+                </Box>
+
+                <Box
+                  className="bg-green-700 p-4 text-white font-bold flex flex-row
+                 items-center justify-between"
+                >
+                  <Box>Your personal notes (Only seen by yourself)</Box>
+                  <Box>
+                    {personalNotesDisabled &&
+                      getRideRequestType(rideRequest) !==
+                        DASHBAORD_PAGE.newRequests && (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => setPersonalNotesDisabled(false)}
+                        >
+                          Edit
+                        </Button>
+                      )}
+
+                    {!personalNotesDisabled && (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => updateDriverPersonalNotes()}
+                        >
+                          Update
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          sx={{ marginLeft: '10px' }}
+                          onClick={() => {
+                            setPersonalNotesDisabled(true);
+                            setPersonalNotes(rideRequest.personalNotes);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Box>
+                <Box className="p-4">
+                  <TextField
+                    multiline
+                    maxRows={10}
+                    variant="standard"
+                    fullWidth
+                    value={personalNotes}
+                    onChange={(e) => setPersonalNotes(e.target.value)}
+                    disabled={
+                      getRideRequestType(rideRequest) ===
+                      DASHBAORD_PAGE.newRequests
+                        ? false
+                        : personalNotesDisabled
                     }
                   />
                 </Box>

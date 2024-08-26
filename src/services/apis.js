@@ -60,3 +60,9 @@ export const completeRideRequest = (id) => {
     env.VITE_ETA_BASE_URL + env.VITE_COMPLETE_RIDE_REQEUST + `?id=${id}`;
   return axios.get(url);
 };
+
+// used for driver to update personal notes for the ride request
+export const updatePersonalNotes = (payload) => {
+  const url = env.VITE_ETA_BASE_URL + env.VITE_UPDATE_PERSONAL_NOTES;
+  return axios.post(url, payload);
+};
