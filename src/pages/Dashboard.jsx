@@ -103,13 +103,13 @@ export default function Dashboard() {
                   sx={{
                     backgroundColor:
                       tab === 0
-                        ? '#0ea5e9'
+                        ? COLORS.blue
                         : tab === 1
-                        ? '#fe9800'
+                        ? COLORS.orange
                         : tab === 2
-                        ? '#2c7f2c'
-                        : '#667688',
-                    color: tab === 1 ? '#000' : '#fff',
+                        ? COLORS.green
+                        : COLORS.grey,
+                    color: tab === 1 ? COLORS.black : COLORS.white,
                   }}
                 />{' '}
                 {tabTitle}
@@ -133,13 +133,13 @@ export default function Dashboard() {
                           sx={{
                             backgroundColor:
                               tab === 0
-                                ? '#0ea5e9'
+                                ? COLORS.blue
                                 : tab === 1
-                                ? '#fe9800'
+                                ? COLORS.orange
                                 : tab === 2
-                                ? '#2c7f2c'
-                                : '#667688',
-                            color: tab === 1 ? '#000' : '#fff',
+                                ? COLORS.green
+                                : COLORS.grey,
+                            color: tab === 1 ? COLORS.black : COLORS.white,
                           }}
                         />
                       </Box>
