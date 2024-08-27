@@ -247,44 +247,46 @@ export default function RideRequestDetail() {
                       'YYYY-MM-DD hh:mm:ss A',
                     )}
                 </Box>
+
+                {(getRideRequestType(rideRequest) ===
+                  DASHBAORD_PAGE.pendingRequests ||
+                  getRideRequestType(rideRequest) ===
+                    DASHBAORD_PAGE.upcomingRides ||
+                  getRideRequestType(rideRequest) ===
+                    DASHBAORD_PAGE.history) && (
+                  <Box
+                    className="font-bold pl-4"
+                    sx={{ backgroundColor: '#fe9800' }}
+                  >
+                    {`Confirmation emailed to customer on ${moment(
+                      rideRequest?.driverConfirmedDateTime * 1000,
+                    ).format('YYYY-MM-DD hh:mm:ss A')}`}
+                  </Box>
+                )}
+                {(getRideRequestType(rideRequest) ===
+                  DASHBAORD_PAGE.upcomingRides ||
+                  getRideRequestType(rideRequest) ===
+                    DASHBAORD_PAGE.history) && (
+                  <Box
+                    className="font-bold text-white pl-4"
+                    sx={{ backgroundColor: '#2c7f2c' }}
+                  >
+                    {`Customer confirmed on ${moment(
+                      rideRequest?.customerConfirmedDateTime * 1000,
+                    ).format('YYYY-MM-DD hh:mm:ss A')}`}
+                  </Box>
+                )}
+                {getRideRequestType(rideRequest) === DASHBAORD_PAGE.history && (
+                  <Box className="font-bold text-white bg-slate-500 pl-4">
+                    {`Trip completed on ${moment(
+                      rideRequest?.tripCompletedDateTime * 1000,
+                    ).format('YYYY-MM-DD hh:mm:ss A')}`}
+                  </Box>
+                )}
               </Paper>
             </Box>
 
             <Box className="mb-4">
-              {(getRideRequestType(rideRequest) ===
-                DASHBAORD_PAGE.pendingRequests ||
-                getRideRequestType(rideRequest) ===
-                  DASHBAORD_PAGE.upcomingRides ||
-                getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
-                <Box
-                  className="font-bold pl-4"
-                  sx={{ backgroundColor: '#fe9800' }}
-                >
-                  {`Confirmation emailed to customer on ${moment(
-                    rideRequest?.driverConfirmedDateTime * 1000,
-                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
-                </Box>
-              )}
-              {(getRideRequestType(rideRequest) ===
-                DASHBAORD_PAGE.upcomingRides ||
-                getRideRequestType(rideRequest) === DASHBAORD_PAGE.history) && (
-                <Box
-                  className="font-bold text-white pl-4"
-                  sx={{ backgroundColor: '#2c7f2c' }}
-                >
-                  {`Customer confirmed on ${moment(
-                    rideRequest?.customerConfirmedDateTime * 1000,
-                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
-                </Box>
-              )}
-              {getRideRequestType(rideRequest) === DASHBAORD_PAGE.history && (
-                <Box className="font-bold text-white bg-slate-500 pl-4">
-                  {`Trip completed on ${moment(
-                    rideRequest?.tripCompletedDateTime * 1000,
-                  ).format('YYYY-MM-DD hh:mm:ss A')}`}
-                </Box>
-              )}
-
               <Paper className="mt-4">
                 <Box>
                   <Box className="p-4 bg-slate-200 ">
