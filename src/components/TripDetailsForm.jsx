@@ -1,21 +1,38 @@
 import {
   Box,
+  Button,
   Divider,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
+  Modal,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
-} from "@mui/material";
-import React, { useEffect } from "react";
-import { STATES, TRIP_TYPES, VEHICLE_TYPES } from "../constants";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { MuiTelInput } from "mui-tel-input";
-import moment from "moment";
-import { capitalizeString } from "../util";
-import VehicleForm from "./VehicleForm";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  PRICING_INFO_TABLE_DATA,
+  PRICING_INFO_TABLE_HEADERS,
+  STATES,
+  TRIP_TYPES,
+  VEHICLE_TYPES,
+} from '../constants';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { MuiTelInput } from 'mui-tel-input';
+import moment from 'moment';
+import { capitalizeString, sortPricingTableByColumn } from '../util';
+import VehicleForm from './VehicleForm';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 export default function TripDetailsForm({
   tripType,
@@ -60,21 +77,72 @@ export default function TripDetailsForm({
   dropoffAddressFlag,
   dropoffCityFlag,
 }) {
+  const [pricingInfoData, setPricingInfoData] = useState([]);
+  const [showPricingInfoTable, setShowPricingInfoTable] = useState(false);
+
+  const [headerSortBys, setHeaderSortBys] = useState({});
+
+  const sortColumn = (header) => {
+    const previousSortBy = headerSortBys[header];
+    var resetHeaderSortBys = {};
+    Object.keys(PRICING_INFO_TABLE_HEADERS).forEach((key) => {
+      resetHeaderSortBys[key] = '';
+    });
+    if (previousSortBy === 'asc') {
+      resetHeaderSortBys[header] = 'desc';
+    } else {
+      resetHeaderSortBys[header] = 'asc';
+    }
+
+    setHeaderSortBys({ ...resetHeaderSortBys });
+    var sorted = pricingInfoData.sort(
+      sortPricingTableByColumn(header, resetHeaderSortBys[header]),
+    );
+    setPricingInfoData([...sorted]);
+  };
+
   useEffect(() => {
     setNumOfPassengers(1);
     setNumOfLuggagesChecked(0);
     setNumOfLuggagesCarryOn(0);
   }, [vehicleType]);
 
+  useEffect(() => {
+    // create a copy of the pricing table data
+    const sortedInit = JSON.parse(JSON.stringify(PRICING_INFO_TABLE_DATA)).sort(
+      sortPricingTableByColumn('pickUp', 'asc'),
+    );
+    setPricingInfoData([...sortedInit]);
+
+    const headerSortBysInit = {};
+    Object.keys(PRICING_INFO_TABLE_HEADERS).forEach((key) => {
+      headerSortBysInit[key] = '';
+    });
+
+    headerSortBysInit.pickUp = 'asc';
+
+    setHeaderSortBys({ ...headerSortBysInit });
+  }, []);
+
   return (
     <>
       <Box>
-        <Box className="font-bold text-4xl">Service Type</Box>
+        <Box className="flex justify-between">
+          <Box className="font-bold text-4xl">Service Type</Box>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setShowPricingInfoTable(true);
+            }}
+          >
+            Pricing Info
+          </Button>
+        </Box>
         <FormControl variant="standard" className="w-full">
           <Select
             value={tripType}
             onChange={(e) => setTripType(e.target.value)}
-            sx={{ fontSize: "1.4em" }}
+            sx={{ fontSize: '1.4em' }}
           >
             {Object.keys(TRIP_TYPES).map((tripType) => (
               <MenuItem value={tripType} key={tripType} className="text-3xl">
@@ -96,10 +164,10 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                color={firstNameFlag ? "error" : "primary"}
+                color={firstNameFlag ? 'error' : 'primary'}
                 focused={firstNameFlag ? true : false}
-                inputProps={{ style: { fontSize: "1.4em" } }}
-                InputLabelProps={{ style: { fontSize: "1.4em" } }}
+                inputProps={{ style: { fontSize: '1.4em' } }}
+                InputLabelProps={{ style: { fontSize: '1.4em' } }}
               />
             </Box>
           </Grid>
@@ -111,10 +179,10 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                color={lastNameFlag ? "error" : "primary"}
+                color={lastNameFlag ? 'error' : 'primary'}
                 focused={lastNameFlag ? true : false}
-                inputProps={{ style: { fontSize: "1.4em" } }}
-                InputLabelProps={{ style: { fontSize: "1.4em" } }}
+                inputProps={{ style: { fontSize: '1.4em' } }}
+                InputLabelProps={{ style: { fontSize: '1.4em' } }}
               />
             </Box>
           </Grid>
@@ -131,10 +199,10 @@ export default function TripDetailsForm({
                 value={phoneNumber}
                 onChange={(value) => setPhoneNumber(value)}
                 placeholder="Phone number"
-                color={phoneNumberFlag ? "error" : "primary"}
+                color={phoneNumberFlag ? 'error' : 'primary'}
                 focused={phoneNumberFlag ? true : false}
-                inputProps={{ style: { fontSize: "1.4em" } }}
-                InputLabelProps={{ style: { fontSize: "1.4em" } }}
+                inputProps={{ style: { fontSize: '1.4em' } }}
+                InputLabelProps={{ style: { fontSize: '1.4em' } }}
               />
             </Box>
           </Grid>
@@ -146,10 +214,10 @@ export default function TripDetailsForm({
                 variant="standard"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                color={emailFlag ? "error" : "primary"}
+                color={emailFlag ? 'error' : 'primary'}
                 focused={emailFlag ? true : false}
-                inputProps={{ style: { fontSize: "1.4em" } }}
-                InputLabelProps={{ style: { fontSize: "1.4em" } }}
+                inputProps={{ style: { fontSize: '1.4em' } }}
+                InputLabelProps={{ style: { fontSize: '1.4em' } }}
               />
             </Box>
           </Grid>
@@ -166,10 +234,10 @@ export default function TripDetailsForm({
               value={pickupDateTime}
               onChange={(e) => setPickupDateTime(moment(e))}
               sx={{
-                borderColor: "red",
-                borderWidth: pickupDateTimeFlag ? "1px" : "0px",
-                borderStyle: "solid",
-                borderRadius: "5px",
+                borderColor: 'red',
+                borderWidth: pickupDateTimeFlag ? '1px' : '0px',
+                borderStyle: 'solid',
+                borderRadius: '5px',
               }}
             />
           </LocalizationProvider>
@@ -189,7 +257,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-passengers"
               className="font-bold"
-              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
+              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
             >
               # of Passengers
             </InputLabel>
@@ -197,7 +265,7 @@ export default function TripDetailsForm({
               labelId="num-of-passengers"
               value={numOfPassengers}
               onChange={(e) => setNumOfPassengers(e.target.value)}
-              sx={{ fontSize: "1.4em" }}
+              sx={{ fontSize: '1.4em' }}
             >
               {(vehicleType === VEHICLE_TYPES[0]
                 ? [1, 2, 3, 4]
@@ -216,7 +284,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-luggages"
               className="font-bold"
-              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
+              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
             >
               # of Checked Bags
             </InputLabel>
@@ -224,7 +292,7 @@ export default function TripDetailsForm({
               labelId="num-of-luggages"
               value={numOfLuggagesChecked}
               onChange={(e) => setNumOfLuggagesChecked(e.target.value)}
-              sx={{ fontSize: "1.4em" }}
+              sx={{ fontSize: '1.4em' }}
             >
               {(vehicleType === VEHICLE_TYPES[0]
                 ? [0, 1, 2]
@@ -241,7 +309,7 @@ export default function TripDetailsForm({
             <InputLabel
               id="num-of-luggages"
               className="font-bold"
-              sx={{ fontWeight: "bold", fontSize: "1.4em" }}
+              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
             >
               # of Carry-On Bags
             </InputLabel>
@@ -249,7 +317,7 @@ export default function TripDetailsForm({
               labelId="num-of-luggages"
               value={numOfLuggagesCarryOn}
               onChange={(e) => setNumOfLuggagesCarryOn(e.target.value)}
-              sx={{ fontSize: "1.4em" }}
+              sx={{ fontSize: '1.4em' }}
             >
               {(vehicleType === VEHICLE_TYPES[0]
                 ? [0, 1, 2, 3]
@@ -275,10 +343,10 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setPickupAddress({ ...pickupAddress, address: e.target.value })
             }
-            color={pickupAddressFlag ? "error" : "primary"}
+            color={pickupAddressFlag ? 'error' : 'primary'}
             focused={pickupAddressFlag ? true : false}
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
           <TextField
             className="w-full"
@@ -291,19 +359,19 @@ export default function TripDetailsForm({
                 city: capitalizeString(e.target.value),
               })
             }
-            color={pickupCityFlag ? "error" : "primary"}
+            color={pickupCityFlag ? 'error' : 'primary'}
             focused={pickupCityFlag ? true : false}
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
           <Select
-            value={"Texas"}
-            sx={{ fontSize: "1.4em" }}
+            value={'Texas'}
+            sx={{ fontSize: '1.4em' }}
             className="w-full mt-4"
             variant="standard"
           >
             {STATES.map((state) => (
-              <MenuItem value={state} key={state} sx={{ fontSize: "1.4em" }}>
+              <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
                 {state}
               </MenuItem>
             ))}
@@ -316,8 +384,8 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setPickupAddress({ ...pickupAddress, zip: e.target.value })
             }
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
         </Box>
         <Divider orientation="vertical" flexItem />
@@ -331,10 +399,10 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setDropoffAddress({ ...dropoffAddress, address: e.target.value })
             }
-            color={dropoffAddressFlag ? "error" : "primary"}
+            color={dropoffAddressFlag ? 'error' : 'primary'}
             focused={dropoffAddressFlag ? true : false}
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
           <TextField
             className="w-full"
@@ -347,19 +415,19 @@ export default function TripDetailsForm({
                 city: capitalizeString(e.target.value),
               })
             }
-            color={dropoffCityFlag ? "error" : "primary"}
+            color={dropoffCityFlag ? 'error' : 'primary'}
             focused={dropoffCityFlag ? true : false}
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
           <Select
-            value={"Texas"}
+            value={'Texas'}
             className="w-full mt-4"
             variant="standard"
-            sx={{ fontSize: "1.4em" }}
+            sx={{ fontSize: '1.4em' }}
           >
             {STATES.map((state) => (
-              <MenuItem value={state} key={state} sx={{ fontSize: "1.4em" }}>
+              <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
                 {state}
               </MenuItem>
             ))}
@@ -372,11 +440,73 @@ export default function TripDetailsForm({
             onChange={(e) =>
               setDropoffAddress({ ...dropoffAddress, zip: e.target.value })
             }
-            inputProps={{ style: { fontSize: "1.4em" } }}
-            InputLabelProps={{ style: { fontSize: "1.4em" } }}
+            inputProps={{ style: { fontSize: '1.4em' } }}
+            InputLabelProps={{ style: { fontSize: '1.4em' } }}
           />
         </Box>
       </Box>
+
+      {/* Pricing Info */}
+      <Modal
+        open={showPricingInfoTable}
+        onClose={() => {
+          setShowPricingInfoTable(false);
+        }}
+        className="fixed m-auto left-0 right-0 top-0 bottom-0 w-fit h-fit"
+      >
+        <Box className="bg-white p-4 rounded-lg max-w-fit overflow-x-auto">
+          <Box className="flex justify-center font-bold">Pricing Info</Box>
+          <Box>
+            <TableContainer
+              component={Paper}
+              sx={{ maxHeight: '80vh', maxWidth: '100%', overflowX: 'auto' }}
+            >
+              <Table size="large" stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    {Object.keys(PRICING_INFO_TABLE_HEADERS).map(
+                      (headerKey, i) => (
+                        <TableCell
+                          key={i}
+                          sx={{ fontWeight: 'bold' }}
+                          onClick={() => {
+                            sortColumn(headerKey);
+                          }}
+                          className="cursor-pointer"
+                        >
+                          {headerSortBys[headerKey] !== '' && (
+                            <IconButton
+                              className={
+                                headerSortBys[headerKey] === 'asc'
+                                  ? 'rotate-180'
+                                  : 'rotate-0'
+                              }
+                            >
+                              <FilterListIcon />
+                            </IconButton>
+                          )}
+                          {PRICING_INFO_TABLE_HEADERS[headerKey]}
+                        </TableCell>
+                      ),
+                    )}
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {pricingInfoData.map((row, i) => (
+                    <TableRow key={i} hover>
+                      <TableCell>{row.pickUp}</TableCell>
+                      <TableCell>{row.dropOff}</TableCell>
+                      <TableCell>$ {row.sedanPrice}</TableCell>
+                      <TableCell>$ {row.suvPrice}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 }

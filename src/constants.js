@@ -78,3 +78,110 @@ export const COLORS = {
   black: '#000',
   white: '#fff',
 };
+
+export const PRICING_INFO_TABLE_HEADERS = {
+  pickUp: 'Pick-up Location',
+  dropOff: 'Drop-off Location',
+  sedanPrice: 'Sedan (Tesla)',
+  suvPrice: 'SUV',
+};
+
+export const PRICING_INFO_TABLE_DATA = [
+  {
+    pickUp: 'Rockwall/Fate',
+    dropOff: 'DFW Airport',
+    sedanPrice: 75,
+    suvPrice: 85,
+  },
+  {
+    pickUp: 'Royse City/Caddo Mills',
+    dropOff: 'DFW Airport',
+    sedanPrice: 85,
+    suvPrice: 95,
+  },
+  {
+    pickUp: 'Rockwall/Fate',
+    dropOff: 'Dallas Love Field',
+    sedanPrice: 75,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'Royse City/Caddo Mills',
+    dropOff: 'Dallas Love Field',
+    sedanPrice: 85,
+    suvPrice: 85,
+  },
+  {
+    pickUp: 'Rockwall/Fate',
+    dropOff: 'Cowboys Stadium',
+    sedanPrice: 75,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'Royse City/Caddo Mills',
+    dropOff: 'Cowboys Stadium',
+    sedanPrice: 85,
+    suvPrice: 85,
+  },
+  {
+    pickUp: 'Cowboys Stadium',
+    dropOff: 'Rockwall/Fate',
+    sedanPrice: 100,
+    suvPrice: 100,
+  },
+  {
+    pickUp: 'Cowboys Stadium',
+    dropOff: 'Royse City/Caddo Mills',
+    sedanPrice: 110,
+    suvPrice: 110,
+  },
+  {
+    pickUp: 'Rockwall/Fate',
+    dropOff: 'Dos Equis Pavilion',
+    sedanPrice: 65,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'Royse City/Caddo Mills',
+    dropOff: 'Dos Equis Pavilion',
+    sedanPrice: 75,
+    suvPrice: 85,
+  },
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Rockwall/Fate',
+    sedanPrice: 65,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Royse City/Caddo Mills',
+    sedanPrice: 75,
+    suvPrice: 85,
+  },
+
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Rockwall/Fate',
+    sedanPrice: 65,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Royse City/Caddo Mills',
+    sedanPrice: 75,
+    suvPrice: 85,
+  },
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Rockwall/Fate',
+    sedanPrice: 65,
+    suvPrice: 75,
+  },
+  {
+    pickUp: 'American Airlines Center',
+    dropOff: 'Royse City/Caddo Mills',
+    sedanPrice: 75,
+    suvPrice: 85,
+  },
+];
