@@ -22,6 +22,7 @@ import React, { useEffect, useState } from 'react';
 import {
   PRICING_INFO_TABLE_DATA,
   PRICING_INFO_TABLE_HEADERS,
+  PUBLIC_ADDRESSES,
   STATES,
   TRIP_TYPES,
   VEHICLE_TYPES,
@@ -33,6 +34,7 @@ import moment from 'moment';
 import { capitalizeString, sortPricingTableByColumn } from '../util';
 import VehicleForm from './VehicleForm';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { Input } from 'postcss';
 
 export default function TripDetailsForm({
   tripType,
@@ -101,11 +103,50 @@ export default function TripDetailsForm({
     setPricingInfoData([...sorted]);
   };
 
+  // reset # of passengers and bags when selecting vehicle type
   useEffect(() => {
     setNumOfPassengers(1);
     setNumOfLuggagesChecked(0);
     setNumOfLuggagesCarryOn(0);
   }, [vehicleType]);
+
+  // pre fill pickup or dropoff address based on tripType
+  useEffect(() => {
+    console.log(tripType);
+
+    switch (tripType) {
+      case 'oneWay':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ address: '', city: '', state: 'TX', zip: '' });
+        break;
+      case 'toDfw':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ ...PUBLIC_ADDRESSES.dfw });
+        break;
+      case 'toLoveField':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ ...PUBLIC_ADDRESSES.loveField });
+        break;
+      case 'toAac':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ ...PUBLIC_ADDRESSES.aac });
+        break;
+      case 'toDs':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ ...PUBLIC_ADDRESSES.ds });
+        break;
+      case 'fromDs':
+        setPickupAddress({ ...PUBLIC_ADDRESSES.ds });
+        setDropoffAddress({ address: '', city: '', state: 'TX', zip: '' });
+        break;
+      case 'toDep':
+        setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
+        setDropoffAddress({ ...PUBLIC_ADDRESSES.dep });
+        break;
+      default:
+        break;
+    }
+  }, [tripType]);
 
   useEffect(() => {
     // create a copy of the pricing table data
@@ -347,6 +388,7 @@ export default function TripDetailsForm({
             focused={pickupAddressFlag ? true : false}
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={tripType === 'fromDs' ? true : false}
           />
           <TextField
             className="w-full"
@@ -363,12 +405,14 @@ export default function TripDetailsForm({
             focused={pickupCityFlag ? true : false}
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={tripType === 'fromDs' ? true : false}
           />
           <Select
             value={'Texas'}
             sx={{ fontSize: '1.4em' }}
             className="w-full mt-4"
             variant="standard"
+            disabled={tripType === 'fromDs' ? true : false}
           >
             {STATES.map((state) => (
               <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
@@ -386,9 +430,12 @@ export default function TripDetailsForm({
             }
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={tripType === 'fromDs' ? true : false}
           />
         </Box>
+
         <Divider orientation="vertical" flexItem />
+
         <Box className="ml-2 w-full">
           <Box className="font-bold text-4xl">Dropoff Address</Box>
           <TextField
@@ -403,6 +450,9 @@ export default function TripDetailsForm({
             focused={dropoffAddressFlag ? true : false}
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={
+              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+            }
           />
           <TextField
             className="w-full"
@@ -419,12 +469,18 @@ export default function TripDetailsForm({
             focused={dropoffCityFlag ? true : false}
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={
+              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+            }
           />
           <Select
             value={'Texas'}
             className="w-full mt-4"
             variant="standard"
             sx={{ fontSize: '1.4em' }}
+            disabled={
+              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+            }
           >
             {STATES.map((state) => (
               <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
@@ -442,6 +498,9 @@ export default function TripDetailsForm({
             }
             inputProps={{ style: { fontSize: '1.4em' } }}
             InputLabelProps={{ style: { fontSize: '1.4em' } }}
+            disabled={
+              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+            }
           />
         </Box>
       </Box>

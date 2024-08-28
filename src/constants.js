@@ -1,9 +1,45 @@
 export const APP_TITLE = "Jerrad's Transportation Reservation App";
 export const TRIP_TYPES = {
   oneWay: 'One way trip (A to B)',
-  toAirport: 'To Airport',
-  fromAirport: 'From Airport',
-  multiTrips: 'Multi-trips',
+  toDfw: 'To DFW Airport',
+  toLoveField: 'To Dallas Love Field Airport',
+  toAac: 'To American Airlines Center',
+  toDs: 'To Cowboys Stadium',
+  fromDs: 'From Cowboys Stadium',
+  toDep: 'To Dos Equis Pavilion',
+};
+
+export const PUBLIC_ADDRESSES = {
+  dfw: {
+    address: '2400 Aviation Dr',
+    city: 'Dallas',
+    state: 'TX',
+    zip: '75261',
+  },
+  loveField: {
+    address: '8008 Herb Kelleher Way',
+    city: 'Dallas',
+    state: 'TX',
+    zip: '75235',
+  },
+  aac: {
+    address: '2500 Victory Ave',
+    city: 'Dallas',
+    state: 'TX',
+    zip: '75219',
+  },
+  ds: {
+    address: '1 AT&T Way',
+    city: 'Arlington',
+    state: 'TX',
+    zip: '76011',
+  },
+  dep: {
+    address: '1818 1st Ave',
+    city: 'Dallas',
+    state: 'TX',
+    zip: '75210',
+  },
 };
 
 export const NUM_OF_PASSENGERS = [1, 2, 3, 4, 5];
@@ -148,39 +184,14 @@ export const PRICING_INFO_TABLE_DATA = [
     suvPrice: 85,
   },
   {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Rockwall/Fate',
+    pickUp: 'Rockwall/Fate',
+    dropOff: 'American Airlines Center',
     sedanPrice: 65,
     suvPrice: 75,
   },
   {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Royse City/Caddo Mills',
-    sedanPrice: 75,
-    suvPrice: 85,
-  },
-
-  {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Rockwall/Fate',
-    sedanPrice: 65,
-    suvPrice: 75,
-  },
-  {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Royse City/Caddo Mills',
-    sedanPrice: 75,
-    suvPrice: 85,
-  },
-  {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Rockwall/Fate',
-    sedanPrice: 65,
-    suvPrice: 75,
-  },
-  {
-    pickUp: 'American Airlines Center',
-    dropOff: 'Royse City/Caddo Mills',
+    pickUp: 'Royse City/Caddo Mills',
+    dropOff: 'American Airlines Center',
     sedanPrice: 75,
     suvPrice: 85,
   },
