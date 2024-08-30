@@ -34,7 +34,6 @@ import moment from 'moment';
 import { capitalizeString, sortPricingTableByColumn } from '../util';
 import VehicleForm from './VehicleForm';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { Input } from 'postcss';
 
 export default function TripDetailsForm({
   tripType,
@@ -292,218 +291,238 @@ export default function TripDetailsForm({
         />
       </Box>
 
-      <Box className="flex w-full mt-4 justify-stretch">
-        <Box className="mr-2 w-full">
-          <FormControl variant="standard" className="w-full">
-            <InputLabel
-              id="num-of-passengers"
-              className="font-bold"
-              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
-            >
-              # of Passengers
-            </InputLabel>
+      <Grid container>
+        <Grid item xs={12} lg={6}>
+          <Box className="mr-2 w-full">
+            <FormControl variant="standard" className="w-full">
+              <InputLabel
+                id="num-of-passengers"
+                className="font-bold"
+                sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
+              >
+                # of Passengers
+              </InputLabel>
+              <Select
+                labelId="num-of-passengers"
+                value={numOfPassengers}
+                onChange={(e) => setNumOfPassengers(e.target.value)}
+                sx={{ fontSize: '1.4em' }}
+              >
+                {(vehicleType === VEHICLE_TYPES[0]
+                  ? [1, 2, 3, 4]
+                  : [1, 2, 3, 4, 5, 6]
+                ).map((num) => (
+                  <MenuItem value={num} key={num} className="text-3xl">
+                    {num}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <Box className="ml-2 w-full flex">
+            <FormControl variant="standard" className="w-full">
+              <InputLabel
+                id="num-of-luggages"
+                className="font-bold"
+                sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
+              >
+                # of Checked Bags
+              </InputLabel>
+              <Select
+                labelId="num-of-luggages"
+                value={numOfLuggagesChecked}
+                onChange={(e) => setNumOfLuggagesChecked(e.target.value)}
+                sx={{ fontSize: '1.4em' }}
+              >
+                {(vehicleType === VEHICLE_TYPES[0]
+                  ? [0, 1, 2]
+                  : [0, 1, 2, 3, 4, 5]
+                ).map((num) => (
+                  <MenuItem value={num} key={num} className="text-3xl">
+                    {num}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl variant="standard" className="w-full">
+              <InputLabel
+                id="num-of-luggages"
+                className="font-bold"
+                sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
+              >
+                # of Carry-On Bags
+              </InputLabel>
+              <Select
+                labelId="num-of-luggages"
+                value={numOfLuggagesCarryOn}
+                onChange={(e) => setNumOfLuggagesCarryOn(e.target.value)}
+                sx={{ fontSize: '1.4em' }}
+              >
+                {(vehicleType === VEHICLE_TYPES[0]
+                  ? [0, 1, 2, 3]
+                  : [0, 1, 2, 3, 4, 5, 6]
+                ).map((num) => (
+                  <MenuItem value={num} key={num} className="text-3xl">
+                    {num}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container>
+        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+          <Box className="w-full">
+            <Box className="font-bold text-4xl">Pickup Address</Box>
+            <TextField
+              className="w-full"
+              label="Address"
+              variant="standard"
+              value={pickupAddress.address}
+              onChange={(e) =>
+                setPickupAddress({ ...pickupAddress, address: e.target.value })
+              }
+              color={pickupAddressFlag ? 'error' : 'primary'}
+              focused={pickupAddressFlag ? true : false}
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={tripType === 'fromDs' ? true : false}
+            />
+            <TextField
+              className="w-full"
+              label="City"
+              variant="standard"
+              value={pickupAddress.city}
+              onChange={(e) =>
+                setPickupAddress({
+                  ...pickupAddress,
+                  city: capitalizeString(e.target.value),
+                })
+              }
+              color={pickupCityFlag ? 'error' : 'primary'}
+              focused={pickupCityFlag ? true : false}
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={tripType === 'fromDs' ? true : false}
+            />
             <Select
-              labelId="num-of-passengers"
-              value={numOfPassengers}
-              onChange={(e) => setNumOfPassengers(e.target.value)}
+              value={'Texas'}
               sx={{ fontSize: '1.4em' }}
+              className="w-full mt-4"
+              variant="standard"
+              disabled={tripType === 'fromDs' ? true : false}
             >
-              {(vehicleType === VEHICLE_TYPES[0]
-                ? [1, 2, 3, 4]
-                : [1, 2, 3, 4, 5, 6]
-              ).map((num) => (
-                <MenuItem value={num} key={num} className="text-3xl">
-                  {num}
+              {STATES.map((state) => (
+                <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
+                  {state}
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
-        </Box>
-
-        <Box className="ml-2 w-full flex">
-          <FormControl variant="standard" className="w-full">
-            <InputLabel
-              id="num-of-luggages"
-              className="font-bold"
-              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
-            >
-              # of Checked Bags
-            </InputLabel>
+            <TextField
+              className="w-full"
+              label="Zip (optional)"
+              variant="standard"
+              value={pickupAddress.zip}
+              onChange={(e) =>
+                setPickupAddress({ ...pickupAddress, zip: e.target.value })
+              }
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={tripType === 'fromDs' ? true : false}
+            />
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          lg={1}
+          className="flex justify-center"
+          sx={{ marginTop: '16px' }}
+        >
+          <Divider
+            orientation="vertical"
+            // sx={{ borderColor: 'blue', width: '10px' }}
+            flexItem
+          />
+        </Grid>
+        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+          <Box className="w-full">
+            <Box className="font-bold text-4xl">Dropoff Address</Box>
+            <TextField
+              className="w-full"
+              label="Address"
+              variant="standard"
+              value={dropoffAddress.address}
+              onChange={(e) =>
+                setDropoffAddress({
+                  ...dropoffAddress,
+                  address: e.target.value,
+                })
+              }
+              color={dropoffAddressFlag ? 'error' : 'primary'}
+              focused={dropoffAddressFlag ? true : false}
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={
+                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+              }
+            />
+            <TextField
+              className="w-full"
+              label="City"
+              variant="standard"
+              value={dropoffAddress.city}
+              onChange={(e) =>
+                setDropoffAddress({
+                  ...dropoffAddress,
+                  city: capitalizeString(e.target.value),
+                })
+              }
+              color={dropoffCityFlag ? 'error' : 'primary'}
+              focused={dropoffCityFlag ? true : false}
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={
+                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+              }
+            />
             <Select
-              labelId="num-of-luggages"
-              value={numOfLuggagesChecked}
-              onChange={(e) => setNumOfLuggagesChecked(e.target.value)}
+              value={'Texas'}
+              className="w-full mt-4"
+              variant="standard"
               sx={{ fontSize: '1.4em' }}
+              disabled={
+                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+              }
             >
-              {(vehicleType === VEHICLE_TYPES[0]
-                ? [0, 1, 2]
-                : [0, 1, 2, 3, 4, 5]
-              ).map((num) => (
-                <MenuItem value={num} key={num} className="text-3xl">
-                  {num}
+              {STATES.map((state) => (
+                <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
+                  {state}
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
-
-          <FormControl variant="standard" className="w-full">
-            <InputLabel
-              id="num-of-luggages"
-              className="font-bold"
-              sx={{ fontWeight: 'bold', fontSize: '1.4em' }}
-            >
-              # of Carry-On Bags
-            </InputLabel>
-            <Select
-              labelId="num-of-luggages"
-              value={numOfLuggagesCarryOn}
-              onChange={(e) => setNumOfLuggagesCarryOn(e.target.value)}
-              sx={{ fontSize: '1.4em' }}
-            >
-              {(vehicleType === VEHICLE_TYPES[0]
-                ? [0, 1, 2, 3]
-                : [0, 1, 2, 3, 4, 5, 6]
-              ).map((num) => (
-                <MenuItem value={num} key={num} className="text-3xl">
-                  {num}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-      </Box>
-
-      <Box className="mt-12 flex w-full justify-evenly">
-        <Box className="mr-2 w-full">
-          <Box className="font-bold text-4xl">Pickup Address</Box>
-          <TextField
-            className="w-full"
-            label="Address"
-            variant="standard"
-            value={pickupAddress.address}
-            onChange={(e) =>
-              setPickupAddress({ ...pickupAddress, address: e.target.value })
-            }
-            color={pickupAddressFlag ? 'error' : 'primary'}
-            focused={pickupAddressFlag ? true : false}
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={tripType === 'fromDs' ? true : false}
-          />
-          <TextField
-            className="w-full"
-            label="City"
-            variant="standard"
-            value={pickupAddress.city}
-            onChange={(e) =>
-              setPickupAddress({
-                ...pickupAddress,
-                city: capitalizeString(e.target.value),
-              })
-            }
-            color={pickupCityFlag ? 'error' : 'primary'}
-            focused={pickupCityFlag ? true : false}
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={tripType === 'fromDs' ? true : false}
-          />
-          <Select
-            value={'Texas'}
-            sx={{ fontSize: '1.4em' }}
-            className="w-full mt-4"
-            variant="standard"
-            disabled={tripType === 'fromDs' ? true : false}
-          >
-            {STATES.map((state) => (
-              <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
-                {state}
-              </MenuItem>
-            ))}
-          </Select>
-          <TextField
-            className="w-full"
-            label="Zip (optional)"
-            variant="standard"
-            value={pickupAddress.zip}
-            onChange={(e) =>
-              setPickupAddress({ ...pickupAddress, zip: e.target.value })
-            }
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={tripType === 'fromDs' ? true : false}
-          />
-        </Box>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Box className="ml-2 w-full">
-          <Box className="font-bold text-4xl">Dropoff Address</Box>
-          <TextField
-            className="w-full"
-            label="Address"
-            variant="standard"
-            value={dropoffAddress.address}
-            onChange={(e) =>
-              setDropoffAddress({ ...dropoffAddress, address: e.target.value })
-            }
-            color={dropoffAddressFlag ? 'error' : 'primary'}
-            focused={dropoffAddressFlag ? true : false}
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={
-              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
-            }
-          />
-          <TextField
-            className="w-full"
-            label="City"
-            variant="standard"
-            value={dropoffAddress.city}
-            onChange={(e) =>
-              setDropoffAddress({
-                ...dropoffAddress,
-                city: capitalizeString(e.target.value),
-              })
-            }
-            color={dropoffCityFlag ? 'error' : 'primary'}
-            focused={dropoffCityFlag ? true : false}
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={
-              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
-            }
-          />
-          <Select
-            value={'Texas'}
-            className="w-full mt-4"
-            variant="standard"
-            sx={{ fontSize: '1.4em' }}
-            disabled={
-              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
-            }
-          >
-            {STATES.map((state) => (
-              <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
-                {state}
-              </MenuItem>
-            ))}
-          </Select>
-          <TextField
-            className="w-full"
-            label="Zip (optional)"
-            variant="standard"
-            value={dropoffAddress.zip}
-            onChange={(e) =>
-              setDropoffAddress({ ...dropoffAddress, zip: e.target.value })
-            }
-            inputProps={{ style: { fontSize: '1.4em' } }}
-            InputLabelProps={{ style: { fontSize: '1.4em' } }}
-            disabled={
-              tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
-            }
-          />
-        </Box>
-      </Box>
+            <TextField
+              className="w-full"
+              label="Zip (optional)"
+              variant="standard"
+              value={dropoffAddress.zip}
+              onChange={(e) =>
+                setDropoffAddress({ ...dropoffAddress, zip: e.target.value })
+              }
+              inputProps={{ style: { fontSize: '1.4em' } }}
+              InputLabelProps={{ style: { fontSize: '1.4em' } }}
+              disabled={
+                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+              }
+            />
+          </Box>
+        </Grid>
+      </Grid>
 
       {/* Pricing Info */}
       <Modal
@@ -511,9 +530,9 @@ export default function TripDetailsForm({
         onClose={() => {
           setShowPricingInfoTable(false);
         }}
-        className="fixed m-auto left-0 right-0 top-0 bottom-0 w-fit h-fit"
+        className="fixed m-auto top-0 bottom-0 left-0 right-0 h-fit w-10/12"
       >
-        <Box className="bg-white p-4 rounded-lg max-w-fit overflow-x-auto">
+        <Box className="bg-white p-4 rounded-lg overflow-x-auto">
           <Box className="flex justify-center font-bold">Pricing Info</Box>
           <Box>
             <TableContainer

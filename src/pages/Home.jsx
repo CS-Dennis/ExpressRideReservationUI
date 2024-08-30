@@ -186,133 +186,133 @@ export default function Home() {
 
   return (
     <>
-      <Box className="mx-10">
-        <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
-            <Title title={APP_TITLE} />
-            <ReservationProgressView step={step} />
+      {/* <Box className="mx-2"> */}
+      <Grid container>
+        <Grid item md={12} lg={1} />
+        <Grid item md={12} lg={10} className="w-full">
+          <Title title={APP_TITLE} />
+          <ReservationProgressView step={step} />
 
-            <Box className="mt-4">
-              {step === 0 && (
-                <TripDetailsForm
-                  tripType={tripType}
-                  setTripType={setTripType}
-                  firstName={firstName}
-                  setFirstName={setFirstName}
-                  lastName={lastName}
-                  setLastName={setLastName}
-                  phoneNumber={phoneNumber}
-                  setPhoneNumber={setPhoneNumber}
-                  email={email}
-                  setEmail={setEmail}
-                  pickupDateTime={pickupDateTime}
-                  setPickupDateTime={setPickupDateTime}
-                  vehicleType={vehicleType}
-                  setVehicleType={setVehicleType}
-                  numOfPassengers={numOfPassengers}
-                  setNumOfPassengers={setNumOfPassengers}
-                  numOfLuggagesChecked={numOfLuggagesChecked}
-                  setNumOfLuggagesChecked={setNumOfLuggagesChecked}
-                  numOfLuggagesCarryOn={numOfLuggagesCarryOn}
-                  setNumOfLuggagesCarryOn={setNumOfLuggagesCarryOn}
-                  pickupAddress={pickupAddress}
-                  setPickupAddress={setPickupAddress}
-                  dropoffAddress={dropoffAddress}
-                  setDropoffAddress={setDropoffAddress}
-                  firstNameFlag={firstNameFlag}
-                  lastNameFlag={lastNameFlag}
-                  phoneNumberFlag={phoneNumberFlag}
-                  emailFlag={emailFlag}
-                  pickupDateTimeFlag={pickupDateTimeFlag}
-                  pickupAddressFlag={pickupAddressFlag}
-                  pickupCityFlag={pickupCityFlag}
-                  dropoffAddressFlag={dropoffAddressFlag}
-                  dropoffCityFlag={dropoffCityFlag}
-                />
-              )}
+          <Box className="mt-4 px-4">
+            {step === 0 && (
+              <TripDetailsForm
+                tripType={tripType}
+                setTripType={setTripType}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                lastName={lastName}
+                setLastName={setLastName}
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+                email={email}
+                setEmail={setEmail}
+                pickupDateTime={pickupDateTime}
+                setPickupDateTime={setPickupDateTime}
+                vehicleType={vehicleType}
+                setVehicleType={setVehicleType}
+                numOfPassengers={numOfPassengers}
+                setNumOfPassengers={setNumOfPassengers}
+                numOfLuggagesChecked={numOfLuggagesChecked}
+                setNumOfLuggagesChecked={setNumOfLuggagesChecked}
+                numOfLuggagesCarryOn={numOfLuggagesCarryOn}
+                setNumOfLuggagesCarryOn={setNumOfLuggagesCarryOn}
+                pickupAddress={pickupAddress}
+                setPickupAddress={setPickupAddress}
+                dropoffAddress={dropoffAddress}
+                setDropoffAddress={setDropoffAddress}
+                firstNameFlag={firstNameFlag}
+                lastNameFlag={lastNameFlag}
+                phoneNumberFlag={phoneNumberFlag}
+                emailFlag={emailFlag}
+                pickupDateTimeFlag={pickupDateTimeFlag}
+                pickupAddressFlag={pickupAddressFlag}
+                pickupCityFlag={pickupCityFlag}
+                dropoffAddressFlag={dropoffAddressFlag}
+                dropoffCityFlag={dropoffCityFlag}
+              />
+            )}
 
-              {step === 1 && (
-                <>
+            {step === 1 && (
+              <>
+                <Box>
+                  <TripConfirmation
+                    tripType={tripType}
+                    firstName={firstName}
+                    lastName={lastName}
+                    phoneNumber={phoneNumber}
+                    email={email}
+                    pickupDateTime={pickupDateTime}
+                    numOfPassengers={numOfPassengers}
+                    numOfLuggagesChecked={numOfLuggagesChecked}
+                    numOfLuggagesCarryOn={numOfLuggagesCarryOn}
+                    pickupAddress={pickupAddress}
+                    dropoffAddress={dropoffAddress}
+                    vehicleType={vehicleType}
+                    notes={notes}
+                    setNotes={setNotes}
+                    disableEamil={disableEamil}
+                    setDisableEamil={setDisableEamil}
+                  />
+                </Box>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                <Box className="flex flex-col justify-center place-items-center w-full text-2xl mt-10">
                   <Box>
-                    <TripConfirmation
-                      tripType={tripType}
-                      firstName={firstName}
-                      lastName={lastName}
-                      phoneNumber={phoneNumber}
-                      email={email}
-                      pickupDateTime={pickupDateTime}
-                      numOfPassengers={numOfPassengers}
-                      numOfLuggagesChecked={numOfLuggagesChecked}
-                      numOfLuggagesCarryOn={numOfLuggagesCarryOn}
-                      pickupAddress={pickupAddress}
-                      dropoffAddress={dropoffAddress}
-                      vehicleType={vehicleType}
-                      notes={notes}
-                      setNotes={setNotes}
-                      disableEamil={disableEamil}
-                      setDisableEamil={setDisableEamil}
-                    />
+                    Congrats! The reservation request has been sent
+                    successfully!
                   </Box>
-                </>
-              )}
-
-              {step === 2 && (
-                <>
-                  <Box className="flex flex-col justify-center place-items-center w-full text-2xl mt-10">
-                    <Box>
-                      Congrats! The reservation request has been sent
-                      successfully!
-                    </Box>
-                    <Box>You can check your request in my email inbox.</Box>
-                    <Box>
-                      The driver will send you the trip confirmation to your
-                      email inbox asap.
-                    </Box>
+                  <Box>You can check your request in my email inbox.</Box>
+                  <Box>
+                    The driver will send you the trip confirmation to your email
+                    inbox asap.
                   </Box>
-                </>
-              )}
-            </Box>
+                </Box>
+              </>
+            )}
+          </Box>
 
-            <Box className="flex justify-evenly my-10 w-full">
-              <Box className="flex w-full justify-center">
-                {step === 1 && (
-                  <Button onClick={() => backStep()} variant="contained">
-                    Back
-                  </Button>
-                )}
-              </Box>
-              <Box className="flex justify-center w-full">
-                {step < 1 && (
-                  <Button onClick={() => nextStep()} variant="contained">
-                    Next
-                  </Button>
-                )}
-                {step === 1 && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => rideRequestConfirmation()}
-                  >
-                    Confirm
-                  </Button>
-                )}
-              </Box>
-            </Box>
+          <Box className="flex justify-evenly my-10 w-full">
             <Box className="flex w-full justify-center">
-              {step === 2 && (
-                <Button
-                  onClick={() => window.location.reload()}
-                  variant="contained"
-                >
-                  Reserve Another Trip
+              {step === 1 && (
+                <Button onClick={() => backStep()} variant="contained">
+                  Back
                 </Button>
               )}
             </Box>
-          </Grid>
-          <Grid item md={12} lg={1} />
+            <Box className="flex justify-center w-full">
+              {step < 1 && (
+                <Button onClick={() => nextStep()} variant="contained">
+                  Next
+                </Button>
+              )}
+              {step === 1 && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => rideRequestConfirmation()}
+                >
+                  Confirm
+                </Button>
+              )}
+            </Box>
+          </Box>
+          <Box className="flex w-full justify-center">
+            {step === 2 && (
+              <Button
+                onClick={() => window.location.reload()}
+                variant="contained"
+              >
+                Reserve Another Trip
+              </Button>
+            )}
+          </Box>
         </Grid>
-      </Box>
+        <Grid item md={12} lg={1} />
+      </Grid>
+      {/* </Box> */}
 
       <Backdrop open={loading}>
         <CircularProgress color="secondary" />

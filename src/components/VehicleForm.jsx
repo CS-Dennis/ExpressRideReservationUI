@@ -1,6 +1,6 @@
-import { Box, FormControlLabel, Grid, Radio, RadioGroup } from "@mui/material";
-import React from "react";
-import { VEHICLE_TYPES } from "../constants";
+import { Box, FormControlLabel, Grid, Radio, RadioGroup } from '@mui/material';
+import React from 'react';
+import { VEHICLE_TYPES } from '../constants';
 
 export default function VehicleForm({ vehicleType, setVehicleType }) {
   return (
@@ -12,7 +12,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
           onChange={(e) => setVehicleType(e.target.value)}
         >
           <Grid container>
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} md={6}>
               <Box className="flex mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[0]}
@@ -26,7 +26,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
               </Box>
             </Grid>
 
-            <Grid item xs={12} lg={6}>
+            <Grid item xs={12} md={6}>
               <Box className="flex mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[1]}

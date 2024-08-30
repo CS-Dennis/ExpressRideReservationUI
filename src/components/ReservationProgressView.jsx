@@ -1,16 +1,16 @@
-import { Box, Step, StepLabel, Stepper } from "@mui/material";
-import React from "react";
+import { Box, Step, StepLabel, Stepper } from '@mui/material';
+import React from 'react';
 
 export default function ReservationProgressView({ step }) {
-  const steps = ["Trip Details", "Confirm"];
+  const steps = ['Trip Details', 'Confirm'];
 
   return (
     <>
-      <Box className="flex flex-col pt-4">
-        <Box className="text-4xl font-bold flex justify-center">
+      <Box className="flex flex-col pt-4 px-4">
+        <Box className="text-2xl font-bold flex justify-center text-center">
           Express Ride Reservation Details
         </Box>
-        <Box className="font-bold text-xl">
+        <Box className="font-bold text-xl text-center">
           Let us know your ride info and we will take care of your trips.
         </Box>
 
