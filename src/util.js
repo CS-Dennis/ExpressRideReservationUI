@@ -4,25 +4,57 @@ export const capitalizeString = (rawString) => {
   if (rawString === '') {
     return rawString;
   }
-  const words = rawString.split(' ');
-  if (words.length === 1) {
-    // one word
-    var chars = words[0].split('');
 
-    if (chars.length === 1) {
-      // one char
-      return chars[0].toUpperCase();
-    } else if (chars.length > 1) {
-      // more chars
-      var upperLetter = chars[0].toUpperCase();
-      chars = chars.splice(1, chars.length);
-      chars = chars.map((c) => c.toLowerCase());
-      return upperLetter + chars.join('');
+  const words = rawString.split(' ');
+  var capitalizedWords = '';
+  if (words.length > 0) {
+    // w/o trailing space in rawString
+    if (words[words.length - 1] !== '') {
+      words.forEach((word, i) => {
+        if (word !== '') {
+          var chars = word.split('');
+          if (chars.length === 1) {
+            // one char
+            if (words.length > 1 && i !== words.length - 1) {
+              capitalizedWords += chars[0].toUpperCase() + ' ';
+            } else {
+              capitalizedWords += chars[0].toUpperCase();
+            }
+          } else if (chars.length > 1) {
+            // more chars
+            var upperLetter = chars[0].toUpperCase();
+            chars = chars.splice(1, chars.length);
+            chars = chars.map((c) => c.toLowerCase());
+            if (words.length > 1 && i !== words.length - 1) {
+              capitalizedWords += upperLetter + chars.join('') + ' ';
+            } else {
+              capitalizedWords += upperLetter + chars.join('');
+            }
+          }
+        } else {
+          capitalizedWords += ' ';
+        }
+      });
+    } else {
+      // w/ trailing space in rawString
+      words.forEach((word, i) => {
+        if (word !== '') {
+          var chars = word.split('');
+          if (chars.length === 1) {
+            // one char
+            capitalizedWords += chars[0].toUpperCase() + ' ';
+          } else if (chars.length > 1) {
+            // more chars
+            var upperLetter = chars[0].toUpperCase();
+            chars = chars.splice(1, chars.length);
+            chars = chars.map((c) => c.toLowerCase());
+            capitalizedWords += upperLetter + chars.join('') + ' ';
+          }
+        }
+      });
     }
-  } else if (words.length > 1) {
-    // mutiple words
-    return '';
   }
+  return capitalizedWords;
 };
 
 export const getRideRequestType = (rideRequest) => {
