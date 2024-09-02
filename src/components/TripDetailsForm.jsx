@@ -130,11 +130,11 @@ export default function TripDetailsForm({
         setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
         setDropoffAddress({ ...PUBLIC_ADDRESSES.aac });
         break;
-      case 'toDs':
+      case 'toCs':
         setPickupAddress({ address: '', city: '', state: 'TX', zip: '' });
         setDropoffAddress({ ...PUBLIC_ADDRESSES.ds });
         break;
-      case 'fromDs':
+      case 'fromCs':
         setPickupAddress({ ...PUBLIC_ADDRESSES.ds });
         setDropoffAddress({ address: '', city: '', state: 'TX', zip: '' });
         break;
@@ -391,7 +391,7 @@ export default function TripDetailsForm({
               focused={pickupAddressFlag ? true : false}
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
-              disabled={tripType === 'fromDs' ? true : false}
+              disabled={tripType === 'fromCs' ? true : false}
             />
             <TextField
               className="w-full"
@@ -408,14 +408,14 @@ export default function TripDetailsForm({
               focused={pickupCityFlag ? true : false}
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
-              disabled={tripType === 'fromDs' ? true : false}
+              disabled={tripType === 'fromCs' ? true : false}
             />
             <Select
               value={'Texas'}
               sx={{ fontSize: '1.4em' }}
               className="w-full mt-4"
               variant="standard"
-              disabled={tripType === 'fromDs' ? true : false}
+              disabled={tripType === 'fromCs' ? true : false}
             >
               {STATES.map((state) => (
                 <MenuItem value={state} key={state} sx={{ fontSize: '1.4em' }}>
@@ -433,7 +433,7 @@ export default function TripDetailsForm({
               }
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
-              disabled={tripType === 'fromDs' ? true : false}
+              disabled={tripType === 'fromCs' ? true : false}
             />
           </Box>
         </Grid>
@@ -469,7 +469,7 @@ export default function TripDetailsForm({
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
               disabled={
-                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+                tripType !== 'oneWay' && tripType !== 'fromCs' ? true : false
               }
             />
             <TextField
@@ -488,7 +488,7 @@ export default function TripDetailsForm({
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
               disabled={
-                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+                tripType !== 'oneWay' && tripType !== 'fromCs' ? true : false
               }
             />
             <Select
@@ -497,7 +497,7 @@ export default function TripDetailsForm({
               variant="standard"
               sx={{ fontSize: '1.4em' }}
               disabled={
-                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+                tripType !== 'oneWay' && tripType !== 'fromCs' ? true : false
               }
             >
               {STATES.map((state) => (
@@ -517,7 +517,7 @@ export default function TripDetailsForm({
               inputProps={{ style: { fontSize: '1.4em' } }}
               InputLabelProps={{ style: { fontSize: '1.4em' } }}
               disabled={
-                tripType !== 'oneWay' && tripType !== 'fromDs' ? true : false
+                tripType !== 'oneWay' && tripType !== 'fromCs' ? true : false
               }
             />
           </Box>

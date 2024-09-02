@@ -1,13 +1,14 @@
-import { CheckBox } from "@mui/icons-material";
 import {
   Box,
   Checkbox,
   FormControlLabel,
   Paper,
   TextField,
-} from "@mui/material";
-import moment from "moment";
-import { useState } from "react";
+} from '@mui/material';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { TRIP_TYPES } from '../constants';
+import { estimatedPrice } from '../util';
 
 export default function TripConfirmation({
   tripType,
@@ -27,6 +28,10 @@ export default function TripConfirmation({
   disableEamil,
   setDisableEamil,
 }) {
+  useEffect(() => {
+    // console.log(tripType, vehicleType, pickupAddress.city, dropoffAddress.city);
+  }, []);
+
   return (
     <>
       <Box className="flex justify-center font-bold text-xl mt-4">
@@ -35,8 +40,19 @@ export default function TripConfirmation({
 
       <Paper className="flex flex-co p-4 mt-4 text-xl" elevation={6}>
         <Box className="w-full">
+          {tripType !== 'oneWay' && (
+            <Box>
+              <b>Estimated Price:</b>{' '}
+              {`$${estimatedPrice(
+                tripType,
+                vehicleType,
+                pickupAddress.city,
+                dropoffAddress.city,
+              )}`}
+            </Box>
+          )}
           <Box>
-            <b>Trip Type:</b> {tripType}
+            <b>Trip Type:</b> {TRIP_TYPES[tripType]}
           </Box>
           <Box>
             <b>First Name:</b> {firstName}
@@ -51,8 +67,8 @@ export default function TripConfirmation({
             <b>Email:</b> {email}
           </Box>
           <Box>
-            <b>Pickup Date & Time:</b>{" "}
-            {moment(pickupDateTime).format("MMM Do, YYYY @ hh:mm A")}
+            <b>Pickup Date & Time:</b>{' '}
+            {moment(pickupDateTime).format('MMM Do, YYYY @ hh:mm A')}
           </Box>
           <Box>
             <b># of Passengers:</b> {numOfPassengers}
@@ -69,7 +85,7 @@ export default function TripConfirmation({
             , {pickupAddress.state} {pickupAddress.zip}
           </Box>
           <Box>
-            <b>Dropoff Address:</b> {dropoffAddress.address},{" "}
+            <b>Dropoff Address:</b> {dropoffAddress.address},{' '}
             {dropoffAddress.city}, {dropoffAddress.state} {dropoffAddress.zip}
           </Box>
           <Box>
@@ -88,9 +104,9 @@ export default function TripConfirmation({
               onChange={(e) => {
                 setNotes(e.target.value);
               }}
-              inputProps={{ style: { fontSize: "1.2em" } }}
+              inputProps={{ style: { fontSize: '1.2em' } }}
               InputLabelProps={{
-                style: { fontSize: "1.2em", fontWeight: "bold" },
+                style: { fontSize: '1.2em', fontWeight: 'bold' },
               }}
             />
           </Box>

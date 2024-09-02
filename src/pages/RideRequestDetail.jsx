@@ -22,7 +22,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import moment from 'moment';
 import { DASHBAORD_PAGE } from '../constants';
-import { getRideRequestType } from '../util';
+import { estimatedPrice, getRideRequestType } from '../util';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { AppContext } from '../App';
 
@@ -355,7 +355,12 @@ export default function RideRequestDetail() {
                     value={
                       getRideRequestType(rideRequest) ==
                       DASHBAORD_PAGE.newRequests
-                        ? price
+                        ? estimatedPrice(
+                            rideRequest.tripType,
+                            rideRequest.vehicleType,
+                            rideRequest.pickupCity,
+                            rideRequest.dropoffCity,
+                          )
                         : rideRequest?.price || 0
                     }
                     color={priceFlag ? `error` : 'primary'}
@@ -443,7 +448,7 @@ export default function RideRequestDetail() {
                     maxRows={10}
                     variant="standard"
                     fullWidth
-                    value={personalNotes}
+                    value={personalNotes || ''}
                     onChange={(e) => setPersonalNotes(e.target.value)}
                     disabled={
                       getRideRequestType(rideRequest) ===

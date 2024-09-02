@@ -168,3 +168,117 @@ const sortBySuvPriceAsc = (a, b) => {
 const sortBySuvPriceDesc = (a, b) => {
   return b.suvPrice - a.suvPrice;
 };
+
+export const estimatedPrice = (
+  tripType,
+  vehicleType,
+  pickupCity,
+  dropoffCity,
+) => {
+  switch (tripType) {
+    case 'toDfw':
+      if (
+        pickupCity.toLowerCase() === 'rockwall' ||
+        pickupCity.toLowerCase() === 'fate'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 75;
+        } else {
+          return 85;
+        }
+      } else if (
+        pickupCity.toLowerCase() === 'royse city' ||
+        pickupCity.toLowerCase() === 'caddo mills'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 85;
+        } else {
+          return 95;
+        }
+      }
+      break;
+    case 'toLoveField':
+      if (
+        pickupCity.toLowerCase() === 'rockwall' ||
+        pickupCity.toLowerCase() === 'fate'
+      ) {
+        return 75;
+      } else if (
+        pickupCity.toLowerCase() === 'royse city' ||
+        pickupCity.toLowerCase() === 'caddo mills'
+      ) {
+        return 85;
+      }
+      break;
+    case 'toAac':
+      if (
+        pickupCity.toLowerCase() === 'rockwall' ||
+        pickupCity.toLowerCase() === 'fate'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 65;
+        } else {
+          return 75;
+        }
+      } else if (
+        pickupCity.toLowerCase() === 'royse city' ||
+        pickupCity.toLowerCase() === 'caddo mills'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 75;
+        } else {
+          return 85;
+        }
+      }
+      break;
+    case 'toCs':
+      if (
+        pickupCity.toLowerCase() === 'rockwall' ||
+        pickupCity.toLowerCase() === 'fate'
+      ) {
+        return 75;
+      } else if (
+        pickupCity.toLowerCase() === 'royse city' ||
+        pickupCity.toLowerCase() === 'caddo mills'
+      ) {
+        return 85;
+      }
+      break;
+    case 'fromCs':
+      if (
+        dropoffCity.toLowerCase() === 'rockwall' ||
+        dropoffCity.toLowerCase() === 'fate'
+      ) {
+        return 100;
+      } else if (
+        dropoffCity.toLowerCase() === 'royse city' ||
+        dropoffCity.toLowerCase() === 'caddo mills'
+      ) {
+        return 110;
+      }
+      break;
+    case 'toDep':
+      if (
+        pickupCity.toLowerCase() === 'rockwall' ||
+        pickupCity.toLowerCase() === 'fate'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 65;
+        } else {
+          return 75;
+        }
+      } else if (
+        pickupCity.toLowerCase() === 'royse city' ||
+        pickupCity.toLowerCase() === 'caddo mills'
+      ) {
+        if (vehicleType === 'Sedan') {
+          return 75;
+        } else {
+          return 85;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+};

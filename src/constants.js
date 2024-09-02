@@ -4,8 +4,8 @@ export const TRIP_TYPES = {
   toDfw: 'To DFW Airport',
   toLoveField: 'To Dallas Love Field Airport',
   toAac: 'To American Airlines Center',
-  toDs: 'To Cowboys Stadium',
-  fromDs: 'From Cowboys Stadium',
+  toCs: 'To Cowboys Stadium',
+  fromCs: 'From Cowboys Stadium',
   toDep: 'To Dos Equis Pavilion',
 };
 
