@@ -4,7 +4,7 @@ const env = import.meta.env;
 
 export const submitRideRequest = (payload, disableEmail) => {
   const url =
-    env.VITE_ETA_BASE_URL +
+    env.VITE_ETA_BASE_URL_PROD +
     env.VITE_SAVE_RIDE_REQUEST +
     `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
@@ -17,7 +17,7 @@ export const getRideRequestsByType = (type) => {
   // 2 = Upcoming Confirmed Rides (driverConfirmed = true, customerConfirmed = true)
   // 3 = History (tripCompleted= true)
   const url =
-    env.VITE_ETA_BASE_URL +
+    env.VITE_ETA_BASE_URL_PROD +
     env.VITE_GET_RIDE_REQUESTS_BY_TYPE +
     `?type=${type}`;
   return axios.get(url);
@@ -25,14 +25,14 @@ export const getRideRequestsByType = (type) => {
 
 export const getRideRequestByConfirmationCode = (confirmationCode) => {
   const url =
-    env.VITE_ETA_BASE_URL +
+    env.VITE_ETA_BASE_URL_PROD +
     env.VITE_GET_RIDE_REQUEST_BY_CONFIRMATION_CODE +
     `/${confirmationCode}`;
   return axios.get(url);
 };
 
 export const getRideRequestById = (id) => {
-  const url = env.VITE_ETA_BASE_URL + env.VITE_SAVE_RIDE_REQUEST;
+  const url = env.VITE_ETA_BASE_URL_PROD + env.VITE_SAVE_RIDE_REQUEST;
 
   return axios.get(url + '?id=' + id);
 };
@@ -40,7 +40,7 @@ export const getRideRequestById = (id) => {
 // for driver to confirm user's ride request
 export const confirmRideRequest = (payload, disableEmail) => {
   const url =
-    env.VITE_ETA_BASE_URL +
+    env.VITE_ETA_BASE_URL_PROD +
     env.VITE_CONFIRM_RIDE_REQUEST +
     `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
@@ -49,7 +49,7 @@ export const confirmRideRequest = (payload, disableEmail) => {
 // used for customer to confirm the trip
 export const confirmTrip = (confirmationCode) => {
   const url =
-    env.VITE_ETA_BASE_URL +
+    env.VITE_ETA_BASE_URL_PROD +
     env.VITE_CONFIRM_TRIP +
     `?confirmation_code=${confirmationCode}`;
   return axios.get(url);
@@ -57,12 +57,12 @@ export const confirmTrip = (confirmationCode) => {
 
 export const completeRideRequest = (id) => {
   const url =
-    env.VITE_ETA_BASE_URL + env.VITE_COMPLETE_RIDE_REQEUST + `?id=${id}`;
+    env.VITE_ETA_BASE_URL_PROD + env.VITE_COMPLETE_RIDE_REQEUST + `?id=${id}`;
   return axios.get(url);
 };
 
 // used for driver to update personal notes for the ride request
 export const updatePersonalNotes = (payload) => {
-  const url = env.VITE_ETA_BASE_URL + env.VITE_UPDATE_PERSONAL_NOTES;
+  const url = env.VITE_ETA_BASE_URL_PROD + env.VITE_UPDATE_PERSONAL_NOTES;
   return axios.post(url, payload);
 };
