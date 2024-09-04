@@ -1,0 +1,8 @@
+{
+  "routes": [
+    { "route": "/dashboard*", "rewrite": "/index.html" },
+    { "route": "/detail*", "rewrite": "/index.html" },
+    { "route": "/tripstatus*", "rewrite": "/index.html" },
+    { "route": "/confirmtrip*", "rewrite": "/index.html" }
+  ]
+}
