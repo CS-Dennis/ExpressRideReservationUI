@@ -2,11 +2,25 @@ import axios from 'axios';
 
 const env = import.meta.env;
 
+const getBaseUrl = (nodeEnv) => {
+  switch (nodeEnv) {
+    case 'local':
+      return env.VITE_ETA_BASE_URL;
+      break;
+    case 'dev':
+      return env.VITE_ETA_BASE_URL_DEV;
+      break;
+    default:
+      return null;
+      break;
+  }
+};
+
+const baseUrl = getBaseUrl(env.VITE_NODE_ENV);
+
 export const submitRideRequest = (payload, disableEmail) => {
   const url =
-    env.VITE_ETA_BASE_URL_PROD +
-    env.VITE_SAVE_RIDE_REQUEST +
-    `?disable_email=${disableEmail}`;
+    baseUrl + env.VITE_SAVE_RIDE_REQUEST + `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
 };
 
@@ -16,23 +30,20 @@ export const getRideRequestsByType = (type) => {
   // 1 = Pending Confirmation (customerConfirmed = false)
   // 2 = Upcoming Confirmed Rides (driverConfirmed = true, customerConfirmed = true)
   // 3 = History (tripCompleted= true)
-  const url =
-    env.VITE_ETA_BASE_URL_PROD +
-    env.VITE_GET_RIDE_REQUESTS_BY_TYPE +
-    `?type=${type}`;
+  const url = baseUrl + env.VITE_GET_RIDE_REQUESTS_BY_TYPE + `?type=${type}`;
   return axios.get(url);
 };
 
 export const getRideRequestByConfirmationCode = (confirmationCode) => {
   const url =
-    env.VITE_ETA_BASE_URL_PROD +
+    baseUrl +
     env.VITE_GET_RIDE_REQUEST_BY_CONFIRMATION_CODE +
     `/${confirmationCode}`;
   return axios.get(url);
 };
 
 export const getRideRequestById = (id) => {
-  const url = env.VITE_ETA_BASE_URL_PROD + env.VITE_SAVE_RIDE_REQUEST;
+  const url = baseUrl + env.VITE_SAVE_RIDE_REQUEST;
 
   return axios.get(url + '?id=' + id);
 };
@@ -40,29 +51,24 @@ export const getRideRequestById = (id) => {
 // for driver to confirm user's ride request
 export const confirmRideRequest = (payload, disableEmail) => {
   const url =
-    env.VITE_ETA_BASE_URL_PROD +
-    env.VITE_CONFIRM_RIDE_REQUEST +
-    `?disable_email=${disableEmail}`;
+    baseUrl + env.VITE_CONFIRM_RIDE_REQUEST + `?disable_email=${disableEmail}`;
   return axios.post(url, payload);
 };
 
 // used for customer to confirm the trip
 export const confirmTrip = (confirmationCode) => {
   const url =
-    env.VITE_ETA_BASE_URL_PROD +
-    env.VITE_CONFIRM_TRIP +
-    `?confirmation_code=${confirmationCode}`;
+    baseUrl + env.VITE_CONFIRM_TRIP + `?confirmation_code=${confirmationCode}`;
   return axios.get(url);
 };
 
 export const completeRideRequest = (id) => {
-  const url =
-    env.VITE_ETA_BASE_URL_PROD + env.VITE_COMPLETE_RIDE_REQEUST + `?id=${id}`;
+  const url = baseUrl + env.VITE_COMPLETE_RIDE_REQEUST + `?id=${id}`;
   return axios.get(url);
 };
 
 // used for driver to update personal notes for the ride request
 export const updatePersonalNotes = (payload) => {
-  const url = env.VITE_ETA_BASE_URL_PROD + env.VITE_UPDATE_PERSONAL_NOTES;
+  const url = baseUrl + env.VITE_UPDATE_PERSONAL_NOTES;
   return axios.post(url, payload);
 };
