@@ -1,8 +1,10 @@
 import {
+  Backdrop,
   Box,
   Button,
   Checkbox,
   Chip,
+  CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
@@ -29,6 +31,8 @@ import { AppContext } from '../App';
 export default function RideRequestDetail() {
   const appContext = useContext(AppContext);
 
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
   const [id, setId] = useState(null);
@@ -54,6 +58,7 @@ export default function RideRequestDetail() {
 
   // driver to confirm new ride requests
   const confirm = () => {
+    setLoading(true);
     setPriceFlag(false);
     if (price <= 0 || price === null || price === '') {
       setPriceFlag(true);
@@ -86,12 +91,16 @@ export default function RideRequestDetail() {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
 
   // re-confirm with price or notes update for pending ride requests
   const reconfirm = () => {
+    setLoading(true);
     setPriceUpdateFlag(false);
     if (priceUpdate <= 0 || priceUpdate === null || priceUpdate === '') {
       setPriceUpdateFlag(true);
@@ -117,6 +126,9 @@ export default function RideRequestDetail() {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -130,6 +142,7 @@ export default function RideRequestDetail() {
 
   // complete a upcoming ride request
   const completeTrip = () => {
+    setLoading(true);
     completeRideRequest(id)
       .then((res) => {
         if (res.status === 200) {
@@ -149,6 +162,9 @@ export default function RideRequestDetail() {
         appContext.setSnackbarFlag(true);
         appContext.setSnackbarType('error');
         appContext.setSnackbarMessage(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -188,6 +204,19 @@ export default function RideRequestDetail() {
             setDriverNotesUpdate(res.data.driverNotes);
 
             setPersonalNotes(res.data.personalNotes);
+
+            // set price
+            const suggestedPrice =
+              getRideRequestType(res.data) == DASHBAORD_PAGE.newRequests
+                ? estimatedPrice(
+                    res.data.tripType,
+                    res.data.vehicleType,
+                    res.data.pickupCity,
+                    res.data.dropoffCity,
+                  )
+                : res.data?.price || 0;
+            console.log(suggestedPrice);
+            setPrice(suggestedPrice);
           }
         })
         .catch((err) => {
@@ -352,17 +381,7 @@ export default function RideRequestDetail() {
                     variant="standard"
                     type="number"
                     fullWidth
-                    value={
-                      getRideRequestType(rideRequest) ==
-                      DASHBAORD_PAGE.newRequests
-                        ? estimatedPrice(
-                            rideRequest.tripType,
-                            rideRequest.vehicleType,
-                            rideRequest.pickupCity,
-                            rideRequest.dropoffCity,
-                          )
-                        : rideRequest?.price || 0
-                    }
+                    value={price}
                     color={priceFlag ? `error` : 'primary'}
                     focused
                     onChange={(e) => setPrice(e.target.value)}
@@ -532,6 +551,7 @@ export default function RideRequestDetail() {
         onClose={() => {
           setModifiyFlag(false);
         }}
+        sx={{ zIndex: 10 }}
       >
         <Box className="fixed top-0 bottom-0 left-0 right-0 bg-white m-auto h-fit w-fit p-10">
           <b>New Proposed Price:</b>
@@ -581,7 +601,7 @@ export default function RideRequestDetail() {
       </Modal>
 
       {/* modal for completing the trip */}
-      <Modal open={completeFlag}>
+      <Modal open={completeFlag} sx={{ zIndex: 10 }}>
         <Box className="fixed top-0 bottom-0 left-0 right-0 bg-white m-auto h-fit w-fit p-10">
           <Box className="font-bold text-xl">
             Please confirm to complete this trip
@@ -600,6 +620,10 @@ export default function RideRequestDetail() {
           </Box>
         </Box>
       </Modal>
+
+      <Backdrop open={loading} sx={{ zIndex: 100 }}>
+        <CircularProgress color="secondary" />
+      </Backdrop>
     </>
   );
 }
