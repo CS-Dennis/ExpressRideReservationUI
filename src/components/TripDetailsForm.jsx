@@ -3,7 +3,7 @@ import {
   Button,
   Divider,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputLabel,
   MenuItem,

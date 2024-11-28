@@ -1,5 +1,5 @@
 import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Title from '../components/Title';
 import ReservationProgressView from '../components/ReservationProgressView';
 import TripDetailsForm from '../components/TripDetailsForm';
@@ -7,8 +7,10 @@ import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from '../constants';
 import TripConfirmation from '../components/TripConfirmation';
 import moment from 'moment';
 import { submitRideRequest } from '../services/apis';
+import { AppContext } from '../App';
 
 export default function Home() {
+  const context = useContext(AppContext);
   const [step, setStep] = useState(0);
 
   // Trip Details Form
@@ -183,6 +185,10 @@ export default function Home() {
   useEffect(() => {}, [step]);
 
   useEffect(() => {}, [vehicleType]);
+
+  useEffect(() => {
+    console.log(context.session);
+  }, []);
 
   return (
     <>

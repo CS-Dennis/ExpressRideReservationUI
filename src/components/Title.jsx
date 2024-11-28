@@ -21,7 +21,7 @@ export default function Title({ title }) {
               variant="contained"
               onClick={() => login()}
             >
-              Driver Login
+              Login
             </Button>
           </Toolbar>
         </AppBar>

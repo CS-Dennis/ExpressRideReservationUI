@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Paper } from '@mui/material';
+import { Box, Button, Divider, Grid2 as Grid, Paper } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { APP_TITLE } from '../constants';

@@ -5,7 +5,7 @@ import {
   Checkbox,
   Chip,
   CircularProgress,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputAdornment,
   Modal,

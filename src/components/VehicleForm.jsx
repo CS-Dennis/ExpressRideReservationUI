@@ -1,4 +1,10 @@
-import { Box, FormControlLabel, Grid, Radio, RadioGroup } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Grid2 as Grid,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import React from 'react';
 import { VEHICLE_TYPES } from '../constants';
 

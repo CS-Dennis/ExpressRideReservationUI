@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Grid2 as Grid, Paper } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { APP_TITLE } from '../constants';
 import Title from '../components/Title';

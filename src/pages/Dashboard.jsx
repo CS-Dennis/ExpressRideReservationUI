@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import { COLORS, DASHBAORD_PAGE } from '../constants';
-import { Box, Button, Chip, Grid, Paper } from '@mui/material';
+import { Box, Button, Chip, Grid2 as Grid, Paper } from '@mui/material';
 import { getRideRequestsByType } from '../services/apis';
 import moment from 'moment';
 import { Link, useNavigate } from 'react-router-dom';
