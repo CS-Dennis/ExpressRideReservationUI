@@ -12,7 +12,7 @@ import {
   Paper,
   TextField,
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Title from '../components/Title';
 import {
@@ -358,7 +358,7 @@ export default function RideRequestDetail() {
             <Box className="mb-4">
               <Paper>
                 <Box className="p-4 bg-slate-200">
-                  <b>Client's Notes</b>
+                  <b>{`Client's Notes`}</b>
                 </Box>
                 <Box className="p-4" whiteSpace={'break-spaces'}>
                   {rideRequest?.notes}

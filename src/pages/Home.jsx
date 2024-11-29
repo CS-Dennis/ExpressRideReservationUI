@@ -14,7 +14,7 @@ import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from '../constants';
 import TripConfirmation from '../components/TripConfirmation';
 import moment from 'moment';
 import { submitRideRequest } from '../services/apis';
-import { AppContext } from '../App';
+import { AppContext, env } from '../App';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
@@ -196,8 +196,10 @@ export default function Home() {
   useEffect(() => {}, [vehicleType]);
 
   useEffect(() => {
-    console.log(context.session);
-    console.log(location.pathname);
+    if (env === 'dev') {
+      console.log('dev', context.session);
+      console.log('dev', location.pathname);
+    }
 
     if (!context.session && location.pathname !== '/guest') {
       navigation('/');

@@ -5,10 +5,11 @@ import Title from '../components/Title';
 import { APP_TITLE } from '../constants';
 import { AppContext, env } from '../App';
 import LoginForm from '../components/LoginForm';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
   const context = useContext(AppContext);
+  const navigation = useNavigate();
 
   useEffect(() => {
     // if user not logged in
@@ -19,9 +20,12 @@ export default function LandingPage() {
     }
     // if logged in, redirect to Home screen
     else {
-      //
+      // if customer role
+      navigation('/home');
+
+      //if driver role -> driver's dashboard
     }
-  }, []);
+  }, [context.session]);
 
   return (
     <>

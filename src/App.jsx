@@ -25,18 +25,22 @@ function App() {
 
   const [session, setSession] = useState(null);
 
-  useEffect(() => {
-    supabase_client.auth.getSession().then(({ data: { session } }) => {
+  const loginUser = async () => {
+    await supabase_client.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
 
     const {
       data: { subscription },
-    } = supabase_client.auth.onAuthStateChange((_event, session) => {
+    } = await supabase_client.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
     return () => subscription.unsubscribe();
+  };
+
+  useEffect(() => {
+    loginUser();
   }, []);
 
   return (

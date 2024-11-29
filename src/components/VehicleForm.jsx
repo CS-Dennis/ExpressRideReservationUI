@@ -5,7 +5,6 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import React from 'react';
 import { VEHICLE_TYPES } from '../constants';
 
 export default function VehicleForm({ vehicleType, setVehicleType }) {

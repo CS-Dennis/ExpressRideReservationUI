@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Title from '../components/Title';
 import { COLORS, DASHBAORD_PAGE } from '../constants';
 import { Box, Button, Chip, Grid2 as Grid, Paper } from '@mui/material';

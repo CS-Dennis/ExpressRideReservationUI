@@ -18,7 +18,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   PRICING_INFO_TABLE_DATA,
   PRICING_INFO_TABLE_HEADERS,
@@ -34,6 +34,7 @@ import moment from 'moment';
 import { capitalizeString, sortPricingTableByColumn } from '../util';
 import VehicleForm from './VehicleForm';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { env } from '../App';
 
 export default function TripDetailsForm({
   tripType,
@@ -111,7 +112,9 @@ export default function TripDetailsForm({
 
   // pre fill pickup or dropoff address based on tripType
   useEffect(() => {
-    console.log(tripType);
+    if (env === 'dev') {
+      console.log('dev', tripType);
+    }
 
     switch (tripType) {
       case 'oneWay':
@@ -438,9 +441,7 @@ export default function TripDetailsForm({
           </Box>
         </Grid>
         <Grid
-          item
-          xs={12}
-          lg={1}
+          size={{ xs: 12, lg: 1 }}
           className="flex justify-center"
           sx={{ marginTop: '16px' }}
         >
