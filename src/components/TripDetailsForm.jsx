@@ -196,7 +196,7 @@ export default function TripDetailsForm({
       <Box className="mt-8">
         <Box className="font-bold text-4xl">Rider Information</Box>
         <Grid container>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ sx: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -211,7 +211,7 @@ export default function TripDetailsForm({
               />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ sx: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -229,7 +229,7 @@ export default function TripDetailsForm({
         </Grid>
 
         <Grid container>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ sx: 12, lg: 6 }}>
             <Box className="mx-1 mt-4 ">
               <MuiTelInput
                 className="w-full"
@@ -246,7 +246,7 @@ export default function TripDetailsForm({
               />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ sx: 12, lg: 6 }}>
             <Box className="mx-1 mt-4">
               <TextField
                 className="w-full"
@@ -292,7 +292,7 @@ export default function TripDetailsForm({
       </Box>
 
       <Grid container>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ sx: 12, lg: 6 }}>
           <Box className="mr-2 w-full">
             <FormControl variant="standard" className="w-full">
               <InputLabel
@@ -320,7 +320,7 @@ export default function TripDetailsForm({
             </FormControl>
           </Box>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ sx: 12, lg: 6 }}>
           <Box className="ml-2 w-full flex">
             <FormControl variant="standard" className="w-full">
               <InputLabel
@@ -376,7 +376,7 @@ export default function TripDetailsForm({
       </Grid>
 
       <Grid container>
-        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+        <Grid size={{ xs: 12, lg: 'grow' }} sx={{ marginTop: '16px' }}>
           <Box className="w-full">
             <Box className="font-bold text-4xl">Pickup Address</Box>
             <TextField
@@ -450,7 +450,7 @@ export default function TripDetailsForm({
             flexItem
           />
         </Grid>
-        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+        <Grid size={{ xs: 12, lg: 'grow' }} sx={{ marginTop: '16px' }}>
           <Box className="w-full">
             <Box className="font-bold text-4xl">Dropoff Address</Box>
             <TextField

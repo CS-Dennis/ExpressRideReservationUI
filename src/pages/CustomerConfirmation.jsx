@@ -37,8 +37,8 @@ export default function CustomerConfirmation() {
     <>
       <Box className="mx-10">
         <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
+          <Grid size={{ md: 12, lg: 1 }} />
+          <Grid size={{ md: 12, lg: 12 }} className="w-full">
             <Title title={APP_TITLE} />
 
             {showSuccessMsg && (
@@ -54,7 +54,7 @@ export default function CustomerConfirmation() {
               </Paper>
             )}
           </Grid>
-          <Grid item md={12} lg={1} />
+          <Grid size={{ md: 12, lg: 1 }} />
         </Grid>
       </Box>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import './App.css';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -15,7 +16,7 @@ export const AppContext = createContext();
 export const env = import.meta.env.VITE_NODE_ENV;
 export const apiKey = import.meta.env.VITE_ANON_KEY;
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-export const supabase = createClient(supabaseUrl, apiKey);
+export const supabase_client = createClient(supabaseUrl, apiKey);
 
 function App() {
   const [snackbarFlag, setSnackbarFlag] = useState(false);
@@ -25,13 +26,13 @@ function App() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase_client.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase_client.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 

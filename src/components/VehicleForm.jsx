@@ -18,7 +18,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
           onChange={(e) => setVehicleType(e.target.value)}
         >
           <Grid container>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ sx: 12, lg: 6 }}>
               <Box className="flex mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[0]}
@@ -32,7 +32,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
               </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid size={{ sx: 12, lg: 6 }}>
               <Box className="flex mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[1]}

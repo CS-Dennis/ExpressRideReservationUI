@@ -229,8 +229,8 @@ export default function RideRequestDetail() {
     <>
       <Box className="mx-10">
         <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
+          <Grid size={{ md: 12, lg: 1 }} />
+          <Grid size={{ md: 12, lg: 12 }} className="w-full">
             <Title title={getRideRequestType(rideRequest)} />
 
             {/* back button */}
@@ -541,7 +541,7 @@ export default function RideRequestDetail() {
               </Box>
             )}
           </Grid>
-          <Grid item md={12} lg={1} />
+          <Grid size={{ md: 12, lg: 1 }} />
         </Grid>
       </Box>
 

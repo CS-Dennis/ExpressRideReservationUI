@@ -53,8 +53,8 @@ export default function Dashboard() {
     <>
       <Box className="mx-10">
         <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
+          <Grid size={{ md: 12, lg: 1 }} />
+          <Grid size={{ md: 12, lg: 12 }} className="w-full">
             <Title title={tabTitle} />
             <Box className="flex justify-evenly mt-4 mb-2">
               <Button
@@ -195,7 +195,7 @@ export default function Dashboard() {
                 ))}
             </Box>
 
-            <Grid item md={12} lg={1} />
+            <Grid size={{ md: 12, lg: 1 }} />
           </Grid>
         </Grid>
       </Box>

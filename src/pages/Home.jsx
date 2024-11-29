@@ -1,5 +1,12 @@
-import { Backdrop, Box, Button, CircularProgress, Grid } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  Backdrop,
+  Box,
+  Button,
+  CircularProgress,
+  Grid2 as Grid,
+} from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import Title from '../components/Title';
 import ReservationProgressView from '../components/ReservationProgressView';
 import TripDetailsForm from '../components/TripDetailsForm';
@@ -8,9 +15,11 @@ import TripConfirmation from '../components/TripConfirmation';
 import moment from 'moment';
 import { submitRideRequest } from '../services/apis';
 import { AppContext } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const context = useContext(AppContext);
+  const navigation = useNavigate();
   const [step, setStep] = useState(0);
 
   // Trip Details Form
@@ -188,14 +197,21 @@ export default function Home() {
 
   useEffect(() => {
     console.log(context.session);
+    console.log(location.pathname);
+
+    if (!context.session && location.pathname !== '/guest') {
+      navigation('/');
+    } else if (context.session && location.pathname === '/guest') {
+      navigation('/home');
+    }
   }, []);
 
   return (
     <>
       {/* <Box className="mx-2"> */}
       <Grid container>
-        <Grid item md={12} lg={1} />
-        <Grid item md={12} lg={10} className="w-full">
+        <Grid size={{ md: 12, lg: 1 }} />
+        <Grid size={{ md: 12, lg: 12 }} className="w-full">
           <Title title={APP_TITLE} />
           <ReservationProgressView step={step} />
 
@@ -316,7 +332,7 @@ export default function Home() {
             )}
           </Box>
         </Grid>
-        <Grid item md={12} lg={1} />
+        <Grid size={{ md: 12, lg: 1 }} />
       </Grid>
       {/* </Box> */}
 
