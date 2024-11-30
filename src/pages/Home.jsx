@@ -167,10 +167,11 @@ export default function Home() {
       // if the rider_info is null, save the user's profile in rider_info table
       if (env === 'dev') {
         console.log('dev', 'validated');
-        console.log('dev', context.userProfile?.first_name);
+        console.log('dev', context.userProfile);
       }
 
       if (
+        context.session &&
         !context.userProfile?.first_name &&
         !context.userProfile?.last_name &&
         !context.userProfile?.phone
@@ -364,14 +365,27 @@ export default function Home() {
                     Congrats! The reservation request has been submitted
                     successfully!
                   </Box>
-                  <Box className="mt-10">
-                    You can check your request status on your account - trips
-                    page.
-                  </Box>
-                  <Box className="mt-10">
-                    The driver will send you the trip confirmation with a price
-                    for your confirmation.
-                  </Box>
+                  {context.session && (
+                    <>
+                      <Box className="mt-10">
+                        You can check your request status on your account -
+                        trips page.
+                      </Box>
+                      <Box className="mt-10">
+                        The driver will send you the trip confirmation with a
+                        price for your confirmation.
+                      </Box>
+                    </>
+                  )}
+
+                  {!context.session && (
+                    <>
+                      <Box className="mt-10">
+                        The driver will text/email you the trip confirmation
+                        with a price for your confirmation shortly.
+                      </Box>
+                    </>
+                  )}
                 </Box>
               </>
             )}
