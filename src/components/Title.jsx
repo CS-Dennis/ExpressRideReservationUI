@@ -8,8 +8,8 @@ export default function Title({ title }) {
   const navigate = useNavigate();
   const context = useContext(AppContext);
 
-  const login = () => {
-    navigate('/dashboard');
+  const loginPage = () => {
+    navigate('/');
   };
 
   const logout = async () => {
@@ -25,11 +25,11 @@ export default function Title({ title }) {
             <Typography component="div" sx={{ flexGrow: 1, fontSize: '1em' }}>
               {title}
             </Typography>
-            {!context.session && (
+            {!context.session && location.pathname !== '/' && (
               <Button
                 color="secondary"
                 variant="contained"
-                onClick={() => login()}
+                onClick={() => loginPage()}
               >
                 Sign In
               </Button>
@@ -40,7 +40,7 @@ export default function Title({ title }) {
                 variant="contained"
                 onClick={() => logout()}
               >
-                Log out
+                Sign out
               </Button>
             )}
           </Toolbar>
