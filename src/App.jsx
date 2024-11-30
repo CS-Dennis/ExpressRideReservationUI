@@ -24,11 +24,25 @@ function App() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const [session, setSession] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
 
-  const loginUser = async () => {
-    await supabase_client.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+  const authUser = async () => {
+    // auth user
+    const { data } = await supabase_client.auth.getSession();
+    var userProfileTemp = null;
+    if (data.session !== null) {
+      setSession(data.session);
+      userProfileTemp = { ...userProfileTemp, email: data.session.user.email };
+    }
+
+    const riderInfo = await supabase_client.from('rider_info').select();
+    if (env === 'dev') {
+      console.log('dev', riderInfo.data);
+    }
+    if (riderInfo.data !== null) {
+      userProfileTemp = { ...userProfileTemp, ...riderInfo.data[0] };
+    }
+    setUserProfile({ ...userProfileTemp });
 
     const {
       data: { subscription },
@@ -40,7 +54,7 @@ function App() {
   };
 
   useEffect(() => {
-    loginUser();
+    authUser();
   }, []);
 
   return (
@@ -48,6 +62,7 @@ function App() {
       <AppContext.Provider
         value={{
           session,
+          userProfile,
           snackbarFlag,
           setSnackbarFlag,
           snackbarType,

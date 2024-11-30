@@ -196,3 +196,10 @@ export const PRICING_INFO_TABLE_DATA = [
     suvPrice: 85,
   },
 ];
+
+export const TRIP_REQUEST_STATUS = {
+  tripRequested: 'trip_requested',
+  confirmedByDriver: 'confirmed_by_driver',
+  confirmedByCustomer: 'confirmed_by_customer',
+  tripCompleted: 'trip_completed',
+};

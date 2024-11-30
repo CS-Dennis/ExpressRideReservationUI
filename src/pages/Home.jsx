@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Backdrop,
   Box,
@@ -10,12 +9,18 @@ import { useContext, useEffect, useState } from 'react';
 import Title from '../components/Title';
 import ReservationProgressView from '../components/ReservationProgressView';
 import TripDetailsForm from '../components/TripDetailsForm';
-import { APP_TITLE, TRIP_TYPES, VEHICLE_TYPES } from '../constants';
+import {
+  APP_TITLE,
+  TRIP_REQUEST_STATUS,
+  TRIP_TYPES,
+  VEHICLE_TYPES,
+} from '../constants';
 import TripConfirmation from '../components/TripConfirmation';
 import moment from 'moment';
-import { submitRideRequest } from '../services/apis';
-import { AppContext, env } from '../App';
+import { submitRideRequest } from '../services/apis'; // spring boot backend service
+import { AppContext, env, supabase_client } from '../App';
 import { useNavigate } from 'react-router-dom';
+import { checkUserLogin } from '../util';
 
 export default function Home() {
   const context = useContext(AppContext);
@@ -70,6 +75,15 @@ export default function Home() {
 
   // loading
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (context.session && context.userProfile) {
+      setFirstName(context.userProfile?.first_name);
+      setLastName(context.userProfile?.last_name);
+      setEmail(context.userProfile?.email);
+      setPhoneNumber(context.userProfile?.phone);
+    }
+  }, [context.session]);
 
   const formValidation = () => {
     if (firstName.trim() === '') {
@@ -146,66 +160,128 @@ export default function Home() {
     }
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (step === 2) {
       return;
     } else if (formValidation()) {
+      // if the rider_info is null, save the user's profile in rider_info table
+      if (env === 'dev') {
+        console.log('dev', 'validated');
+        console.log('dev', context.userProfile?.first_name);
+      }
+
+      if (
+        !context.userProfile?.first_name &&
+        !context.userProfile?.last_name &&
+        !context.userProfile?.phone
+      ) {
+        setLoading(true);
+        const { error } = await supabase_client
+          .from('rider_info')
+          .insert([
+            {
+              user_id: context.session.user.id,
+              first_name: firstName,
+              last_name: lastName,
+              phone: phoneNumber,
+            },
+          ])
+          .select();
+        if (error) {
+          console.log(error);
+        }
+        if (env === 'dev') {
+          console.log('dev', {
+            user_id: context.session.user.id,
+            first_name: firstName,
+            last_name: lastName,
+            phone: phoneNumber,
+          });
+        }
+
+        setLoading(false);
+      }
+
       setStep((prev) => prev + 1);
     }
   };
 
-  const rideRequestConfirmation = () => {
-    const request = {
-      tripType: tripType,
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      email: email,
-      pickupDateTime: moment(pickupDateTime).toLocaleString(),
-      numOfPassengers: numOfPassengers,
-      numOfCheckedBags: numOfLuggagesChecked,
-      numOfCarryOnBags: numOfLuggagesCarryOn,
-      pickupAddress: pickupAddress.address,
-      pickupCity: pickupAddress.city,
-      pickupState: pickupAddress.state,
-      pickupZip: pickupAddress.zip,
-      dropoffAddress: dropoffAddress.address,
-      dropoffCity: dropoffAddress.city,
-      dropoffState: dropoffAddress.state,
-      dropoffZip: dropoffAddress.zip,
-      vehicleType: vehicleType,
-      notes: notes,
-    };
+  const rideRequestConfirmation = async () => {
     setLoading(true);
-    submitRideRequest(request, disableEamil).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        setLoading(false);
-        console.log('success');
-        nextStep();
-      } else {
-        // error
-        setLoading(false);
-        console.log('error');
-      }
-    });
+
+    var request = {
+      // user_id: null,
+      // firstName: firstName,
+      // lastName: lastName,
+      // phone: phoneNumber,
+      // email: email,
+      trip_type: tripType,
+      pickup_datetime: moment(pickupDateTime),
+      num_passengers: numOfPassengers,
+      num_bags_checked: numOfLuggagesChecked,
+      num_bags_carryon: numOfLuggagesCarryOn,
+      pickup_address: pickupAddress.address,
+      pickup_city: pickupAddress.city,
+      pickup_state: pickupAddress.state,
+      pickup_zip: pickupAddress.zip,
+      dropoff_address: dropoffAddress.address,
+      dropoff_city: dropoffAddress.city,
+      dropoff_state: dropoffAddress.state,
+      dropoff_zip: dropoffAddress.zip,
+      vehicle_type: vehicleType,
+      notes: notes,
+      status: TRIP_REQUEST_STATUS.tripRequested,
+    };
+
+    // if user logged in, add user_id
+    if (context.session) {
+      request = { ...request, user_id: context.session.user.id };
+    }
+    // if guest user, add firstName, lastName, phone, email
+    else {
+      request = {
+        ...request,
+        first_name: firstName,
+        last_name: lastName,
+        phone: phoneNumber,
+        email: email,
+      };
+    }
+
+    if (env === 'dev') {
+      console.log('dev', request);
+    }
+
+    const { error } = await supabase_client
+      .from('ride_request')
+      .insert([request]);
+
+    if (error) {
+      console.log(error);
+    } else {
+      setLoading(false);
+      nextStep();
+    }
+
+    // placeholder for configurable feature to toggle email confirmation
+    if (env === 'config') {
+      submitRideRequest(request, disableEamil).then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setLoading(false);
+          console.log('success');
+          nextStep();
+        } else {
+          // error
+          setLoading(false);
+          console.log('error');
+        }
+      });
+    }
   };
 
-  useEffect(() => {}, [step]);
-
-  useEffect(() => {}, [vehicleType]);
-
   useEffect(() => {
-    if (env === 'dev') {
-      console.log('dev', context.session);
-      console.log('dev', location.pathname);
-    }
-
-    if (!context.session && location.pathname !== '/guest') {
-      navigation('/');
-    } else if (context.session && location.pathname === '/guest') {
-      navigation('/home');
-    }
+    checkUserLogin(context, navigation);
   }, []);
 
   return (
@@ -285,13 +361,16 @@ export default function Home() {
               <>
                 <Box className="flex flex-col justify-center place-items-center w-full text-2xl mt-10">
                   <Box>
-                    Congrats! The reservation request has been sent
+                    Congrats! The reservation request has been submitted
                     successfully!
                   </Box>
-                  <Box>You can check your request in my email inbox.</Box>
-                  <Box>
-                    The driver will send you the trip confirmation to your email
-                    inbox asap.
+                  <Box className="mt-10">
+                    You can check your request status on your account - trips
+                    page.
+                  </Box>
+                  <Box className="mt-10">
+                    The driver will send you the trip confirmation with a price
+                    for your confirmation.
                   </Box>
                 </Box>
               </>

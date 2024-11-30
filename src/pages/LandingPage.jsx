@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid2 as Grid } from '@mui/material';
 import { useContext, useEffect } from 'react';
 import Title from '../components/Title';

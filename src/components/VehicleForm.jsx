@@ -18,16 +18,20 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
         >
           <Grid container>
             <Grid size={{ sx: 12, lg: 6 }}>
-              <Box className="flex mt-4">
+              <Box className="mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[0]}
                   control={<Radio />}
-                  label={<img src="assets/imgs/tesla.png" className="w-56" />}
+                  label={
+                    <Box className="flex">
+                      <img src="assets/imgs/tesla.png" className="w-56" />
+                      <Box className="font-bold text-xl self-center ml-4">
+                        <Box>Sedan (Tesla)</Box>
+                        <Box>4 Passengers - 2 Luggages</Box>
+                      </Box>
+                    </Box>
+                  }
                 />
-                <Box className="font-bold text-xl">
-                  <Box>Sedan (Tesla)</Box>
-                  <Box>4 Passengers - 2 Luggages</Box>
-                </Box>
               </Box>
             </Grid>
 
@@ -36,12 +40,16 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
                 <FormControlLabel
                   value={VEHICLE_TYPES[1]}
                   control={<Radio />}
-                  label={<img src="assets/imgs/SUV1.png" className="w-56" />}
+                  label={
+                    <Box className="flex">
+                      <img src="assets/imgs/SUV1.png" className="w-56" />
+                      <Box className="font-bold text-xl self-center ml-4">
+                        <Box>SUV</Box>
+                        <Box>6 Passengers - 5 Luggages</Box>
+                      </Box>
+                    </Box>
+                  }
                 />
-                <Box className="font-bold text-xl">
-                  <Box>SUV</Box>
-                  <Box>6 Passengers - 5 Luggages</Box>
-                </Box>
               </Box>
             </Grid>
           </Grid>

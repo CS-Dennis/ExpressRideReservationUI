@@ -31,7 +31,7 @@ export default function Title({ title }) {
                 variant="contained"
                 onClick={() => login()}
               >
-                Login
+                Sign In
               </Button>
             )}
             {context.session && (

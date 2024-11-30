@@ -199,7 +199,7 @@ export default function TripDetailsForm({
       <Box className="mt-8">
         <Box className="font-bold text-4xl">Rider Information</Box>
         <Grid container>
-          <Grid size={{ sx: 12, lg: 6 }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -214,7 +214,7 @@ export default function TripDetailsForm({
               />
             </Box>
           </Grid>
-          <Grid size={{ sx: 12, lg: 6 }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -232,7 +232,7 @@ export default function TripDetailsForm({
         </Grid>
 
         <Grid container>
-          <Grid size={{ sx: 12, lg: 6 }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1 mt-4 ">
               <MuiTelInput
                 className="w-full"
@@ -249,7 +249,7 @@ export default function TripDetailsForm({
               />
             </Box>
           </Grid>
-          <Grid size={{ sx: 12, lg: 6 }}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1 mt-4">
               <TextField
                 className="w-full"
