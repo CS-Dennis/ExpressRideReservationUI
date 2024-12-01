@@ -78,12 +78,15 @@ export default function Home() {
 
   useEffect(() => {
     if (context.session && context.userProfile) {
+      if (env === 'dev') {
+        console.log('dev', context.session, context.userProfile);
+      }
       setFirstName(context.userProfile?.first_name);
       setLastName(context.userProfile?.last_name);
       setEmail(context.userProfile?.email);
       setPhoneNumber(context.userProfile?.phone);
     }
-  }, [context.session]);
+  }, [context.userProfile]);
 
   const formValidation = () => {
     if (firstName.trim() === '') {

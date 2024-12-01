@@ -27,22 +27,14 @@ function App() {
   const [userProfile, setUserProfile] = useState(null);
 
   const authUser = async () => {
+    if (env === 'dev') {
+      console.log('dev', 'auth user');
+    }
     // auth user
     const { data } = await supabase_client.auth.getSession();
-    var userProfileTemp = null;
     if (data.session !== null) {
       setSession(data.session);
-      userProfileTemp = { ...userProfileTemp, email: data.session.user.email };
     }
-
-    const riderInfo = await supabase_client.from('rider_info').select();
-    if (env === 'dev') {
-      console.log('dev', riderInfo.data);
-    }
-    if (riderInfo.data !== null) {
-      userProfileTemp = { ...userProfileTemp, ...riderInfo.data[0] };
-    }
-    setUserProfile({ ...userProfileTemp });
 
     const {
       data: { subscription },
@@ -56,6 +48,27 @@ function App() {
   useEffect(() => {
     authUser();
   }, []);
+
+  const getUserProfile = async (session) => {
+    var userProfileTemp = {
+      ...userProfileTemp,
+      email: session.user.email,
+    };
+    const riderInfo = await supabase_client.from('rider_info').select();
+    if (env === 'dev') {
+      console.log('dev', riderInfo.data);
+    }
+    if (riderInfo.data !== null) {
+      userProfileTemp = { ...userProfileTemp, ...riderInfo.data[0] };
+    }
+    setUserProfile({ ...userProfileTemp });
+  };
+
+  useEffect(() => {
+    if (session) {
+      getUserProfile(session);
+    }
+  }, [session]);
 
   return (
     <>
