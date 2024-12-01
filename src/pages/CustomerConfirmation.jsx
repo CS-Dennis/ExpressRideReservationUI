@@ -1,5 +1,5 @@
 import { Box, Grid2 as Grid, Paper } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { APP_TITLE } from '../constants';
 import Title from '../components/Title';
 import { useLocation } from 'react-router-dom';

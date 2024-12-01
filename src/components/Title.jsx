@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppContext, supabase_client } from '../App';
 
 export default function Title({ title }) {
@@ -23,7 +23,7 @@ export default function Title({ title }) {
         <AppBar position="static">
           <Toolbar>
             <Typography component="div" sx={{ flexGrow: 1, fontSize: '1em' }}>
-              {title}
+              <Link to={'/'}>{title}</Link>
             </Typography>
             {!context.session && location.pathname !== '/' && (
               <Button

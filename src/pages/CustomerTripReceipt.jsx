@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Grid2 as Grid, Paper } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import { Box, Divider, Grid2 as Grid, Paper } from '@mui/material';
+import { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { APP_TITLE } from '../constants';
 import Title from '../components/Title';
@@ -99,8 +99,8 @@ export default function CustomerTripReceipt() {
                 className="font-bold mt-20 flex justify-center py-10"
                 elevation={10}
               >
-                This ride request doesn't exist. Please check your link in your
-                inbox again.
+                {`This ride request doesn't exist. Please check your link in your
+                inbox again.`}
               </Paper>
             )}
           </Grid>
