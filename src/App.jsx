@@ -54,12 +54,43 @@ function App() {
       ...userProfileTemp,
       email: session.user.email,
     };
+    // get user info
     const riderInfo = await supabase_client.from('rider_info').select();
     if (env === 'dev') {
       console.log('dev', riderInfo.data);
     }
-    if (riderInfo.data !== null) {
+    if (riderInfo.data.length !== 0) {
       userProfileTemp = { ...userProfileTemp, ...riderInfo.data[0] };
+    }
+
+    // get user role
+    var riderRole = await supabase_client
+      .from('user_role')
+      .select('*, role(*)');
+    if (env === 'dev') {
+      console.log('dev', riderRole.data);
+    }
+    if (riderRole.error) {
+      console.log('dev', riderRole.error);
+    }
+
+    if (riderRole.data.length === 0) {
+      // create a user role data
+      if (env === 'dev') {
+        console.log('env', 'create a new user role');
+      }
+
+      riderRole = await supabase_client
+        .from('user_role')
+        .insert([{ user_id: session.user.id }]);
+
+      if (env === 'dev') {
+        console.log(riderRole.data);
+      }
+
+      if (riderRole.error) {
+        console.log(riderRole.error);
+      }
     }
     setUserProfile({ ...userProfileTemp });
   };
