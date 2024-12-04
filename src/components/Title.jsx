@@ -12,6 +12,10 @@ export default function Title({ title }) {
     navigate('/');
   };
 
+  const profilePage = () => {
+    navigate('/profile');
+  };
+
   const logout = async () => {
     await supabase_client.auth.signOut();
     navigate('/');
@@ -34,6 +38,17 @@ export default function Title({ title }) {
                 Sign In
               </Button>
             )}
+            {context.session && context.userProfile && (
+              <Button
+                color="secondary"
+                variant="outlined"
+                sx={{ marginRight: '1em' }}
+                onClick={profilePage}
+              >
+                {`${context.userProfile.first_name} ${context.userProfile.last_name}`}
+              </Button>
+            )}
+
             {context.session && (
               <Button
                 color="secondary"

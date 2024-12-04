@@ -203,3 +203,7 @@ export const TRIP_REQUEST_STATUS = {
   confirmedByCustomer: 'confirmed_by_customer',
   tripCompleted: 'trip_completed',
 };
+
+export const RESPONSE_MESSAGES = {
+  updateProfileSuccess: 'Your profile has been updated successful.',
+};

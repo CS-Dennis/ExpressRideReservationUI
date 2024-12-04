@@ -5,12 +5,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import RideRequestDetail from './pages/RideRequestDetail';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Backdrop, CircularProgress, Snackbar } from '@mui/material';
 import { createContext, useEffect, useState } from 'react';
 import CustomerConfirmation from './pages/CustomerConfirmation';
 import CustomerTripReceipt from './pages/CustomerTripReceipt';
 import { createClient } from '@supabase/supabase-js';
 import LandingPage from './pages/LandingPage';
+import Profile from './pages/Profile';
 
 export const AppContext = createContext();
 export const env = import.meta.env.VITE_NODE_ENV;
@@ -22,6 +23,7 @@ function App() {
   const [snackbarFlag, setSnackbarFlag] = useState(false);
   const [snackbarType, setSnackbarType] = useState('error');
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [session, setSession] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
@@ -113,19 +115,27 @@ function App() {
           setSnackbarType,
           snackbarMessage,
           setSnackbarMessage,
+          setLoading,
         }}
       >
         <BrowserRouter>
           <Routes>
+            {/* login */}
             <Route path="/" element={<LandingPage />} />
+            {/* user profile page */}
+            <Route path="/profile" element={<Profile />} />
+            {/* trip reqeust form */}
             <Route path="/home" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/detail" element={<RideRequestDetail />} />
+            {/* trip request form confirmation */}
             <Route path="/confirmtrip" element={<CustomerConfirmation />} />
             <Route
               path="/tripstatus/:confirmationCode"
               element={<CustomerTripReceipt />}
             />
+            {/* dashboard for driver */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            {/* trip detail for driver */}
+            <Route path="/detail" element={<RideRequestDetail />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </BrowserRouter>
@@ -141,6 +151,11 @@ function App() {
             {snackbarMessage}
           </Alert>
         </Snackbar>
+
+        {/* loading screen */}
+        <Backdrop open={loading} sx={{ zIndex: 100 }}>
+          <CircularProgress color="secondary" />
+        </Backdrop>
       </AppContext.Provider>
     </>
   );
