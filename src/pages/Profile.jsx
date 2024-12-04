@@ -4,9 +4,11 @@ import { APP_TITLE, RESPONSE_MESSAGES } from '../constants';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext, env, supabase_client } from '../App';
 import { MuiTelInput } from 'mui-tel-input';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
   const context = useContext(AppContext);
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -17,6 +19,10 @@ export default function Profile() {
   const [phoneFlag, setPhoneFlag] = useState(false);
 
   const [editProfile, setEditProfile] = useState(false);
+
+  const goBack = () => {
+    navigate('/home');
+  };
 
   const updateUserProfile = async () => {
     context.setLoading(true);
@@ -153,12 +159,21 @@ export default function Profile() {
 
             <Box className="mt-4 flex justify-end">
               {!editProfile && (
-                <Button
-                  variant="contained"
-                  onClick={() => setEditProfile(true)}
-                >
-                  Edit
-                </Button>
+                <>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: '1em' }}
+                    onClick={() => goBack()}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => setEditProfile(true)}
+                  >
+                    Edit
+                  </Button>
+                </>
               )}
 
               {editProfile && (
