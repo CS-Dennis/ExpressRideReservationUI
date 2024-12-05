@@ -10,9 +10,9 @@ export default function Profile() {
   const context = useContext(AppContext);
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [phone, setPhone] = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState(null);
   const [firstNameFlag, setFirstNameFlag] = useState(false);
   const [lastNameFlag, setLastNameFlag] = useState(false);
@@ -28,33 +28,56 @@ export default function Profile() {
     context.setLoading(true);
 
     if (validateForm()) {
-      const updatedProfile = {
-        first_name: firstName,
-        last_name: lastName,
-        phone: phone,
-      };
-      const { data, error } = await supabase_client
-        .from('rider_info')
-        .update(updatedProfile)
-        .eq('user_id', context.session.user.id)
-        .select();
-      if (data) {
-        setEditProfile(false);
-        // show successful snackbar
-        context.setSnackbarFlag(true);
-        context.setSnackbarType('success');
-        context.setSnackbarMessage(RESPONSE_MESSAGES.updateProfileSuccess);
-      }
-      if (env === 'dev') {
-        console.log('dev', data);
-      }
-
-      if (error) {
-        console.log(error);
-        // show error snackbar
+      if (context.newUser) {
+        const { error } = await supabase_client
+          .from('rider_info')
+          .insert([
+            {
+              user_id: context.session.user.id,
+              first_name: firstName,
+              last_name: lastName,
+              phone: phone,
+            },
+          ])
+          .select();
+        if (error) {
+          console.log(error);
+        } else {
+          setEditProfile(false);
+          context.setNewUser(false);
+          // show successful snackbar
+          context.setSnackbarFlag(true);
+          context.setSnackbarType('success');
+          context.setSnackbarMessage(RESPONSE_MESSAGES.updateProfileSuccess);
+          goBack();
+        }
+      } else {
+        const updatedProfile = {
+          first_name: firstName,
+          last_name: lastName,
+          phone: phone,
+        };
+        const { data, error } = await supabase_client
+          .from('rider_info')
+          .update(updatedProfile)
+          .eq('user_id', context.session.user.id)
+          .select();
+        if (data) {
+          setEditProfile(false);
+          // show successful snackbar
+          context.setSnackbarFlag(true);
+          context.setSnackbarType('success');
+          context.setSnackbarMessage(RESPONSE_MESSAGES.updateProfileSuccess);
+        }
+        if (error) {
+          console.log(error);
+          // show error snackbar
+        }
+        if (env === 'dev') {
+          console.log('dev', data);
+        }
       }
     }
-
     context.setLoading(false);
   };
 
@@ -62,15 +85,15 @@ export default function Profile() {
     setFirstNameFlag(false);
     setLastNameFlag(false);
     setPhoneFlag(false);
-    if (firstName.trim() === '') {
+    if (!firstName || firstName.trim() === '') {
       setFirstNameFlag(true);
       return false;
     }
-    if (lastName.trim() === '') {
+    if (!lastName || lastName.trim() === '') {
       setLastNameFlag(true);
       return false;
     }
-    if (phone.trim() === '') {
+    if (!phone || phone.trim() === '') {
       setPhoneFlag(true);
       return false;
     } else {
@@ -81,15 +104,22 @@ export default function Profile() {
   useEffect(() => {
     if (context.userProfile) {
       if (env === 'dev') {
-        console.log(context.userProfile);
+        console.log('dev', context.userProfile);
+        console.log('context.userProfile?.phone', context.userProfile?.phone);
       }
 
-      setFirstName(context.userProfile.first_name);
-      setLastName(context.userProfile.last_name);
+      setFirstName(context.userProfile?.first_name || '');
+      setLastName(context.userProfile?.last_name || '');
       setEmail(context.userProfile.email);
-      setPhone(context.userProfile.phone);
+      setPhone(context.userProfile?.phone || '');
     }
-  }, [context.userProfile]);
+
+    if (context.newUser) {
+      setEditProfile(true);
+    } else {
+      setEditProfile(false);
+    }
+  }, [context.userProfile, context.newUser]);
 
   return (
     <>
@@ -101,7 +131,7 @@ export default function Profile() {
 
           <Box className="mt-10 mx-10">
             <Box className="flex justify-center font-bold text-xl">
-              Your Profile
+              {context.newUser ? `Create Your New Profile` : `Your Profile`}
             </Box>
             <Box>
               <TextField

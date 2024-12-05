@@ -173,38 +173,38 @@ export default function Home() {
         console.log('dev', context.userProfile);
       }
 
-      if (
-        context.session &&
-        !context.userProfile?.first_name &&
-        !context.userProfile?.last_name &&
-        !context.userProfile?.phone
-      ) {
-        setLoading(true);
-        const { error } = await supabase_client
-          .from('rider_info')
-          .insert([
-            {
-              user_id: context.session.user.id,
-              first_name: firstName,
-              last_name: lastName,
-              phone: phoneNumber,
-            },
-          ])
-          .select();
-        if (error) {
-          console.log(error);
-        }
-        if (env === 'dev') {
-          console.log('dev', {
-            user_id: context.session.user.id,
-            first_name: firstName,
-            last_name: lastName,
-            phone: phoneNumber,
-          });
-        }
+      // if (
+      //   context.session &&
+      //   !context.userProfile?.first_name &&
+      //   !context.userProfile?.last_name &&
+      //   !context.userProfile?.phone
+      // ) {
+      //   setLoading(true);
+      //   const { error } = await supabase_client
+      //     .from('rider_info')
+      //     .insert([
+      //       {
+      //         user_id: context.session.user.id,
+      //         first_name: firstName,
+      //         last_name: lastName,
+      //         phone: phoneNumber,
+      //       },
+      //     ])
+      //     .select();
+      //   if (error) {
+      //     console.log(error);
+      //   }
+      //   if (env === 'dev') {
+      //     console.log('dev', {
+      //       user_id: context.session.user.id,
+      //       first_name: firstName,
+      //       last_name: lastName,
+      //       phone: phoneNumber,
+      //     });
+      //   }
 
-        setLoading(false);
-      }
+      //   setLoading(false);
+      // }
 
       setStep((prev) => prev + 1);
     }

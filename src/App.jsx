@@ -27,6 +27,7 @@ function App() {
 
   const [session, setSession] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [newUser, setNewUser] = useState(false);
 
   const authUser = async () => {
     if (env === 'dev') {
@@ -63,7 +64,11 @@ function App() {
     }
     if (riderInfo.data.length !== 0) {
       userProfileTemp = { ...userProfileTemp, ...riderInfo.data[0] };
+      setNewUser(false);
+    } else {
+      setNewUser(true);
     }
+    setUserProfile({ ...userProfileTemp });
 
     // get user role
     var riderRole = await supabase_client
@@ -94,14 +99,13 @@ function App() {
         console.log(riderRole.error);
       }
     }
-    setUserProfile({ ...userProfileTemp });
   };
 
   useEffect(() => {
-    if (session) {
+    if (session || newUser) {
       getUserProfile(session);
     }
-  }, [session]);
+  }, [session, newUser]);
 
   return (
     <>
@@ -109,6 +113,8 @@ function App() {
         value={{
           session,
           userProfile,
+          newUser,
+          setNewUser,
           snackbarFlag,
           setSnackbarFlag,
           snackbarType,
