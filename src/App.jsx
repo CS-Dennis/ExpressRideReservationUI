@@ -12,6 +12,7 @@ import CustomerTripReceipt from './pages/CustomerTripReceipt';
 import { createClient } from '@supabase/supabase-js';
 import LandingPage from './pages/LandingPage';
 import Profile from './pages/Profile';
+import CustomerTrips from './pages/CustomerTrips';
 
 export const AppContext = createContext();
 export const env = import.meta.env.VITE_NODE_ENV;
@@ -128,6 +129,7 @@ function App() {
           <Routes>
             {/* login */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/trips" element={<CustomerTrips />} />
             {/* user profile page */}
             <Route path="/profile" element={<Profile />} />
             {/* trip reqeust form */}

@@ -293,7 +293,7 @@ export default function Home() {
       {/* <Box className="mx-2"> */}
       <Grid container>
         <Grid size={{ md: 12, lg: 1 }} />
-        <Grid size={{ md: 12, lg: 12 }} className="w-full">
+        <Grid size={{ md: 12, lg: 10 }} className="w-full">
           <Title title={APP_TITLE} />
           <ReservationProgressView step={step} />
 

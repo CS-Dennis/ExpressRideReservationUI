@@ -33,6 +33,10 @@ export default function Title({ title }) {
     handleClose();
     navigate('/profile');
   };
+  const tripsPage = () => {
+    handleClose();
+    navigate('/trips');
+  };
 
   const logout = async () => {
     handleClose();
@@ -92,6 +96,9 @@ export default function Title({ title }) {
                     horizontal: 'left',
                   }}
                 >
+                  <MenuItem sx={{ minWidth: '110px' }} onClick={tripsPage}>
+                    My Trips
+                  </MenuItem>
                   <MenuItem onClick={profilePage}>Profile</MenuItem>
                   <MenuItem onClick={logout}>Sign out</MenuItem>
                 </Menu>
