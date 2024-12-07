@@ -6,6 +6,10 @@
 
 # user trips dashboard
 
+## trip card
+
+### trip detail modal - trip card clicked
+
 # driver login
 
 # driver dashboard

@@ -1,13 +1,18 @@
 /* eslint-disable no-undef */
-import { Box, Button, Chip, Paper, Tooltip } from '@mui/material';
+import { Box, Button, Chip, Modal, Paper, Tooltip } from '@mui/material';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
+  DATETIME_FORMATS,
   TRIP_REQUEST_STATUS,
   TRIP_REQUEST_STATUS_CHIP_LABELS,
 } from '../constants';
+import { AppContext } from '../App';
+import TripDetail from './TripDetail';
 
 export default function TripCard({ trip }) {
+  const context = useContext(AppContext);
+  const [showTripDetailModal, setShowTripDetailModal] = useState(false);
   useEffect(() => {
     console.log(moment(new Date(trip.pickup_datetime)));
   }, []);
@@ -17,14 +22,19 @@ export default function TripCard({ trip }) {
       <Paper className="mb-5 p-5">
         <Box className="flex justify-between">
           <Box>{`Pick-up Date: ${moment(new Date(trip.pickup_datetime)).format(
-            'MM/DD/YYYY hh:mm:ss A',
+            DATETIME_FORMATS.american,
           )}`}</Box>
 
           <Box>
             <Button variant="contained" sx={{ marginRight: '4px' }}>
               Request This Trip Again
             </Button>
-            <Button variant="outlined">Trip Detail</Button>
+            <Button
+              variant="outlined"
+              onClick={() => setShowTripDetailModal(true)}
+            >
+              Trip Detail
+            </Button>
           </Box>
         </Box>
 
@@ -148,6 +158,28 @@ export default function TripCard({ trip }) {
           </Box>
         </Box>
       </Paper>
+
+      {/* Trip detail modal */}
+      <Modal
+        open={showTripDetailModal}
+        className="absolute m-auto left-0 right-0 top-0 bottom-0 h-fit w-fit"
+      >
+        <Box className="bg-white p-4 rounded-md border-navyBlue border-t-8">
+          <Box>
+            <TripDetail trip={trip} />
+          </Box>
+          <Box className="flex justify-center mt-4">
+            <Button
+              variant="contained"
+              onClick={() => {
+                setShowTripDetailModal(false);
+              }}
+            >
+              Close
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </>
   );
 }

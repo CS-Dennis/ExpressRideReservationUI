@@ -214,3 +214,8 @@ export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
 export const RESPONSE_MESSAGES = {
   updateProfileSuccess: 'Your profile has been updated successful.',
 };
+
+export const DATETIME_FORMATS = {
+  american: 'MM/DD/YYYY hh:mm:ss A',
+  fullDate: 'dddd, MMMM Do YYYY, hh:mm:ss A',
+};
