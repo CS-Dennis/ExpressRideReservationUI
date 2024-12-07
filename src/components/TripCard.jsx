@@ -1,17 +1,15 @@
 /* eslint-disable no-undef */
 import { Box, Button, Chip, Modal, Paper, Tooltip } from '@mui/material';
 import moment from 'moment';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DATETIME_FORMATS,
   TRIP_REQUEST_STATUS,
   TRIP_REQUEST_STATUS_CHIP_LABELS,
 } from '../constants';
-import { AppContext } from '../App';
 import TripDetail from './TripDetail';
 
 export default function TripCard({ trip }) {
-  const context = useContext(AppContext);
   const [showTripDetailModal, setShowTripDetailModal] = useState(false);
   useEffect(() => {
     console.log(moment(new Date(trip.pickup_datetime)));
@@ -55,7 +53,7 @@ export default function TripCard({ trip }) {
             <Box className="flex justify-center mb-6">
               <Chip
                 sx={() =>
-                  trip.status === TRIP_REQUEST_STATUS.tripCompleted
+                  trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
                     ? {
                         backgroundColor: '#00bfaf',
                         color: '#fff',
@@ -66,13 +64,13 @@ export default function TripCard({ trip }) {
                       }
                 }
                 label={
-                  trip.status === TRIP_REQUEST_STATUS.tripRequested
+                  trip.status_id === TRIP_REQUEST_STATUS.tripRequested
                     ? `1. ${TRIP_REQUEST_STATUS_CHIP_LABELS[0]}`
-                    : trip.status === TRIP_REQUEST_STATUS.confirmedByDriver
+                    : trip.status_id === TRIP_REQUEST_STATUS.confirmedByDriver
                     ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
-                    : trip.status === TRIP_REQUEST_STATUS.confirmedByCustomer
+                    : trip.status_id === TRIP_REQUEST_STATUS.confirmedByCustomer
                     ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
-                    : trip.status === TRIP_REQUEST_STATUS.tripCompleted &&
+                    : trip.status_id === TRIP_REQUEST_STATUS.tripCompleted &&
                       `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
                 }
               />
@@ -82,7 +80,7 @@ export default function TripCard({ trip }) {
               <Tooltip title={'You ride request has been sent to the driver.'}>
                 <Chip
                   sx={() =>
-                    trip.status === TRIP_REQUEST_STATUS.tripRequested && {
+                    trip.status_id === TRIP_REQUEST_STATUS.tripRequested && {
                       backgroundColor: '#273238',
                       color: '#fff',
                     }
@@ -101,7 +99,8 @@ export default function TripCard({ trip }) {
               >
                 <Chip
                   sx={() =>
-                    trip.status === TRIP_REQUEST_STATUS.confirmedByDriver && {
+                    trip.status_id ===
+                      TRIP_REQUEST_STATUS.confirmedByDriver && {
                       backgroundColor: '#273238',
                       color: '#fff',
                     }
@@ -120,7 +119,8 @@ export default function TripCard({ trip }) {
               >
                 <Chip
                   sx={() =>
-                    trip.status === TRIP_REQUEST_STATUS.confirmedByCustomer && {
+                    trip.status_id ===
+                      TRIP_REQUEST_STATUS.confirmedByCustomer && {
                       backgroundColor: '#273238',
                       color: '#fff',
                     }
@@ -135,7 +135,7 @@ export default function TripCard({ trip }) {
               <Tooltip title={'Your trip has been completed.'}>
                 <Chip
                   sx={() =>
-                    trip.status === TRIP_REQUEST_STATUS.tripCompleted && {
+                    trip.status_id === TRIP_REQUEST_STATUS.tripCompleted && {
                       backgroundColor: '#00bfaf',
                       color: '#fff',
                     }
