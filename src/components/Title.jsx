@@ -29,6 +29,10 @@ export default function Title({ title }) {
     navigate('/');
   };
 
+  const homePage = () => {
+    navigate('/home');
+  };
+
   const profilePage = () => {
     handleClose();
     navigate('/profile');
@@ -96,9 +100,10 @@ export default function Title({ title }) {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem sx={{ minWidth: '110px' }} onClick={tripsPage}>
-                    My Trips
+                  <MenuItem sx={{ minWidth: '110px' }} onClick={homePage}>
+                    Request A Ride
                   </MenuItem>
+                  <MenuItem onClick={tripsPage}>My Trips</MenuItem>
                   <MenuItem onClick={profilePage}>Profile</MenuItem>
                   <MenuItem onClick={logout}>Sign out</MenuItem>
                 </Menu>

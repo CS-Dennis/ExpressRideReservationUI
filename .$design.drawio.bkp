@@ -868,7 +868,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="yupGjEcGUd0UMXfvOLw3" name="UI">
-    <mxGraphModel dx="2868" dy="-56" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2390" dy="-313" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1084,6 +1084,9 @@
         </mxCell>
         <mxCell id="KD3sbJkGQURUhgdOPZJb-25" value="Request This Trip Again" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;fontSize=50;" vertex="1" parent="1">
           <mxGeometry x="9819" y="2299" width="553" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="KD3sbJkGQURUhgdOPZJb-26" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/Location.svg;" vertex="1" parent="1">
+          <mxGeometry x="9082" y="2323" width="40" height="71" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -204,6 +204,13 @@ export const TRIP_REQUEST_STATUS = {
   tripCompleted: 'trip_completed',
 };
 
+export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
+  'Ride Requested',
+  'Price Suggested',
+  'Price Accepted',
+  'Trip Completed',
+];
+
 export const RESPONSE_MESSAGES = {
   updateProfileSuccess: 'Your profile has been updated successful.',
 };
