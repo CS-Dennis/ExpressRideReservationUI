@@ -64,6 +64,7 @@ export default function Profile() {
           .select();
         if (data) {
           setEditProfile(false);
+          context.getUserProfile(context.session);
           // show successful snackbar
           context.setSnackbarFlag(true);
           context.setSnackbarType('success');

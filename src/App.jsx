@@ -123,6 +123,7 @@ function App() {
           snackbarMessage,
           setSnackbarMessage,
           setLoading,
+          getUserProfile,
         }}
       >
         <BrowserRouter>
