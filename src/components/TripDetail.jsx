@@ -5,6 +5,7 @@ import {
   TRIP_REQUEST_STATUS,
   TRIP_REQUEST_STATUS_CHIP_LABELS,
 } from '../constants';
+import { Link } from 'react-router-dom';
 
 export default function TripDetail({ trip }) {
   return (
@@ -30,16 +31,31 @@ export default function TripDetail({ trip }) {
             <Box>{`${trip.dropoff_address}, ${trip.dropoff_city}, ${trip.dropoff_state} ${trip.dropoff_zip}`}</Box>
           </Box>
           <Box className="mt-4">
-            <img
-              src="../../assets/icons/location.png"
-              style={{ height: '40px' }}
-            />
+            <Link
+              to={`https://www.google.com/maps/dir/${trip?.pickup_address}, ${trip?.pickup_city}, ${trip?.pickup_state} ${trip?.pickup_zip}/${trip?.dropoff_address}, ${trip?.dropoff_city}, ${trip?.dropoff_state} ${trip?.dropoff_zip}`}
+              target="_blank"
+            >
+              <Box className="flex flex-col bg-slate-100">
+                <Box className="flex self-center">Show Map</Box>
+                <Box className="flex self-center">
+                  <img
+                    src="../../assets/icons/location.png"
+                    style={{ height: '40px' }}
+                  />
+                </Box>
+              </Box>
+            </Link>
           </Box>
         </Box>
 
         <Box className="mt-10">
           <Box className="flex justify-center font-bold border-b border-gray-500">
             Rider Info
+          </Box>
+          <Box className="mt-4">
+            <Box>{`Customer's Name: ${trip.rider_info.first_name} ${trip.rider_info.last_name}`}</Box>
+            <Box>{`Phone: ${trip.rider_info.phone}`}</Box>
+            <Box>{`Email: ${trip.rider_info.email}`}</Box>
           </Box>
         </Box>
 
