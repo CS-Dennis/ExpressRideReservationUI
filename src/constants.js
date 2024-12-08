@@ -198,10 +198,10 @@ export const PRICING_INFO_TABLE_DATA = [
 ];
 
 export const TRIP_REQUEST_STATUS = {
-  tripRequested: 'trip_requested',
-  confirmedByDriver: 'confirmed_by_driver',
-  confirmedByCustomer: 'confirmed_by_customer',
-  tripCompleted: 'trip_completed',
+  tripRequested: 1, //'trip_requested'
+  confirmedByDriver: 2, //'confirmed_by_driver'
+  confirmedByCustomer: 3, //'confirmed_by_customer'
+  tripCompleted: 4, // 'trip_completed'
 };
 
 export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
@@ -216,6 +216,8 @@ export const RESPONSE_MESSAGES = {
 };
 
 export const DATETIME_FORMATS = {
-  american: 'MM/DD/YYYY hh:mm:ss A',
-  fullDate: 'dddd, MMMM Do YYYY, hh:mm:ss A',
+  american: 'MM/DD/YYYY hh:mm A',
+  fullDate: 'dddd, MMMM Do YYYY, hh:mm A',
 };
+
+export const RIDE_REQUEST_TYPES = ['Pending Requests', 'Completed Requests'];

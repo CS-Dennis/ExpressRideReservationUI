@@ -404,7 +404,11 @@ export default function Home() {
             </Box>
             <Box className="flex justify-center w-full">
               {step < 1 && (
-                <Button onClick={() => nextStep()} variant="contained">
+                <Button
+                  onClick={() => nextStep()}
+                  variant="contained"
+                  disabled={context.userProfile?.role.id === 2}
+                >
                   Next
                 </Button>
               )}

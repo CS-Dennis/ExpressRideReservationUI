@@ -1,6 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import moment from 'moment';
-import { DATETIME_FORMATS } from '../constants';
+import {
+  DATETIME_FORMATS,
+  TRIP_REQUEST_STATUS,
+  TRIP_REQUEST_STATUS_CHIP_LABELS,
+} from '../constants';
 
 export default function TripDetail({ trip }) {
   return (
@@ -8,25 +12,76 @@ export default function TripDetail({ trip }) {
       <Box>
         <Box className="flex justify-center font-bold text-lg">Trip Detail</Box>
         <Box className="mt-4">
-          Pick-up datetime:{' '}
-          {moment(trip.pickup_datetime).format(DATETIME_FORMATS.american)}
-        </Box>
-        <Box>
-          Pick-up location:{' '}
-          {`${trip.pickup_address}, ${trip.pickup_city}, ${trip.pickup_state} ${trip.pickup_zip}`}
-        </Box>
-        <Box>
-          Drop-off location:{' '}
-          {`${trip.dropoff_address}, ${trip.dropoff_city}, ${trip.dropoff_state} ${trip.dropoff_zip}`}
+          <Box className="flex justify-center font-bold border-b border-gray-500">
+            Trip Info
+          </Box>
+          <Box className="mt-4">
+            <Box className="font-bold mr-2">Pick-up datetime:</Box>
+            <Box>
+              {moment(trip.pickup_datetime).format(DATETIME_FORMATS.american)}
+            </Box>
+          </Box>
+          <Box className="mt-4">
+            <Box className="font-bold mr-2">Pick-up location:</Box>
+            <Box>{`${trip.pickup_address}, ${trip.pickup_city}, ${trip.pickup_state} ${trip.pickup_zip}`}</Box>
+          </Box>
+          <Box className="mt-4">
+            <Box className="font-bold mr-2">Drop-off location:</Box>
+            <Box>{`${trip.dropoff_address}, ${trip.dropoff_city}, ${trip.dropoff_state} ${trip.dropoff_zip}`}</Box>
+          </Box>
+          <Box className="mt-4">
+            <img
+              src="../../assets/icons/location.png"
+              style={{ height: '40px' }}
+            />
+          </Box>
         </Box>
 
-        <Box>Number of Passengers: {trip.num_passengers}</Box>
-        <Box>Number of checked bags: {trip.num_bags_checked}</Box>
-        <Box>Number of carry-ons: {trip.num_bags_carryon}</Box>
-        <Box>Vehicle type: {trip.trip_type}</Box>
-        <Box>Your notes to the driver: {trip.notes}</Box>
+        <Box className="mt-10">
+          <Box className="flex justify-center font-bold border-b border-gray-500">
+            Rider Info
+          </Box>
+        </Box>
+
+        <Box className="mt-10">
+          <Box className="flex justify-center font-bold border-b border-gray-500">
+            More Info
+          </Box>
+          <Box className="mt-4">
+            <Box>Number of Passengers: {trip.num_passengers}</Box>
+            <Box>Number of checked bags: {trip.num_bags_checked}</Box>
+            <Box>Number of carry-ons: {trip.num_bags_carryon}</Box>
+            <Box>Vehicle type: {trip.trip_type}</Box>
+          </Box>
+        </Box>
+
+        <Box>Notes to the driver: {trip.notes}</Box>
         <Box>Cost: ${trip.price || 0}</Box>
-        <Box>Status: {trip.status}</Box>
+        <Box>
+          Status:{' '}
+          <Chip
+            label={
+              trip.status_id === 1
+                ? TRIP_REQUEST_STATUS_CHIP_LABELS[0]
+                : trip.status_id === 2
+                ? TRIP_REQUEST_STATUS_CHIP_LABELS[1]
+                : trip.status_id === 3
+                ? TRIP_REQUEST_STATUS_CHIP_LABELS[2]
+                : trip.status_id === 4 && TRIP_REQUEST_STATUS_CHIP_LABELS[3]
+            }
+            sx={() =>
+              trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
+                ? {
+                    backgroundColor: '#19ae47',
+                    color: '#fff',
+                  }
+                : {
+                    backgroundColor: '#273238',
+                    color: '#fff',
+                  }
+            }
+          />
+        </Box>
 
         <Box>
           Request send on:{' '}

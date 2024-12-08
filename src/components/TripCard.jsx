@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { Box, Button, Chip, Modal, Paper, Tooltip } from '@mui/material';
+import { Box, Button, Chip, Modal, Paper } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import {
@@ -8,6 +8,7 @@ import {
   TRIP_REQUEST_STATUS_CHIP_LABELS,
 } from '../constants';
 import TripDetail from './TripDetail';
+import RequestStatusDemo from './RequestStatusDemo';
 
 export default function TripCard({ trip }) {
   const [showTripDetailModal, setShowTripDetailModal] = useState(false);
@@ -76,74 +77,7 @@ export default function TripCard({ trip }) {
               />
             </Box>
             {/* status demo */}
-            <Box className="flex">
-              <Tooltip title={'You ride request has been sent to the driver.'}>
-                <Chip
-                  sx={() =>
-                    trip.status_id === TRIP_REQUEST_STATUS.tripRequested && {
-                      backgroundColor: '#273238',
-                      color: '#fff',
-                    }
-                  }
-                  label="1. Ride Requested"
-                />
-              </Tooltip>
-              <img
-                src="../../public/assets/icons/right-arrow.png"
-                className="w-full h-full flex self-center"
-              />
-              <Tooltip
-                title={
-                  'Your driver has sent you the price for the ride request. Pending your confirmation.'
-                }
-              >
-                <Chip
-                  sx={() =>
-                    trip.status_id ===
-                      TRIP_REQUEST_STATUS.confirmedByDriver && {
-                      backgroundColor: '#273238',
-                      color: '#fff',
-                    }
-                  }
-                  label="2. Price Suggested"
-                />
-              </Tooltip>
-              <img
-                src="../../public/assets/icons/right-arrow.png"
-                className="w-full h-full flex self-center"
-              />
-              <Tooltip
-                title={
-                  'You have confirmed the price and your ride is confirmed.'
-                }
-              >
-                <Chip
-                  sx={() =>
-                    trip.status_id ===
-                      TRIP_REQUEST_STATUS.confirmedByCustomer && {
-                      backgroundColor: '#273238',
-                      color: '#fff',
-                    }
-                  }
-                  label="3. Price Accepted"
-                />
-              </Tooltip>
-              <img
-                src="../../public/assets/icons/right-arrow.png"
-                className="w-full h-full flex self-center"
-              />
-              <Tooltip title={'Your trip has been completed.'}>
-                <Chip
-                  sx={() =>
-                    trip.status_id === TRIP_REQUEST_STATUS.tripCompleted && {
-                      backgroundColor: '#00bfaf',
-                      color: '#fff',
-                    }
-                  }
-                  label="4. Trip Completed"
-                />
-              </Tooltip>
-            </Box>
+            <RequestStatusDemo trip={trip} />
           </Box>
           <Box>
             <Box className="flex justify-center">

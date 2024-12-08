@@ -2,7 +2,7 @@ import { Box, Grid2 as Grid, MenuItem, Select } from '@mui/material';
 import Title from '../components/Title';
 import { APP_TITLE } from '../constants';
 import { useEffect, useState } from 'react';
-import { supabase_client } from '../App';
+import { env, supabase_client } from '../App';
 import TripCard from '../components/TripCard';
 
 export default function CustomerTrips() {
@@ -12,7 +12,9 @@ export default function CustomerTrips() {
     const { data, error } = await supabase_client.from('ride_request').select();
 
     if (data) {
-      console.log(data);
+      if (env === 'dev') {
+        console.log('dev', 'ride_requests', data);
+      }
       setTrips([...data]);
     }
 

@@ -3,7 +3,6 @@ import './App.css';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
 import RideRequestDetail from './pages/RideRequestDetail';
 import { Alert, Backdrop, CircularProgress, Snackbar } from '@mui/material';
 import { createContext, useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ import { createClient } from '@supabase/supabase-js';
 import LandingPage from './pages/LandingPage';
 import Profile from './pages/Profile';
 import CustomerTrips from './pages/CustomerTrips';
+import Dashboard from './pages/Dashboard';
 
 export const AppContext = createContext();
 export const env = import.meta.env.VITE_NODE_ENV;
@@ -69,7 +69,6 @@ function App() {
     } else {
       setNewUser(true);
     }
-    setUserProfile({ ...userProfileTemp });
 
     // get user role
     var riderRole = await supabase_client
@@ -88,18 +87,31 @@ function App() {
         console.log('env', 'create a new user role');
       }
 
-      riderRole = await supabase_client
+      await supabase_client
         .from('user_role')
         .insert([{ user_id: session.user.id }]);
 
+      riderRole = await supabase_client.from('user_role').select('*, role(*)');
+
       if (env === 'dev') {
-        console.log(riderRole.data);
+        console.log('riderRole', riderRole.data);
       }
 
       if (riderRole.error) {
         console.log(riderRole.error);
       }
     }
+
+    userProfileTemp = {
+      ...userProfileTemp,
+      role: { ...riderRole.data[0].role },
+    };
+
+    if (env == 'dev') {
+      console.log('userProfile', userProfileTemp);
+    }
+
+    setUserProfile({ ...userProfileTemp });
   };
 
   useEffect(() => {
@@ -141,8 +153,13 @@ function App() {
               path="/tripstatus/:confirmationCode"
               element={<CustomerTripReceipt />}
             />
+
             {/* dashboard for driver */}
             <Route path="/dashboard" element={<Dashboard />} />
+
+            {/* dashboard for driver - old dashboard */}
+            {/* <Route path="/dashboard_old" element={<DashboardOld />} /> */}
+
             {/* trip detail for driver */}
             <Route path="/detail" element={<RideRequestDetail />} />
             <Route path="*" element={<Home />} />

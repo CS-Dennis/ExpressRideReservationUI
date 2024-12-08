@@ -33,6 +33,10 @@ export default function Title({ title }) {
     navigate('/home');
   };
 
+  const dashboardPage = () => {
+    navigate('/dashboard');
+  };
+
   const profilePage = () => {
     handleClose();
     navigate('/profile');
@@ -56,6 +60,10 @@ export default function Title({ title }) {
       navigate('/profile');
     }
   }, [context.session, context.newUser]);
+
+  useEffect(() => {
+    console.log('context.userProfile', context.userProfile);
+  }, [context.userProfile]);
 
   return (
     <>
@@ -100,10 +108,29 @@ export default function Title({ title }) {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem sx={{ minWidth: '110px' }} onClick={homePage}>
-                    Request A Ride
-                  </MenuItem>
-                  <MenuItem onClick={tripsPage}>My Trips</MenuItem>
+                  {/* for customer */}
+                  {context.userProfile?.role?.id === 3 && (
+                    <Box>
+                      <MenuItem sx={{ minWidth: '110px' }} onClick={homePage}>
+                        Request A Ride
+                      </MenuItem>
+                      <MenuItem onClick={tripsPage}>My Trips</MenuItem>
+                    </Box>
+                  )}
+
+                  {/* for driver */}
+                  {context.userProfile?.role?.id === 2 && (
+                    <Box>
+                      <MenuItem
+                        sx={{ minWidth: '110px' }}
+                        onClick={dashboardPage}
+                      >
+                        My Dashboard
+                      </MenuItem>
+                      <MenuItem onClick={tripsPage}>My Stats</MenuItem>
+                    </Box>
+                  )}
+
                   <MenuItem onClick={profilePage}>Profile</MenuItem>
                   <MenuItem onClick={logout}>Sign out</MenuItem>
                 </Menu>

@@ -1,5 +1,3 @@
-import { colors } from '@mui/material';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -7,6 +5,7 @@ export default {
     extend: {
       colors: {
         navyBlue: '#273238',
+        primaryGreen: '#19ae47',
       },
     },
   },
