@@ -5,16 +5,24 @@ import { useEffect, useState } from 'react';
 import { env, supabase_client } from '../App';
 import CustomerRequests from '../components/CustomerRequests';
 import RequestStatusDemo from '../components/RequestStatusDemo';
+import { getYearsForFilters } from '../util';
+import moment from 'moment';
 
 export default function Dashboard() {
-  const [rideRequests, setRideRequests] = useState([]);
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(moment().year());
   const [requestsType, setRequestsType] = useState('pending');
 
-  const getAllPendingRequests = async () => {
+  const [rideRequests, setRideRequests] = useState([]);
+
+  const getAllPendingRequests = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
       .select('*, rider_info(*)')
-      .in('status_id', [1, 2, 3]);
+      .in('status_id', [1, 2, 3])
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
 
     if (env === 'dev') {
       console.log('dev', 'pending requests', data);
@@ -27,11 +35,14 @@ export default function Dashboard() {
     }
   };
 
-  const getAllCompletedRequests = async () => {
+  const getAllCompletedRequests = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
       .select('*, rider_info(*)')
-      .eq('status_id', 4);
+      .eq('status_id', 4)
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
 
     if (env === 'dev') {
       console.log('dev', 'completed requests', data);
@@ -51,16 +62,20 @@ export default function Dashboard() {
   useEffect(() => {
     switch (requestsType) {
       case 'pending':
-        getAllPendingRequests();
+        getAllPendingRequests(selectedYear);
         break;
 
       case 'completed':
-        getAllCompletedRequests();
+        getAllCompletedRequests(selectedYear);
         break;
       default:
         break;
     }
-  }, [requestsType]);
+  }, [requestsType, selectedYear]);
+
+  useEffect(() => {
+    setYears(getYearsForFilters(2020));
+  }, []);
 
   return (
     <>
@@ -99,12 +114,16 @@ export default function Dashboard() {
                   className="flex justify-between mt-2"
                   sx={{ minWidth: '100px' }}
                 >
-                  <Box className="flex self-center ">By Duration:</Box>
-                  <Select value={1}>
-                    <MenuItem value={1}>Last Month</MenuItem>
-                    <MenuItem value={2}>Last 3 Months</MenuItem>
-                    <MenuItem value={3}>Last 6 Months</MenuItem>
-                    <MenuItem value={4}>2024</MenuItem>
+                  <Box className="flex self-center ">By Year:</Box>
+                  <Select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                  >
+                    {years.map((year, i) => (
+                      <MenuItem key={i} value={year}>
+                        {year}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </Box>
               </Box>
