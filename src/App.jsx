@@ -59,7 +59,10 @@ function App() {
       email: session.user.email,
     };
     // get user info
-    const riderInfo = await supabase_client.from('rider_info').select();
+    const riderInfo = await supabase_client
+      .from('rider_info')
+      .select()
+      .eq('user_id', session.user.id);
     if (env === 'dev') {
       console.log('dev', riderInfo.data);
     }

@@ -234,7 +234,7 @@ export default function Home() {
       dropoff_zip: dropoffAddress.zip,
       vehicle_type: vehicleType,
       notes: notes,
-      status: TRIP_REQUEST_STATUS.tripRequested,
+      status_id: TRIP_REQUEST_STATUS.tripRequested,
     };
 
     // if user logged in, add user_id
@@ -268,7 +268,7 @@ export default function Home() {
     }
 
     // placeholder for configurable feature to toggle email confirmation
-    if (env === 'config') {
+    if (env === 'spring_boot_backend') {
       submitRideRequest(request, disableEamil).then((res) => {
         console.log(res);
         if (res.status === 200) {

@@ -6,6 +6,7 @@ export default {
       colors: {
         navyBlue: '#273238',
         primaryGreen: '#19ae47',
+        tealGreen: '#00beae',
       },
     },
   },

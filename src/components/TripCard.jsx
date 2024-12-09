@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { Box, Button, Chip, Modal, Paper } from '@mui/material';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   DATETIME_FORMATS,
   TRIP_REQUEST_STATUS,
@@ -9,11 +9,44 @@ import {
 } from '../constants';
 import TripDetail from './TripDetail';
 import RequestStatusDemo from './RequestStatusDemo';
+import { useEffect } from 'react';
+import { AppContext, env, supabase_client } from '../App';
 
-export default function TripCard({ trip }) {
+// used on CustomerTrips screen
+export default function TripCard({ trip, getUserTrips }) {
+  const context = useContext(AppContext);
   const [showTripDetailModal, setShowTripDetailModal] = useState(false);
+  const [showConfirmPriceModal, setShowConfirmPriceModal] = useState(false);
+
+  const acceptPrice = async () => {
+    console.log(trip);
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .update({ status_id: TRIP_REQUEST_STATUS.confirmedByCustomer })
+      .eq('id', trip.id)
+      .select();
+
+    if (data) {
+      if (env === 'dev') {
+        console.log('dev', 'accepted price', data);
+      }
+
+      context.setSnackbarFlag(true);
+      context.setSnackbarType('success');
+      context.setSnackbarMessage(
+        'You have accepted the price successfully. Your ride reservation is set!',
+      );
+      setShowConfirmPriceModal(false);
+      getUserTrips();
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(moment(new Date(trip.pickup_datetime)));
+    console.log('trip', trip);
   }, []);
 
   return (
@@ -52,29 +85,48 @@ export default function TripCard({ trip }) {
           <Box>
             {/* current trip status */}
             <Box className="flex justify-center mb-6">
-              <Chip
-                sx={() =>
-                  trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
-                    ? {
-                        backgroundColor: '#00bfaf',
-                        color: '#fff',
-                      }
-                    : {
-                        backgroundColor: '#273238',
-                        color: '#fff',
-                      }
-                }
-                label={
-                  trip.status_id === TRIP_REQUEST_STATUS.tripRequested
-                    ? `1. ${TRIP_REQUEST_STATUS_CHIP_LABELS[0]}`
-                    : trip.status_id === TRIP_REQUEST_STATUS.confirmedByDriver
-                    ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
-                    : trip.status_id === TRIP_REQUEST_STATUS.confirmedByCustomer
-                    ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
-                    : trip.status_id === TRIP_REQUEST_STATUS.tripCompleted &&
-                      `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
-                }
-              />
+              <Box className="flex flex-col">
+                <Chip
+                  sx={() =>
+                    trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
+                      ? {
+                          backgroundColor: '#00bfaf',
+                          color: '#fff',
+                        }
+                      : {
+                          backgroundColor: '#273238',
+                          color: '#fff',
+                        }
+                  }
+                  label={
+                    trip.status_id === TRIP_REQUEST_STATUS.tripRequested
+                      ? `1. ${TRIP_REQUEST_STATUS_CHIP_LABELS[0]}`
+                      : trip.status_id === TRIP_REQUEST_STATUS.confirmedByDriver
+                      ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
+                      : trip.status_id ===
+                        TRIP_REQUEST_STATUS.confirmedByCustomer
+                      ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
+                      : trip.status_id === TRIP_REQUEST_STATUS.tripCompleted &&
+                        `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
+                  }
+                />
+                {trip.status_id === TRIP_REQUEST_STATUS.confirmedByDriver && (
+                  <Box className="mt-2">
+                    <Box className="flex justify-center">
+                      <Chip label={`$${trip.price}`} />
+                    </Box>
+                    <Box className="flex justify-center mt-2">
+                      <Button
+                        variant="contained"
+                        sx={{ backgroundColor: '#19ae47' }}
+                        onClick={() => setShowConfirmPriceModal(true)}
+                      >
+                        Accept
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             </Box>
             {/* status demo */}
             <RequestStatusDemo trip={trip} />
@@ -107,6 +159,36 @@ export default function TripCard({ trip }) {
               variant="contained"
               onClick={() => {
                 setShowTripDetailModal(false);
+              }}
+            >
+              Close
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* confirm price modal */}
+      <Modal
+        open={showConfirmPriceModal}
+        className="absolute m-auto left-0 right-0 top-0 bottom-0 h-fit w-64"
+      >
+        <Box className="bg-white p-4 rounded-md border-navyBlue border-t-8">
+          <Box className="flex justify-center font-bold">
+            Confirm the Trip Price
+          </Box>
+          <Box className="flex justify-center font-bold">{`$${trip.price}`}</Box>
+          <Box className="flex justify-evenly mt-4">
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: '#19ae47' }}
+              onClick={acceptPrice}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setShowConfirmPriceModal(false);
               }}
             >
               Close

@@ -9,7 +9,9 @@ export default function CustomerTrips() {
   const [trips, setTrips] = useState([]);
 
   const getUserTrips = async () => {
-    const { data, error } = await supabase_client.from('ride_request').select();
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .select('*, rider_info(*)');
 
     if (data) {
       if (env === 'dev') {
@@ -55,7 +57,7 @@ export default function CustomerTrips() {
             <Box className="mt-5">
               {trips.map((trip, i) => (
                 <Box className="mx-5" key={i}>
-                  <TripCard trip={trip} />
+                  <TripCard trip={trip} getUserTrips={getUserTrips} />
                 </Box>
               ))}
             </Box>

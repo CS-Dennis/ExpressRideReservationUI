@@ -9,6 +9,7 @@ import TripDetail from './TripDetail';
 import { AppContext, env, supabase_client } from '../App';
 import moment from 'moment';
 
+// used on driver's Dashboard screen
 export default function CustomerRequests({
   rideRequests,
   getAllPendingRequests,

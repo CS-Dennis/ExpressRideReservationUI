@@ -13,7 +13,7 @@ export default function Dashboard() {
   const getAllPendingRequests = async () => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select()
+      .select('*, rider_info(*)')
       .in('status_id', [1, 2, 3]);
 
     if (env === 'dev') {
