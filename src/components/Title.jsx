@@ -127,7 +127,9 @@ export default function Title({ title }) {
                       >
                         My Dashboard
                       </MenuItem>
-                      <MenuItem onClick={tripsPage}>My Stats</MenuItem>
+                      <MenuItem onClick={{}} disabled>
+                        My Stats
+                      </MenuItem>
                     </Box>
                   )}
 

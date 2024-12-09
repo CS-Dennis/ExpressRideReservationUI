@@ -19,13 +19,15 @@ export default function CustomerRequests({
 
   const [showAcceptModal, setShowAcceptModal] = useState(false);
   const [showRequestDetailModal, setShowRequestDetailModal] = useState(false);
-  const [seletedRequest, setSeletedRequest] = useState(null);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [suggestedPrice, setSuggestedPrice] = useState(null);
   const [driversNotes, setDriversNotes] = useState(null);
 
+  const [showCompleteTripModal, setShowCompleteTripModal] = useState(false);
+
   const showRequestDetail = (request) => {
     setShowRequestDetailModal(true);
-    setSeletedRequest(request);
+    setSelectedRequest(request);
     console.log('asdf');
   };
 
@@ -52,7 +54,7 @@ export default function CustomerRequests({
         driver_notes: driversNotes,
         status_id: 2,
       })
-      .eq('id', seletedRequest.id)
+      .eq('id', selectedRequest.id)
       .select();
 
     if (data) {
@@ -72,8 +74,34 @@ export default function CustomerRequests({
     }
   };
 
+  const completeRequest = async () => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .update({ status_id: TRIP_REQUEST_STATUS.tripCompleted })
+      .eq('id', selectedRequest.id)
+      .select();
+
+    if (data) {
+      if (env === 'dev') {
+        console.log('dev', data);
+      }
+
+      getAllCompletedRequests();
+
+      setShowCompleteTripModal(false);
+      context.setSnackbarFlag(true);
+      context.setSnackbarType('success');
+      context.setSnackbarMessage('Trip completed successfully.');
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
+      {/* individual request cards */}
       {rideRequests.map((request, i) => (
         <Box
           key={i}
@@ -83,13 +111,13 @@ export default function CustomerRequests({
             <Chip
               label={
                 request.status_id === 1
-                  ? TRIP_REQUEST_STATUS_CHIP_LABELS[0]
+                  ? `1. ${TRIP_REQUEST_STATUS_CHIP_LABELS[0]}`
                   : request.status_id === 2
-                  ? TRIP_REQUEST_STATUS_CHIP_LABELS[1]
+                  ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
                   : request.status_id === 3
-                  ? TRIP_REQUEST_STATUS_CHIP_LABELS[2]
+                  ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
                   : request.status_id === 4 &&
-                    TRIP_REQUEST_STATUS_CHIP_LABELS[3]
+                    `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
               }
               sx={() =>
                 request.status_id === TRIP_REQUEST_STATUS.tripCompleted
@@ -126,13 +154,14 @@ export default function CustomerRequests({
             {request.status_id === 2 && <Box>Price: {`$${request.price}`}</Box>}
           </Box>
 
+          {/* accept the customer's request */}
           {request.status_id === 1 && (
             <Box className="flex justify-evenly mt-4">
               <Button
                 sx={{ backgroundColor: '#0cb04a' }}
                 variant="contained"
                 onClick={() => {
-                  setSeletedRequest(request);
+                  setSelectedRequest(request);
                   setShowAcceptModal(true);
                 }}
               >
@@ -143,10 +172,26 @@ export default function CustomerRequests({
               </Button>
             </Box>
           )}
+
+          {/* complete the trip */}
+          {request.status_id === 3 && (
+            <Box className="flex justify-evenly mt-4">
+              <Button
+                sx={{ backgroundColor: '#0cb04a' }}
+                variant="contained"
+                onClick={() => {
+                  setSelectedRequest(request);
+                  setShowCompleteTripModal(true);
+                }}
+              >
+                Complete Trip
+              </Button>
+            </Box>
+          )}
         </Box>
       ))}
 
-      {/* accept modal */}
+      {/* accept customer's request modal */}
       <Modal open={showAcceptModal}>
         <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
           <Box className="flex justify-center font-bold text-lg">
@@ -191,17 +236,42 @@ export default function CustomerRequests({
         </Box>
       </Modal>
 
-      {/* request detail modal */}
+      {/* show request detail modal */}
       <Modal open={showRequestDetailModal}>
         <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-96 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
           <Box>
-            <TripDetail trip={seletedRequest} />
+            <TripDetail trip={selectedRequest} />
           </Box>
           <Box className="flex justify-center mt-4">
             <Button
               color="primary"
               variant="contained"
               onClick={() => setShowRequestDetailModal(false)}
+            >
+              Close
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* complete request modal */}
+      <Modal open={showCompleteTripModal}>
+        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-96 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+          <Box className="flex justify-center mt-4 font-bold text-lg">
+            Confirm to complete the trip
+          </Box>
+          <Box className="flex justify-around mt-4">
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: '#19ae47' }}
+              onClick={completeRequest}
+            >
+              Confirm
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => setShowCompleteTripModal(false)}
             >
               Close
             </Button>

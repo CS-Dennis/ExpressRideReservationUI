@@ -36,7 +36,7 @@ export default function TripDetail({ trip }) {
               target="_blank"
             >
               <Box className="flex flex-col bg-slate-100">
-                <Box className="flex self-center">Show Map</Box>
+                <Box className="flex self-center">Show on Map</Box>
                 <Box className="flex self-center">
                   <img
                     src="../../assets/icons/location.png"
@@ -78,12 +78,13 @@ export default function TripDetail({ trip }) {
           <Chip
             label={
               trip.status_id === 1
-                ? TRIP_REQUEST_STATUS_CHIP_LABELS[0]
+                ? `1. ${TRIP_REQUEST_STATUS_CHIP_LABELS[0]}`
                 : trip.status_id === 2
-                ? TRIP_REQUEST_STATUS_CHIP_LABELS[1]
+                ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
                 : trip.status_id === 3
-                ? TRIP_REQUEST_STATUS_CHIP_LABELS[2]
-                : trip.status_id === 4 && TRIP_REQUEST_STATUS_CHIP_LABELS[3]
+                ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
+                : trip.status_id === 4 &&
+                  `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
             }
             sx={() =>
               trip.status_id === TRIP_REQUEST_STATUS.tripCompleted

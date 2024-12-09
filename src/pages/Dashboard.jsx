@@ -30,7 +30,7 @@ export default function Dashboard() {
   const getAllCompletedRequests = async () => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select()
+      .select('*, rider_info(*)')
       .eq('status_id', 4);
 
     if (env === 'dev') {
