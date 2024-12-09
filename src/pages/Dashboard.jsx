@@ -59,7 +59,7 @@ export default function Dashboard() {
     setRequestsType(event.target.value);
   };
 
-  useEffect(() => {
+  const getRequests = (requestsType, selectedYear) => {
     switch (requestsType) {
       case 'pending':
         getAllPendingRequests(selectedYear);
@@ -71,10 +71,14 @@ export default function Dashboard() {
       default:
         break;
     }
+  };
+
+  useEffect(() => {
+    getRequests(requestsType, selectedYear);
   }, [requestsType, selectedYear]);
 
   useEffect(() => {
-    setYears(getYearsForFilters(2020));
+    setYears(getYearsForFilters(2024));
   }, []);
 
   return (
@@ -132,8 +136,9 @@ export default function Dashboard() {
             <Box className="mt-4">
               <CustomerRequests
                 rideRequests={rideRequests}
-                getAllPendingRequests={getAllPendingRequests}
-                getAllCompletedRequests={getAllCompletedRequests}
+                selectedYear={selectedYear}
+                requestsType={requestsType}
+                getRequests={getRequests}
               />
             </Box>
           </Box>

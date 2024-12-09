@@ -12,8 +12,9 @@ import moment from 'moment';
 // used on driver's Dashboard screen
 export default function CustomerRequests({
   rideRequests,
-  getAllPendingRequests,
-  getAllCompletedRequests,
+  selectedYear,
+  requestsType,
+  getRequests,
 }) {
   const context = useContext(AppContext);
 
@@ -61,7 +62,7 @@ export default function CustomerRequests({
       if (env === 'dev') {
         console.log(data);
       }
-      getAllPendingRequests();
+      getRequests(requestsType, selectedYear);
       setShowAcceptModal(false);
       context.setSnackbarFlag(true);
       context.setSnackbarType('success');
@@ -86,7 +87,7 @@ export default function CustomerRequests({
         console.log('dev', data);
       }
 
-      getAllCompletedRequests();
+      getRequests(requestsType, selectedYear);
 
       setShowCompleteTripModal(false);
       context.setSnackbarFlag(true);

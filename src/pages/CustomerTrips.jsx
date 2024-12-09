@@ -60,7 +60,6 @@ export default function CustomerTrips() {
               <Select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
-                className="w-44"
               >
                 {years.map((year, i) => (
                   <MenuItem key={i} value={year}>
@@ -75,7 +74,11 @@ export default function CustomerTrips() {
               {trips.length > 0 &&
                 trips.map((trip, i) => (
                   <Box className="mx-5" key={i}>
-                    <TripCard trip={trip} getUserTrips={getUserTrips} />
+                    <TripCard
+                      trip={trip}
+                      selectedYear={selectedYear}
+                      getUserTrips={getUserTrips}
+                    />
                   </Box>
                 ))}
 

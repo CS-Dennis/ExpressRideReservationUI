@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 import { AppContext, env, supabase_client } from '../App';
 
 // used on CustomerTrips screen
-export default function TripCard({ trip, getUserTrips }) {
+export default function TripCard({ trip, selectedYear, getUserTrips }) {
   const context = useContext(AppContext);
   const [showTripDetailModal, setShowTripDetailModal] = useState(false);
   const [showConfirmPriceModal, setShowConfirmPriceModal] = useState(false);
@@ -37,7 +37,7 @@ export default function TripCard({ trip, getUserTrips }) {
         'You have accepted the price successfully. Your ride reservation is set!',
       );
       setShowConfirmPriceModal(false);
-      getUserTrips();
+      getUserTrips(selectedYear);
     }
 
     if (error) {
