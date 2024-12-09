@@ -67,11 +67,13 @@ export default function TripDetail({ trip }) {
             <Box>Number of Passengers: {trip.num_passengers}</Box>
             <Box>Number of checked bags: {trip.num_bags_checked}</Box>
             <Box>Number of carry-ons: {trip.num_bags_carryon}</Box>
-            <Box>Vehicle type: {trip.trip_type}</Box>
+            <Box>Vehicle type: {trip.vehicle_type}</Box>
           </Box>
         </Box>
 
-        <Box>Notes to the driver: {trip.notes}</Box>
+        <Box className="border border-navyBlue font-bold">
+          Notes to the driver: {trip.notes}
+        </Box>
         <Box>Cost: ${trip.price || 0}</Box>
         <Box>
           Status:{' '}

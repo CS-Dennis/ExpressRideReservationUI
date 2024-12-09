@@ -4,14 +4,22 @@ import { APP_TITLE } from '../constants';
 import { useEffect, useState } from 'react';
 import { env, supabase_client } from '../App';
 import TripCard from '../components/TripCard';
+import { getYearsForFilters } from '../util';
+import moment from 'moment';
 
+// customer's My Trips screen
 export default function CustomerTrips() {
   const [trips, setTrips] = useState([]);
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(moment().year());
 
-  const getUserTrips = async () => {
+  const getUserTrips = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select('*, rider_info(*)');
+      .select('*, rider_info(*)')
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
 
     if (data) {
       if (env === 'dev') {
@@ -26,9 +34,13 @@ export default function CustomerTrips() {
   };
 
   useEffect(() => {
-    // get user's trips
-    getUserTrips();
+    setYears(getYearsForFilters(2024));
   }, []);
+
+  useEffect(() => {
+    // get user's trips
+    getUserTrips(selectedYear);
+  }, [selectedYear]);
 
   return (
     <>
@@ -38,28 +50,40 @@ export default function CustomerTrips() {
           <Title title={APP_TITLE} />
 
           <Box>
+            {/* border-b border-navyBlue */}
             <Box className="mt-10 flex justify-center font-bold text-lg">
               My Trips
             </Box>
 
-            <Box className="flex justify-end mr-10">
+            <Box className="flex justify-end mx-10 border-b border-gray-300 pb-2">
               <Box className="flex self-center mr-4">Filter Trips:</Box>
-              <Select defaultValue={'1m'} className="w-44">
-                <MenuItem value={'1m'}>Last Month</MenuItem>
-                <MenuItem value={'3m'}>Last 3 Months</MenuItem>
-                <MenuItem value={'6m'}>Last 6 Months</MenuItem>
-                <MenuItem value={'2024y'}>2024</MenuItem>
-                <MenuItem value={'2023y'}>2023</MenuItem>
+              <Select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                className="w-44"
+              >
+                {years.map((year, i) => (
+                  <MenuItem key={i} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
               </Select>
             </Box>
 
             {/* my trips section */}
             <Box className="mt-5">
-              {trips.map((trip, i) => (
-                <Box className="mx-5" key={i}>
-                  <TripCard trip={trip} getUserTrips={getUserTrips} />
+              {trips.length > 0 &&
+                trips.map((trip, i) => (
+                  <Box className="mx-5" key={i}>
+                    <TripCard trip={trip} getUserTrips={getUserTrips} />
+                  </Box>
+                ))}
+
+              {trips.length === 0 && (
+                <Box className="flex justify-center mt-4 font-bold text-lg">
+                  No Requests Found
                 </Box>
-              ))}
+              )}
             </Box>
           </Box>
         </Grid>

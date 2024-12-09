@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { env } from './App';
 import { DASHBAORD_PAGE } from './constants';
 
@@ -302,4 +303,20 @@ export const checkUserLogin = (context, navigation) => {
   else if (context.session && location.pathname === '/guest') {
     navigation('/home');
   }
+};
+
+export const getYearsForFilters = (initYear) => {
+  var years = [];
+
+  const currentYear = moment().year();
+
+  for (let index = currentYear - initYear; index >= 0; index--) {
+    years.push(initYear + index);
+  }
+
+  if (env === 'dev') {
+    console.log('dev', 'years', years);
+  }
+
+  return years;
 };

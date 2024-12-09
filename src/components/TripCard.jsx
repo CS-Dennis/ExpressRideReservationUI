@@ -146,11 +146,12 @@ export default function TripCard({ trip, getUserTrips }) {
       </Paper>
 
       {/* Trip detail modal */}
-      <Modal
-        open={showTripDetailModal}
-        className="absolute m-auto left-0 right-0 top-0 bottom-0 h-fit w-fit"
-      >
-        <Box className="bg-white p-4 rounded-md border-navyBlue border-t-8">
+      <Modal open={showTripDetailModal}>
+        <Box
+          className="absolute m-auto top-0 bottom-0 left-0 right-0 
+        w-96 h-5/6 bg-white p-4 rounded-md border-navyBlue 
+        border-t-8 overflow-y-auto"
+        >
           <Box>
             <TripDetail trip={trip} />
           </Box>
