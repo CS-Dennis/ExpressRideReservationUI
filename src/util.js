@@ -308,9 +308,9 @@ export const checkUserLogin = (context, navigation) => {
 export const getYearsForFilters = (initYear) => {
   var years = [];
 
-  const currentYear = moment().year();
+  const nextYear = moment().year() + 1;
 
-  for (let index = currentYear - initYear; index >= 0; index--) {
+  for (let index = nextYear - initYear; index >= 0; index--) {
     years.push(initYear + index);
   }
 
