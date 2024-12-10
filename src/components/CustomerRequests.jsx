@@ -150,9 +150,9 @@ export default function CustomerRequests({
                   : request.status_id === 4
                   ? `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
                   : request.status_id === 5
-                  ? `5. ${TRIP_REQUEST_STATUS_CHIP_LABELS[4]}`
+                  ? `${TRIP_REQUEST_STATUS_CHIP_LABELS[4]}`
                   : request.status_id === 6 &&
-                    `6. ${TRIP_REQUEST_STATUS_CHIP_LABELS[5]}`
+                    `${TRIP_REQUEST_STATUS_CHIP_LABELS[5]}`
               }
               sx={() =>
                 request.status_id === TRIP_REQUEST_STATUS.tripCompleted

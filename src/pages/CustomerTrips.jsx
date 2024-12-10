@@ -57,16 +57,18 @@ export default function CustomerTrips() {
 
             <Box className="flex justify-end mx-10 border-b border-gray-300 pb-2">
               <Box className="flex self-center mr-4">Filter Trips:</Box>
-              <Select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-              >
-                {years.map((year, i) => (
-                  <MenuItem key={i} value={year}>
-                    {year}
-                  </MenuItem>
-                ))}
-              </Select>
+              {years.length > 0 && (
+                <Select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                >
+                  {years.map((year, i) => (
+                    <MenuItem key={i} value={year}>
+                      {year}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
             </Box>
 
             {/* my trips section */}

@@ -143,16 +143,18 @@ export default function Dashboard() {
                   sx={{ minWidth: '100px' }}
                 >
                   <Box className="flex self-center ">By Year:</Box>
-                  <Select
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
-                  >
-                    {years.map((year, i) => (
-                      <MenuItem key={i} value={year}>
-                        {year}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  {years.length > 0 && (
+                    <Select
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.target.value)}
+                    >
+                      {years.map((year, i) => (
+                        <MenuItem key={i} value={year}>
+                          {year}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
                 </Box>
               </Box>
             </Box>
