@@ -19,6 +19,7 @@ export default function CustomerRequests({
   const context = useContext(AppContext);
 
   const [showAcceptModal, setShowAcceptModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
   const [showRequestDetailModal, setShowRequestDetailModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [suggestedPrice, setSuggestedPrice] = useState(null);
@@ -29,7 +30,6 @@ export default function CustomerRequests({
   const showRequestDetail = (request) => {
     setShowRequestDetailModal(true);
     setSelectedRequest(request);
-    console.log('asdf');
   };
 
   const closeAcceptModal = () => {
@@ -70,6 +70,36 @@ export default function CustomerRequests({
         'Suggested price has been submitted successfully.',
       );
     }
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const closeRejectModal = () => {
+    setShowRejectModal(false);
+    setDriversNotes(null);
+  };
+
+  const rejectRequest = async () => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .update({ status_id: 5 })
+      .eq('id', selectedRequest.id)
+      .select();
+
+    if (data) {
+      if (env === 'dev') {
+        console.log('dev', 'rejected request', data);
+      }
+
+      getRequests(requestsType, selectedYear);
+
+      setShowRejectModal(false);
+      context.setSnackbarFlag(true);
+      context.setSnackbarType('success');
+      context.setSnackbarMessage('Ride request rejected successfully.');
+    }
+
     if (error) {
       console.log(error);
     }
@@ -117,8 +147,12 @@ export default function CustomerRequests({
                   ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
                   : request.status_id === 3
                   ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
-                  : request.status_id === 4 &&
-                    `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
+                  : request.status_id === 4
+                  ? `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
+                  : request.status_id === 5
+                  ? `5. ${TRIP_REQUEST_STATUS_CHIP_LABELS[4]}`
+                  : request.status_id === 6 &&
+                    `6. ${TRIP_REQUEST_STATUS_CHIP_LABELS[5]}`
               }
               sx={() =>
                 request.status_id === TRIP_REQUEST_STATUS.tripCompleted
@@ -126,6 +160,10 @@ export default function CustomerRequests({
                       backgroundColor: '#19ae47',
                       color: '#fff',
                     }
+                  : request.status_id === TRIP_REQUEST_STATUS.requestRejected
+                  ? { backgroundColor: '#e7334a', color: '#fff' }
+                  : request.status_id === TRIP_REQUEST_STATUS.priceRejected
+                  ? { backgroundColor: '#e77733', color: '#fff' }
                   : {
                       backgroundColor: '#273238',
                       color: '#fff',
@@ -168,7 +206,14 @@ export default function CustomerRequests({
               >
                 Accept
               </Button>
-              <Button variant="contained" color="error">
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  setSelectedRequest(request);
+                  setShowRejectModal(true);
+                }}
+              >
                 Reject
               </Button>
             </Box>
@@ -230,6 +275,41 @@ export default function CustomerRequests({
               variant="contained"
               color="primary"
               onClick={closeAcceptModal}
+            >
+              Close
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* reject customer's request modal */}
+      <Modal open={showRejectModal}>
+        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+          <Box className="flex justify-center font-bold text-lg">
+            Confirm to Reject Request
+          </Box>
+          <Box className="mt-4">
+            <TextField
+              label="Notes to the customer"
+              onChange={(e) => setDriversNotes(e.target.value)}
+              fullWidth
+              multiline
+              rows={4}
+            />
+          </Box>
+
+          <Box className="mt-4 flex justify-evenly">
+            <Button
+              sx={{ backgroundColor: '#e7334a' }}
+              variant="contained"
+              onClick={rejectRequest}
+            >
+              Reject
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={closeRejectModal}
             >
               Close
             </Button>

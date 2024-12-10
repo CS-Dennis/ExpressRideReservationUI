@@ -55,6 +55,26 @@ export default function Dashboard() {
     }
   };
 
+  const getAllTerminatedRequests = async (year) => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .select('*, rider_info(*)')
+      .in('status_id', [5, 6])
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+
+    if (env === 'dev') {
+      console.log('dev', 'completed requests', data);
+    }
+    if (data) {
+      setRideRequests([...data]);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
   const selectRequests = (event) => {
     setRequestsType(event.target.value);
   };
@@ -67,6 +87,10 @@ export default function Dashboard() {
 
       case 'completed':
         getAllCompletedRequests(selectedYear);
+        break;
+
+      case 'terminated':
+        getAllTerminatedRequests(selectedYear);
         break;
       default:
         break;

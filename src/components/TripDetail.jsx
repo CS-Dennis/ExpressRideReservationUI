@@ -85,8 +85,12 @@ export default function TripDetail({ trip }) {
                 ? `2. ${TRIP_REQUEST_STATUS_CHIP_LABELS[1]}`
                 : trip.status_id === 3
                 ? `3. ${TRIP_REQUEST_STATUS_CHIP_LABELS[2]}`
-                : trip.status_id === 4 &&
-                  `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
+                : trip.status_id === 4
+                ? `4. ${TRIP_REQUEST_STATUS_CHIP_LABELS[3]}`
+                : trip.status_id === 5
+                ? `5. ${TRIP_REQUEST_STATUS_CHIP_LABELS[4]}`
+                : trip.status_id === 6 &&
+                  `6. ${TRIP_REQUEST_STATUS_CHIP_LABELS[5]}`
             }
             sx={() =>
               trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
@@ -94,6 +98,10 @@ export default function TripDetail({ trip }) {
                     backgroundColor: '#19ae47',
                     color: '#fff',
                   }
+                : trip.status_id === TRIP_REQUEST_STATUS.requestRejected
+                ? { backgroundColor: '#e7334a', color: '#fff' }
+                : trip.status_id === TRIP_REQUEST_STATUS.priceRejected
+                ? { backgroundColor: '#e77733', color: '#fff' }
                 : {
                     backgroundColor: '#273238',
                     color: '#fff',

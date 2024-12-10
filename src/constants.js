@@ -202,6 +202,8 @@ export const TRIP_REQUEST_STATUS = {
   confirmedByDriver: 2, //'confirmed_by_driver'
   confirmedByCustomer: 3, //'confirmed_by_customer'
   tripCompleted: 4, // 'trip_completed'
+  requestRejected: 5,
+  priceRejected: 6,
 };
 
 export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
@@ -209,6 +211,8 @@ export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
   'Price Suggested',
   'Price Accepted',
   'Trip Completed',
+  'Request Rejected',
+  'Price Rejected',
 ];
 
 export const RESPONSE_MESSAGES = {
