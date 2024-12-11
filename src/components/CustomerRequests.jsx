@@ -48,19 +48,33 @@ export default function CustomerRequests({
       return;
     }
 
-    const { data, error } = await supabase_client
+    const updateRideRequest = await supabase_client
       .from('ride_request')
       .update({
-        price: suggestedPrice,
         driver_notes: driversNotes,
         status_id: 2,
       })
       .eq('id', selectedRequest.id)
       .select();
 
-    if (data) {
+    const insertTripCharge = await supabase_client
+      .from('trip_charge')
+      .insert({
+        user_id: selectedRequest.user_id,
+        ride_request_id: selectedRequest.id,
+        price: suggestedPrice,
+      })
+      .select();
+
+    const [result1, result2] = await Promise.all([
+      updateRideRequest,
+      insertTripCharge,
+    ]);
+
+    if (result1.data && result2.data) {
       if (env === 'dev') {
-        console.log(data);
+        console.log('dev', 'updated rider request', result1.data);
+        console.log('dev', 'inserted trip charge', result2.data);
       }
       getRequests(requestsType, selectedYear);
       setShowAcceptModal(false);
@@ -70,8 +84,9 @@ export default function CustomerRequests({
         'Suggested price has been submitted successfully.',
       );
     }
-    if (error) {
-      console.log(error);
+    if (result1.error || result2.error) {
+      console.log(result1.error);
+      console.log(result2.error);
     }
   };
 

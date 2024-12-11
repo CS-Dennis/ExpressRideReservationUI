@@ -16,7 +16,7 @@ export default function CustomerTrips() {
   const getUserTrips = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select('*, rider_info(*)')
+      .select('*, rider_info(*), trip_charge(*)')
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
       .order('pickup_datetime', { ascending: false });

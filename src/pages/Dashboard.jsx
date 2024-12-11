@@ -18,7 +18,7 @@ export default function Dashboard() {
   const getAllPendingRequests = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select('*, rider_info(*)')
+      .select('*, rider_info(*), trip_charge(*)')
       .in('status_id', [1, 2, 3])
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
