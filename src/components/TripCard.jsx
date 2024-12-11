@@ -93,10 +93,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
         <Box className="flex justify-between mt-4">
           <Box>
             <Box className="flex justify-center">
-              <img
-                src="../../public/assets/icons/location.png"
-                className="h-5 w-5"
-              />
+              <img src="/assets/icons/location.png" className="h-5 w-5" />
             </Box>
             <Box className="font-bold">Pickup Address</Box>
             <Box>{trip.pickup_address}</Box>
@@ -171,10 +168,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
           </Box>
           <Box>
             <Box className="flex justify-center">
-              <img
-                src="../../public/assets/icons/location.png"
-                className="h-5 w-5"
-              />
+              <img src="/assets/icons/location.png" className="h-5 w-5" />
             </Box>
             <Box className="font-bold">Dropoff Address</Box>
             <Box>{trip.dropoff_address}</Box>

@@ -16,7 +16,7 @@ export default function RequestStatusDemo({ trip }) {
         />
       </Tooltip>
       <img
-        src="../../public/assets/icons/right-arrow.png"
+        src="/assets/icons/right-arrow.png"
         className="w-full h-full flex self-center"
       />
       <Tooltip
@@ -35,7 +35,7 @@ export default function RequestStatusDemo({ trip }) {
         />
       </Tooltip>
       <img
-        src="../../public/assets/icons/right-arrow.png"
+        src="/assets/icons/right-arrow.png"
         className="w-full h-full flex self-center"
       />
       <Tooltip
@@ -52,7 +52,7 @@ export default function RequestStatusDemo({ trip }) {
         />
       </Tooltip>
       <img
-        src="../../public/assets/icons/right-arrow.png"
+        src="/assets/icons/right-arrow.png"
         className="w-full h-full flex self-center"
       />
       <Tooltip title={'Your trip has been completed.'}>
