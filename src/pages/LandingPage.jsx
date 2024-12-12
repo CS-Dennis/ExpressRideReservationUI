@@ -20,11 +20,15 @@ export default function LandingPage() {
     // if logged in, redirect to Home screen
     else {
       // if customer role
-      navigation('/home');
+      if (context.userProfile?.role.id === 3) {
+        navigation('/home');
+      } else if (context.userProfile?.role.id === 2) {
+        navigation('/dashboard');
+      }
 
       //if driver role -> driver's dashboard
     }
-  }, [context.session]);
+  }, [context.session, context.userProfile]);
 
   return (
     <>

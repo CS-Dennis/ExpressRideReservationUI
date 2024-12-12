@@ -127,10 +127,10 @@ export default function Title({ title }) {
                         sx={{ minWidth: '110px' }}
                         onClick={dashboardPage}
                       >
-                        My Dashboard
+                        Dashboard
                       </MenuItem>
                       <MenuItem onClick={{}} disabled>
-                        My Stats
+                        Stats
                       </MenuItem>
                     </Box>
                   )}
