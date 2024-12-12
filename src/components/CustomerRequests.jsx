@@ -51,7 +51,6 @@ export default function CustomerRequests({
     const updateRideRequest = await supabase_client
       .from('ride_request')
       .update({
-        driver_notes: driversNotes,
         status_id: 2,
       })
       .eq('id', selectedRequest.id)

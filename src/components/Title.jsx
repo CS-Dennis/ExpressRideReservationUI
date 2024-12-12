@@ -49,6 +49,8 @@ export default function Title({ title }) {
   const logout = async () => {
     handleClose();
     await supabase_client.auth.signOut();
+    context.setUserProfile(null);
+    context.setNewUser(null);
     navigate('/');
   };
 

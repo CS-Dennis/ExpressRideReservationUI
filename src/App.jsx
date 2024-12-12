@@ -129,6 +129,7 @@ function App() {
         value={{
           session,
           userProfile,
+          setUserProfile,
           newUser,
           setNewUser,
           snackbarFlag,

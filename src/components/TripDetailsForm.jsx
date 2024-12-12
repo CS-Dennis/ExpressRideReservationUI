@@ -18,7 +18,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   PRICING_INFO_TABLE_DATA,
   PRICING_INFO_TABLE_HEADERS,
@@ -34,7 +34,7 @@ import moment from 'moment';
 import { capitalizeString, sortPricingTableByColumn } from '../util';
 import VehicleForm from './VehicleForm';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { env } from '../App';
+import { AppContext, env } from '../App';
 
 export default function TripDetailsForm({
   tripType,
@@ -79,6 +79,8 @@ export default function TripDetailsForm({
   dropoffAddressFlag,
   dropoffCityFlag,
 }) {
+  const context = useContext(AppContext);
+
   const [pricingInfoData, setPricingInfoData] = useState([]);
   const [showPricingInfoTable, setShowPricingInfoTable] = useState(false);
 
@@ -165,6 +167,10 @@ export default function TripDetailsForm({
     headerSortBysInit.pickUp = 'asc';
 
     setHeaderSortBys({ ...headerSortBysInit });
+
+    if (env === 'dev') {
+      console.log('dev', 'user profile', context.userProfile);
+    }
   }, []);
 
   return (
@@ -211,6 +217,7 @@ export default function TripDetailsForm({
                 focused={firstNameFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
@@ -226,6 +233,7 @@ export default function TripDetailsForm({
                 focused={lastNameFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
@@ -246,6 +254,7 @@ export default function TripDetailsForm({
                 focused={phoneNumberFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
@@ -261,6 +270,7 @@ export default function TripDetailsForm({
                 focused={emailFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
