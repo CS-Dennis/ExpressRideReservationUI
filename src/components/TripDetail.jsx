@@ -6,6 +6,7 @@ import {
   TRIP_REQUEST_STATUS_CHIP_LABELS,
 } from '../constants';
 import { Link } from 'react-router-dom';
+import RequestStatusDemo from './RequestStatusDemo';
 
 export default function TripDetail({ trip }) {
   return (
@@ -108,6 +109,10 @@ export default function TripDetail({ trip }) {
                   }
             }
           />
+          {/* status demo */}
+          <Box className="overflow-x-auto py-2">
+            <RequestStatusDemo trip={trip} />
+          </Box>
         </Box>
 
         <Box>

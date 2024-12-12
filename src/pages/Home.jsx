@@ -370,11 +370,11 @@ export default function Home() {
                   </Box>
                   {context.session && (
                     <>
-                      <Box className="mt-10">
+                      <Box className="mt-10 text-center">
                         You can check your request status on your account -
                         trips page.
                       </Box>
-                      <Box className="mt-10">
+                      <Box className="mt-10 text-center">
                         The driver will send you the trip confirmation with a
                         price for your confirmation.
                       </Box>
