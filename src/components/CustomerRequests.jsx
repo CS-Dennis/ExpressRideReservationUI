@@ -254,7 +254,7 @@ export default function CustomerRequests({
 
       {/* accept customer's request modal */}
       <Modal open={showAcceptModal}>
-        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 max-w-full h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
           <Box className="flex justify-center font-bold text-lg">
             Accept Request
           </Box>
@@ -299,7 +299,7 @@ export default function CustomerRequests({
 
       {/* reject customer's request modal */}
       <Modal open={showRejectModal}>
-        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-80 max-w-full h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
           <Box className="flex justify-center font-bold text-lg">
             Confirm to Reject Request
           </Box>
@@ -356,7 +356,7 @@ export default function CustomerRequests({
 
       {/* complete request modal */}
       <Modal open={showCompleteTripModal}>
-        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-96 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-96 max-w-full h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
           <Box className="flex justify-center mt-4 font-bold text-lg">
             Confirm to complete the trip
           </Box>

@@ -13,11 +13,12 @@ export default function RequestStatusDemo({ trip }) {
             }
           }
           label="1. Ride Requested"
+          className="flex self-center"
         />
       </Tooltip>
       <img
         src="/assets/icons/right-arrow.png"
-        className="w-full h-full flex self-center"
+        className="w-auto h-auto flex self-center"
       />
       <Tooltip
         title={
@@ -32,11 +33,12 @@ export default function RequestStatusDemo({ trip }) {
             }
           }
           label="2. Price Suggested"
+          className="flex self-center"
         />
       </Tooltip>
       <img
         src="/assets/icons/right-arrow.png"
-        className="w-full h-full flex self-center"
+        className="w-auto h-auto flex self-center"
       />
       <Tooltip
         title={'You have confirmed the price and your ride is confirmed.'}
@@ -49,11 +51,12 @@ export default function RequestStatusDemo({ trip }) {
             }
           }
           label="3. Price Accepted"
+          className="flex self-center"
         />
       </Tooltip>
       <img
         src="/assets/icons/right-arrow.png"
-        className="w-full h-full flex self-center"
+        className="w-auto h-auto flex self-center"
       />
       <Tooltip title={'Your trip has been completed.'}>
         <Chip
@@ -64,6 +67,7 @@ export default function RequestStatusDemo({ trip }) {
             }
           }
           label="4. Trip Completed"
+          className="flex self-center"
         />
       </Tooltip>
     </Box>

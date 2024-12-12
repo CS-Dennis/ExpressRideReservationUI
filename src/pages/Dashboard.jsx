@@ -113,21 +113,24 @@ export default function Dashboard() {
           <Title title={APP_TITLE} />
 
           <Box className="mx-4">
-            <Box className="flex justify-between mt-4">
-              <Box className="flex flex-col self-center">
+            {/* top section - header/status flow and filters */}
+            <Grid container>
+              <Grid size={{ xs: 12, sm: 12, md: 8 }} className="mt-2">
                 <Box className="font-bold text-lg flex items-center self-center">
                   Customer Requests
                 </Box>
-                <Box className="mt-4 font-bold">
+                <Box className="mt-4 font-bold overflow-x-auto">
                   <Box>Request Status Flow</Box>
-                  <RequestStatusDemo trip={{}} />
+                  <Box sx={{ width: '100%' }}>
+                    <RequestStatusDemo trip={{}} />
+                  </Box>
                 </Box>
-              </Box>
+              </Grid>
 
-              <Box>
+              <Grid size={{ xs: 12, sm: 12, md: 4 }} className="mt-2">
                 <Box
-                  className="flex justify-between"
-                  sx={{ minWidth: '100px' }}
+                  className="flex justify-between place-self-end"
+                  sx={{ width: '270px' }}
                 >
                   <Box className="flex self-center mr-2">By Type: </Box>
                   <Select value={requestsType} onChange={selectRequests}>
@@ -139,8 +142,8 @@ export default function Dashboard() {
                   </Select>
                 </Box>
                 <Box
-                  className="flex justify-between mt-2"
-                  sx={{ minWidth: '100px' }}
+                  className="flex justify-between place-self-end mt-2"
+                  sx={{ width: '270px' }}
                 >
                   <Box className="flex self-center ">By Year:</Box>
                   {years.length > 0 && (
@@ -156,8 +159,8 @@ export default function Dashboard() {
                     </Select>
                   )}
                 </Box>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
 
             <Box className="mt-4">
               <CustomerRequests
