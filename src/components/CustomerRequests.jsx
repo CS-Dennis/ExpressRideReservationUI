@@ -334,7 +334,11 @@ export default function CustomerRequests({
 
       {/* show request detail modal */}
       <Modal open={showRequestDetailModal}>
-        <Box className="absolute m-auto top-0 bottom-0 left-0 right-0 w-96 h-fit bg-white p-4 rounded-md border-navyBlue border-t-8">
+        <Box
+          className="absolute m-auto top-0 bottom-0 left-0 right-0 
+        h-fit bg-white p-4 rounded-md border-navyBlue border-t-8"
+          sx={{ width: '600px', maxWidth: '100%' }}
+        >
           <Box>
             <TripDetail trip={selectedRequest} />
           </Box>
