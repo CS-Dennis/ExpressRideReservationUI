@@ -38,7 +38,7 @@ export default function Dashboard() {
   const getAllCompletedRequests = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select('*, rider_info(*)')
+      .select('*, rider_info(*), trip_charge(*)')
       .eq('status_id', 4)
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
@@ -58,7 +58,7 @@ export default function Dashboard() {
   const getAllTerminatedRequests = async (year) => {
     const { data, error } = await supabase_client
       .from('ride_request')
-      .select('*, rider_info(*)')
+      .select('*, rider_info(*), trip_charge(*)')
       .in('status_id', [5, 6])
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())

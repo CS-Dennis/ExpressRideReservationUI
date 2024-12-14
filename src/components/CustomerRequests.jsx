@@ -194,7 +194,7 @@ export default function CustomerRequests({
               sx={() =>
                 request.status_id === TRIP_REQUEST_STATUS.tripCompleted
                   ? {
-                      backgroundColor: '#19ae47',
+                      backgroundColor: '#00beae',
                       color: '#fff',
                     }
                   : request.status_id === TRIP_REQUEST_STATUS.requestRejected
