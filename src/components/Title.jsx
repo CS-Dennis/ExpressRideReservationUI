@@ -118,7 +118,7 @@ export default function Title({ title }) {
                       <MenuItem sx={{ minWidth: '110px' }} onClick={homePage}>
                         Request A Ride
                       </MenuItem>
-                      <MenuItem onClick={tripsPage}>My Trips</MenuItem>
+                      <MenuItem onClick={() => tripsPage()}>My Trips</MenuItem>
                     </Box>
                   )}
 
@@ -131,7 +131,7 @@ export default function Title({ title }) {
                       >
                         Dashboard
                       </MenuItem>
-                      <MenuItem onClick={{}} disabled>
+                      <MenuItem onClick={() => {}} disabled>
                         Stats
                       </MenuItem>
                     </Box>
