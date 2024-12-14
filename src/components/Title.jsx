@@ -64,7 +64,9 @@ export default function Title({ title }) {
   }, [context.session, context.newUser]);
 
   useEffect(() => {
-    console.log('context.userProfile', context.userProfile);
+    if (env === 'dev') {
+      console.log('dev', 'context.userProfile', context.userProfile);
+    }
   }, [context.userProfile]);
 
   return (
@@ -93,7 +95,7 @@ export default function Title({ title }) {
                   aria-controls={open ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
+                  onClick={(e) => handleClick(e)}
                 >
                   {`${context.userProfile?.first_name} ${context.userProfile?.last_name}`}
                 </Button>

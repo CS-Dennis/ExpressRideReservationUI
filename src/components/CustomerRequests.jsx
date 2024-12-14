@@ -48,6 +48,7 @@ export default function CustomerRequests({
       return;
     }
 
+    // update status id
     const updateRideRequest = await supabase_client
       .from('ride_request')
       .update({
@@ -56,12 +57,14 @@ export default function CustomerRequests({
       .eq('id', selectedRequest.id)
       .select();
 
+    // update price and driver's note
     const insertTripCharge = await supabase_client
       .from('trip_charge')
       .insert({
         user_id: selectedRequest.user_id,
         ride_request_id: selectedRequest.id,
         price: suggestedPrice,
+        drivers_note: driversNotes,
       })
       .select();
 
@@ -95,15 +98,34 @@ export default function CustomerRequests({
   };
 
   const rejectRequest = async () => {
-    const { data, error } = await supabase_client
+    const rideRequest = await supabase_client
       .from('ride_request')
       .update({ status_id: 5 })
       .eq('id', selectedRequest.id)
       .select();
 
-    if (data) {
+    const tripChargeRequest = await supabase_client
+      .from('trip_charge')
+      .insert({
+        user_id: selectedRequest.user_id,
+        ride_request_id: selectedRequest.id,
+        drivers_note: driversNotes,
+      })
+      .select();
+
+    const [rideRequestRes, tripChargeRequestRes] = await Promise.all([
+      rideRequest,
+      tripChargeRequest,
+    ]);
+
+    if (rideRequestRes.data && tripChargeRequestRes.data) {
       if (env === 'dev') {
-        console.log('dev', 'rejected request', data);
+        console.log(
+          'dev',
+          'rejected request',
+          rideRequestRes.data,
+          tripChargeRequestRes.data,
+        );
       }
 
       getRequests(requestsType, selectedYear);
@@ -114,8 +136,9 @@ export default function CustomerRequests({
       context.setSnackbarMessage('Ride request rejected successfully.');
     }
 
-    if (error) {
-      console.log(error);
+    if (rideRequestRes.error || tripChargeRequestRes.error) {
+      console.log(rideRequestRes.error);
+      console.log(tripChargeRequestRes.error);
     }
   };
 
@@ -269,7 +292,7 @@ export default function CustomerRequests({
             </Box>
             <Box className="mt-4">
               <TextField
-                label="Notes to the customer"
+                label="Note to the customer"
                 onChange={(e) => setDriversNotes(e.target.value)}
                 fullWidth
                 multiline

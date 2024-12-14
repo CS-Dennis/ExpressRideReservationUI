@@ -111,7 +111,7 @@ function App() {
     };
 
     if (env == 'dev') {
-      console.log('userProfile', userProfileTemp);
+      console.log('dev', 'userProfile', userProfileTemp);
     }
 
     setUserProfile({ ...userProfileTemp });

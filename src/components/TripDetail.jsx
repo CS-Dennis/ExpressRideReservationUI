@@ -72,10 +72,20 @@ export default function TripDetail({ trip }) {
           </Box>
         </Box>
 
-        <Box className="border border-navyBlue font-bold">
-          Notes to the driver: {trip.notes}
-        </Box>
         <Box>Cost: ${trip.trip_charge?.price || 0}</Box>
+
+        <Box>
+          {trip.notes && (
+            <Box className="border border-navyBlue font-bold mb-1">
+              {`Customer's note: ${trip.notes}`}
+            </Box>
+          )}
+          {trip.trip_charge?.drivers_note && (
+            <Box className="border border-navyBlue font-bold mb-1">
+              {`Driver's note: ${trip.trip_charge?.drivers_note}`}
+            </Box>
+          )}
+        </Box>
         <Box>
           Status:{' '}
           <Chip

@@ -106,7 +106,6 @@ export default function Profile() {
     if (context.userProfile) {
       if (env === 'dev') {
         console.log('dev', context.userProfile);
-        console.log('context.userProfile?.phone', context.userProfile?.phone);
       }
 
       setFirstName(context.userProfile?.first_name || '');

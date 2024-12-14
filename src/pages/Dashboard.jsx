@@ -116,7 +116,7 @@ export default function Dashboard() {
             {/* top section - header/status flow and filters */}
             <Grid container>
               <Grid size={{ xs: 12, sm: 12, md: 8 }} className="mt-2">
-                <Box className="font-bold text-lg flex items-center self-center">
+                <Box className="font-bold text-lg flex justify-center items-center self-center">
                   Customer Requests
                 </Box>
                 <Box className="mt-4 font-bold overflow-x-auto">

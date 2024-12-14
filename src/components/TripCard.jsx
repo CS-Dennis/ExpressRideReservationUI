@@ -88,7 +88,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
             sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}
             className="flex justify-end"
           >
-            <Button variant="contained" sx={{ marginRight: '4px' }}>
+            <Button variant="contained" sx={{ marginRight: '4px' }} disabled>
               Request This Trip Again
             </Button>
             <Button
