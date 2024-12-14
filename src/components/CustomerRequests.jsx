@@ -358,7 +358,7 @@ export default function CustomerRequests({
       <Modal open={showRequestDetailModal}>
         <Box
           className="absolute m-auto top-0 bottom-0 left-0 right-0 
-        h-fit bg-white p-4 rounded-md border-navyBlue border-t-8"
+        h-fit max-h-full bg-white p-4 rounded-md border-navyBlue border-t-8 overflow-auto"
           sx={{ width: '600px', maxWidth: '100%' }}
         >
           <Box>
