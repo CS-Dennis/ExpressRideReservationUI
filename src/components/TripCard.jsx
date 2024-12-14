@@ -71,7 +71,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
   return (
     <>
       {/* trip card */}
-      <Paper className="mb-5 p-5">
+      <Paper className="mb-5 p-5 !bg-slate-100 hover:cursor-pointer">
         {/* first row */}
         <Grid container>
           {/* md or larger screen */}
@@ -91,15 +91,26 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
             <Button variant="contained" sx={{ marginRight: '4px' }} disabled>
               Request This Trip Again
             </Button>
-            <Button
-              variant="outlined"
-              onClick={() => setShowTripDetailModal(true)}
-            >
-              Trip Detail
-            </Button>
           </Grid>
 
           {/* sm or smaller screen */}
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
+            className="flex justify-center"
+          >
+            <Button variant="contained" sx={{ marginRight: '4px' }} disabled>
+              Request This Trip Again
+            </Button>
+          </Grid>
+        </Grid>
+
+        {/* second row */}
+        <Grid
+          container
+          className="flex justify-between p-2 mt-2 hover:bg-slate-200"
+          onClick={() => setShowTripDetailModal(true)}
+        >
           <Grid
             size={{ xs: 12, sm: 12 }}
             sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
@@ -107,26 +118,6 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
           >{`Pick-up Date: ${moment(new Date(trip.pickup_datetime)).format(
             DATETIME_FORMATS.american,
           )}`}</Grid>
-
-          <Grid
-            size={{ xs: 12, sm: 12 }}
-            sx={{ display: { xs: 'flex', sm: 'flex', md: 'none' } }}
-            className="flex justify-center"
-          >
-            <Button variant="contained" sx={{ marginRight: '4px' }}>
-              Request This Trip Again
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => setShowTripDetailModal(true)}
-            >
-              Trip Detail
-            </Button>
-          </Grid>
-        </Grid>
-
-        {/* second row */}
-        <Grid container className="flex justify-between mt-4">
           <Grid
             size={{ xs: 12, sm: 4, md: 4 }}
             className="flex flex-col justify-center items-center mb-2"
@@ -212,7 +203,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
 
           <Grid
             size={{ xs: 12, sm: 4, md: 4 }}
-            className="flex flex-col justify-center items-center  mb-2"
+            className="flex flex-col justify-center items-center mb-2"
           >
             <Box className="flex justify-center">
               <img src="/assets/icons/location.png" className="h-5 w-5" />
