@@ -196,3 +196,32 @@ export const PRICING_INFO_TABLE_DATA = [
     suvPrice: 85,
   },
 ];
+
+export const TRIP_REQUEST_STATUS = {
+  tripRequested: 1, //'trip_requested'
+  confirmedByDriver: 2, //'confirmed_by_driver'
+  confirmedByCustomer: 3, //'confirmed_by_customer'
+  tripCompleted: 4, // 'trip_completed'
+  requestRejected: 5,
+  priceRejected: 6,
+};
+
+export const TRIP_REQUEST_STATUS_CHIP_LABELS = [
+  'Ride Requested',
+  'Price Suggested',
+  'Price Accepted',
+  'Trip Completed',
+  'Request Rejected',
+  'Price Rejected',
+];
+
+export const RESPONSE_MESSAGES = {
+  updateProfileSuccess: 'Your profile has been updated successful.',
+};
+
+export const DATETIME_FORMATS = {
+  american: 'MM/DD/YYYY hh:mm A',
+  fullDate: 'dddd, MMMM Do YYYY, hh:mm A',
+};
+
+export const RIDE_REQUEST_TYPES = ['Pending Requests', 'Completed Requests'];

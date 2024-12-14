@@ -5,14 +5,14 @@ import {
   Checkbox,
   Chip,
   CircularProgress,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputAdornment,
   Modal,
   Paper,
   TextField,
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Title from '../components/Title';
 import {
@@ -229,8 +229,8 @@ export default function RideRequestDetail() {
     <>
       <Box className="mx-10">
         <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
+          <Grid size={{ md: 12, lg: 1 }} />
+          <Grid size={{ md: 12, lg: 12 }} className="w-full">
             <Title title={getRideRequestType(rideRequest)} />
 
             {/* back button */}
@@ -358,7 +358,7 @@ export default function RideRequestDetail() {
             <Box className="mb-4">
               <Paper>
                 <Box className="p-4 bg-slate-200">
-                  <b>Client's Notes</b>
+                  <b>{`Client's Notes`}</b>
                 </Box>
                 <Box className="p-4" whiteSpace={'break-spaces'}>
                   {rideRequest?.notes}
@@ -541,7 +541,7 @@ export default function RideRequestDetail() {
               </Box>
             )}
           </Grid>
-          <Grid item md={12} lg={1} />
+          <Grid size={{ md: 12, lg: 1 }} />
         </Grid>
       </Box>
 

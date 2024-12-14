@@ -1,5 +1,4 @@
 import { Box, Step, StepLabel, Stepper } from '@mui/material';
-import React from 'react';
 
 export default function ReservationProgressView({ step }) {
   const steps = ['Trip Details', 'Confirm'];

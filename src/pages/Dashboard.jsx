@@ -1,33 +1,96 @@
-import React, { useEffect, useState } from 'react';
+import { Box, Grid2 as Grid, MenuItem, Select } from '@mui/material';
 import Title from '../components/Title';
-import { COLORS, DASHBAORD_PAGE } from '../constants';
-import { Box, Button, Chip, Grid, Paper } from '@mui/material';
-import { getRideRequestsByType } from '../services/apis';
+import { APP_TITLE } from '../constants';
+import { useEffect, useState } from 'react';
+import { env, supabase_client } from '../App';
+import CustomerRequests from '../components/CustomerRequests';
+import RequestStatusDemo from '../components/RequestStatusDemo';
+import { getYearsForFilters } from '../util';
 import moment from 'moment';
-import { Link, useNavigate } from 'react-router-dom';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const [rideRequests, setRideRequests] = useState(null);
-  const [tab, setTab] = useState(0);
-  const [tabTitle, setTabTitle] = useState(DASHBAORD_PAGE.newRequests);
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(moment().year());
+  const [requestsType, setRequestsType] = useState('pending');
 
-  const changeTab = (newTab) => {
-    setTab(newTab);
+  const [rideRequests, setRideRequests] = useState([]);
 
-    switch (newTab) {
-      case 0:
-        setTabTitle(DASHBAORD_PAGE.newRequests);
+  const getAllPendingRequests = async (year) => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .select('*, rider_info(*), trip_charge(*)')
+      .in('status_id', [1, 2, 3])
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+
+    if (env === 'dev') {
+      console.log('dev', 'pending requests', data);
+    }
+    if (data) {
+      setRideRequests([...data]);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllCompletedRequests = async (year) => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .select('*, rider_info(*)')
+      .eq('status_id', 4)
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+
+    if (env === 'dev') {
+      console.log('dev', 'completed requests', data);
+    }
+    if (data) {
+      setRideRequests([...data]);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllTerminatedRequests = async (year) => {
+    const { data, error } = await supabase_client
+      .from('ride_request')
+      .select('*, rider_info(*)')
+      .in('status_id', [5, 6])
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+
+    if (env === 'dev') {
+      console.log('dev', 'completed requests', data);
+    }
+    if (data) {
+      setRideRequests([...data]);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const selectRequests = (event) => {
+    setRequestsType(event.target.value);
+  };
+
+  const getRequests = (requestsType, selectedYear) => {
+    switch (requestsType) {
+      case 'pending':
+        getAllPendingRequests(selectedYear);
         break;
-      case 1:
-        setTabTitle(DASHBAORD_PAGE.pendingRequests);
+
+      case 'completed':
+        getAllCompletedRequests(selectedYear);
         break;
-      case 2:
-        setTabTitle(DASHBAORD_PAGE.upcomingRides);
-        break;
-      case 3:
-        setTabTitle(DASHBAORD_PAGE.history);
+
+      case 'terminated':
+        getAllTerminatedRequests(selectedYear);
         break;
       default:
         break;
@@ -35,170 +98,82 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    getRideRequestsByType(tab)
-      .then((res) => {
-        if (res.data !== null && res.data !== '') {
-          setRideRequests(res.data);
-        } else {
-          setRideRequests(null);
-        }
-      })
-      .catch((err) => {
-        setRideRequests(null);
-        console.log(err);
-      });
-  }, [tab]);
+    getRequests(requestsType, selectedYear);
+  }, [requestsType, selectedYear]);
+
+  useEffect(() => {
+    setYears(getYearsForFilters(2024));
+  }, []);
 
   return (
     <>
-      <Box className="mx-10">
-        <Grid container>
-          <Grid item md={12} lg={1} />
-          <Grid item md={12} lg={10} className="w-full">
-            <Title title={tabTitle} />
-            <Box className="flex justify-evenly mt-4 mb-2">
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: COLORS.blue }}
-                onClick={() => {
-                  changeTab(0);
-                }}
-              >
-                {DASHBAORD_PAGE.newRequests}
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                  changeTab(1);
-                }}
-              >
-                {DASHBAORD_PAGE.pendingRequests}
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  changeTab(2);
-                }}
-              >
-                {DASHBAORD_PAGE.upcomingRides}
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: COLORS.grey }}
-                onClick={() => {
-                  changeTab(3);
-                }}
-              >
-                {DASHBAORD_PAGE.history}
-              </Button>
+      <Grid container>
+        <Grid size={{ md: 12, lg: 1 }} />
+        <Grid size={{ md: 12, lg: 10 }} className="w-full">
+          <Title title={APP_TITLE} />
+
+          <Box className="mx-4">
+            {/* top section - header/status flow and filters */}
+            <Grid container>
+              <Grid size={{ xs: 12, sm: 12, md: 8 }} className="mt-2">
+                <Box className="font-bold text-lg flex justify-center items-center self-center">
+                  Customer Requests
+                </Box>
+                <Box className="mt-4 font-bold overflow-x-auto">
+                  <Box>Request Status Flow</Box>
+                  <Box sx={{ width: '100%' }}>
+                    <RequestStatusDemo trip={{}} />
+                  </Box>
+                </Box>
+              </Grid>
+
+              <Grid size={{ xs: 12, sm: 12, md: 4 }} className="mt-2">
+                <Box
+                  className="flex justify-between place-self-end"
+                  sx={{ width: '270px' }}
+                >
+                  <Box className="flex self-center mr-2">By Type: </Box>
+                  <Select value={requestsType} onChange={selectRequests}>
+                    <MenuItem value={'pending'}>Upcoming Requests</MenuItem>
+                    <MenuItem value={'completed'}>Completed Requests</MenuItem>
+                    <MenuItem value={'terminated'}>
+                      Terminated Requests
+                    </MenuItem>
+                  </Select>
+                </Box>
+                <Box
+                  className="flex justify-between place-self-end mt-2"
+                  sx={{ width: '270px' }}
+                >
+                  <Box className="flex self-center ">By Year:</Box>
+                  {years.length > 0 && (
+                    <Select
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.target.value)}
+                    >
+                      {years.map((year, i) => (
+                        <MenuItem key={i} value={year}>
+                          {year}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box className="mt-4">
+              <CustomerRequests
+                rideRequests={rideRequests}
+                selectedYear={selectedYear}
+                requestsType={requestsType}
+                getRequests={getRequests}
+              />
             </Box>
-
-            {rideRequests !== null && (
-              <Box className="mb-2">
-                You have{' '}
-                <Chip
-                  label={rideRequests.length}
-                  sx={{
-                    backgroundColor:
-                      tab === 0
-                        ? COLORS.blue
-                        : tab === 1
-                        ? COLORS.orange
-                        : tab === 2
-                        ? COLORS.green
-                        : COLORS.grey,
-                    color: tab === 1 ? COLORS.black : COLORS.white,
-                  }}
-                />{' '}
-                {tabTitle}
-              </Box>
-            )}
-
-            <Box>
-              {rideRequests !== null &&
-                rideRequests.map((request, i) => (
-                  <Paper key={i} className="mb-4 flex flex-col" elevation={4}>
-                    <Box className="p-2 bg-slate-200 flex w-full rounded-t-lg">
-                      <Box className="w-full flex self-center">
-                        {`Request submitted on: ` +
-                          moment(request?.created * 1000).format(
-                            'YYYY-MM-DD hh:mm:ss A',
-                          )}
-                      </Box>
-                      <Box>
-                        <Chip
-                          label={tabTitle}
-                          sx={{
-                            backgroundColor:
-                              tab === 0
-                                ? COLORS.blue
-                                : tab === 1
-                                ? COLORS.orange
-                                : tab === 2
-                                ? COLORS.green
-                                : COLORS.grey,
-                            color: tab === 1 ? COLORS.black : COLORS.white,
-                          }}
-                        />
-                      </Box>
-                    </Box>
-
-                    <Box className="p-4">
-                      <Box>
-                        <b>Customer Name: </b>
-                        {`${request.firstName} ${request.lastName}`}
-                      </Box>
-                      <Box>
-                        <Box>
-                          <b>Passengers:</b> {request.numOfPassengers}
-                        </Box>
-                      </Box>
-                      <Box>
-                        <b>Pickup time:</b>{' '}
-                        {moment(request.pickupDateTime).format(
-                          'YYYY-MM-DD hh:mm:ss A',
-                        )}
-                      </Box>
-                      <Box>
-                        <b>Pickup address:</b>{' '}
-                        {`${request.pickupAddress}, ${request.pickupCity}, ${request.pickupState} ${request.pickupZip}`}
-                      </Box>
-                      <Box>
-                        <b>Dropoff address:</b>{' '}
-                        {`${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
-                      </Box>
-
-                      <Box>
-                        <b>
-                          Direction:{' '}
-                          <Link
-                            to={`https://www.google.com/maps/dir/${request.pickupAddress}, ${request.pickupCity}, ${request.pickupState} ${request.pickupZip}/${request.dropoffAddress}, ${request.dropoffCity}, ${request.dropoffState} ${request.dropoffZip}`}
-                            target="_blank"
-                          >
-                            <LocationOnIcon />
-                          </Link>
-                        </b>
-                      </Box>
-
-                      <Box className="flex justify-end">
-                        <Button
-                          variant="contained"
-                          onClick={() => navigate(`/detail?id=${request.id}`)}
-                        >
-                          Details
-                        </Button>
-                      </Box>
-                    </Box>
-                  </Paper>
-                ))}
-            </Box>
-
-            <Grid item md={12} lg={1} />
-          </Grid>
+          </Box>
         </Grid>
-      </Box>
+        <Grid size={{ md: 12, lg: 1 }} />
+      </Grid>
     </>
   );
 }

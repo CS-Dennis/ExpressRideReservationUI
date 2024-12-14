@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { env } from './App';
 import { DASHBAORD_PAGE } from './constants';
 
 export const capitalizeString = (rawString) => {
@@ -37,7 +39,7 @@ export const capitalizeString = (rawString) => {
       });
     } else {
       // w/ trailing space in rawString
-      words.forEach((word, i) => {
+      words.forEach((word) => {
         if (word !== '') {
           var chars = word.split('');
           if (chars.length === 1) {
@@ -94,6 +96,7 @@ export const sortPricingTableByColumn = (header, sortBy) => {
       } else if (sortBy === 'desc') {
         return sortByDropOffLocationDesc;
       }
+      break;
 
     case 'sedanPrice':
       if (sortBy === 'asc') {
@@ -101,6 +104,7 @@ export const sortPricingTableByColumn = (header, sortBy) => {
       } else if (sortBy === 'desc') {
         return sortBySedanPriceDesc;
       }
+      break;
 
     case 'suvPrice':
       if (sortBy === 'asc') {
@@ -108,6 +112,8 @@ export const sortPricingTableByColumn = (header, sortBy) => {
       } else if (sortBy === 'desc') {
         return sortBySuvPriceDesc;
       }
+      break;
+
     default:
       break;
   }
@@ -281,4 +287,36 @@ export const estimatedPrice = (
     default:
       break;
   }
+};
+
+export const checkUserLogin = (context, navigation) => {
+  if (env === 'dev') {
+    console.log('dev', context.session);
+    console.log('dev', location.pathname);
+  }
+
+  // if not logged in and path is not /guest (this path is reserved for continue as a guest for the trip request), redirect to landing page
+  if (!context.session && location.pathname !== '/guest') {
+    navigation('/');
+  }
+  // if logged in and path is /guest, redirect to /home
+  else if (context.session && location.pathname === '/guest') {
+    navigation('/home');
+  }
+};
+
+export const getYearsForFilters = (initYear) => {
+  var years = [];
+
+  const nextYear = moment().year() + 1;
+
+  for (let index = nextYear - initYear; index >= 0; index--) {
+    years.push(initYear + index);
+  }
+
+  if (env === 'dev') {
+    console.log('dev', 'years', years);
+  }
+
+  return years;
 };

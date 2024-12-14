@@ -3,7 +3,7 @@ import {
   Button,
   Divider,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -18,7 +18,7 @@ import {
   TableRow,
   TextField,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   PRICING_INFO_TABLE_DATA,
   PRICING_INFO_TABLE_HEADERS,
@@ -34,6 +34,7 @@ import moment from 'moment';
 import { capitalizeString, sortPricingTableByColumn } from '../util';
 import VehicleForm from './VehicleForm';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { AppContext, env } from '../App';
 
 export default function TripDetailsForm({
   tripType,
@@ -78,6 +79,8 @@ export default function TripDetailsForm({
   dropoffAddressFlag,
   dropoffCityFlag,
 }) {
+  const context = useContext(AppContext);
+
   const [pricingInfoData, setPricingInfoData] = useState([]);
   const [showPricingInfoTable, setShowPricingInfoTable] = useState(false);
 
@@ -111,7 +114,9 @@ export default function TripDetailsForm({
 
   // pre fill pickup or dropoff address based on tripType
   useEffect(() => {
-    console.log(tripType);
+    if (env === 'dev') {
+      console.log('dev', tripType);
+    }
 
     switch (tripType) {
       case 'oneWay':
@@ -162,6 +167,10 @@ export default function TripDetailsForm({
     headerSortBysInit.pickUp = 'asc';
 
     setHeaderSortBys({ ...headerSortBysInit });
+
+    if (env === 'dev') {
+      console.log('dev', 'user profile', context.userProfile);
+    }
   }, []);
 
   return (
@@ -196,7 +205,7 @@ export default function TripDetailsForm({
       <Box className="mt-8">
         <Box className="font-bold text-4xl">Rider Information</Box>
         <Grid container>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -208,10 +217,11 @@ export default function TripDetailsForm({
                 focused={firstNameFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1">
               <TextField
                 className="w-full"
@@ -223,13 +233,14 @@ export default function TripDetailsForm({
                 focused={lastNameFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
         </Grid>
 
         <Grid container>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1 mt-4 ">
               <MuiTelInput
                 className="w-full"
@@ -243,10 +254,11 @@ export default function TripDetailsForm({
                 focused={phoneNumberFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid size={{ xs: 12, lg: 6 }}>
             <Box className="mx-1 mt-4">
               <TextField
                 className="w-full"
@@ -258,6 +270,7 @@ export default function TripDetailsForm({
                 focused={emailFlag ? true : false}
                 inputProps={{ style: { fontSize: '1.4em' } }}
                 InputLabelProps={{ style: { fontSize: '1.4em' } }}
+                disabled={context?.userProfile != null}
               />
             </Box>
           </Grid>
@@ -292,7 +305,7 @@ export default function TripDetailsForm({
       </Box>
 
       <Grid container>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ sx: 12, lg: 6 }}>
           <Box className="mr-2 w-full">
             <FormControl variant="standard" className="w-full">
               <InputLabel
@@ -320,7 +333,7 @@ export default function TripDetailsForm({
             </FormControl>
           </Box>
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ sx: 12, lg: 6 }}>
           <Box className="ml-2 w-full flex">
             <FormControl variant="standard" className="w-full">
               <InputLabel
@@ -376,7 +389,7 @@ export default function TripDetailsForm({
       </Grid>
 
       <Grid container>
-        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+        <Grid size={{ xs: 12, lg: 'grow' }} sx={{ marginTop: '16px' }}>
           <Box className="w-full">
             <Box className="font-bold text-4xl">Pickup Address</Box>
             <TextField
@@ -438,9 +451,7 @@ export default function TripDetailsForm({
           </Box>
         </Grid>
         <Grid
-          item
-          xs={12}
-          lg={1}
+          size={{ xs: 12, lg: 1 }}
           className="flex justify-center"
           sx={{ marginTop: '16px' }}
         >
@@ -450,7 +461,7 @@ export default function TripDetailsForm({
             flexItem
           />
         </Grid>
-        <Grid item xs={12} lg sx={{ marginTop: '16px' }}>
+        <Grid size={{ xs: 12, lg: 'grow' }} sx={{ marginTop: '16px' }}>
           <Box className="w-full">
             <Box className="font-bold text-4xl">Dropoff Address</Box>
             <TextField

@@ -1,12 +1,11 @@
 import {
   Box,
-  Checkbox,
-  FormControlLabel,
+  // Checkbox,
+  // FormControlLabel,
   Paper,
   TextField,
 } from '@mui/material';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
 import { TRIP_TYPES } from '../constants';
 import { estimatedPrice } from '../util';
 
@@ -25,13 +24,9 @@ export default function TripConfirmation({
   vehicleType,
   notes,
   setNotes,
-  disableEamil,
-  setDisableEamil,
+  // disableEamil,
+  // setDisableEamil,
 }) {
-  useEffect(() => {
-    // console.log(tripType, vehicleType, pickupAddress.city, dropoffAddress.city);
-  }, []);
-
   return (
     <>
       <Box className="flex justify-center font-bold text-xl mt-4">
@@ -111,14 +106,9 @@ export default function TripConfirmation({
             />
           </Box>
 
-          <Box className="mt-10">
-            Once confirmed, the trip request will be send to the driver and your
-            email addresses. <br />
-            The driver will send you another confirmation email with final price
-            ASAP.
-          </Box>
+          <Box className="mt-10">Please verify your trip information.</Box>
           <Box className="flex">
-            <FormControlLabel
+            {/* <FormControlLabel
               control={
                 <Checkbox
                   checked={disableEamil}
@@ -126,7 +116,7 @@ export default function TripConfirmation({
                 />
               }
               label={`Disable Email Confirmation (for test only)`}
-            />
+            /> */}
           </Box>
         </Box>
       </Paper>
