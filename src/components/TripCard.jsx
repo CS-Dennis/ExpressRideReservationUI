@@ -153,7 +153,7 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
                     sx={() =>
                       trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
                         ? {
-                            backgroundColor: '#19ae47',
+                            backgroundColor: '#00beae',
                             color: '#fff',
                           }
                         : trip.status_id === TRIP_REQUEST_STATUS.requestRejected
@@ -299,8 +299,8 @@ export default function TripCard({ trip, selectedYear, getUserTrips }) {
       <Modal open={showTripDetailModal}>
         <Box
           className="absolute m-auto top-0 bottom-0 left-0 right-0 
-        h-5/6 bg-white p-4 rounded-md border-navyBlue 
-        border-t-8 overflow-y-auto "
+        h-fit max-h-full bg-white p-4 rounded-md border-navyBlue 
+        border-t-8 overflow-auto"
           sx={{ width: '600px', maxWidth: '100%' }}
         >
           <Box>

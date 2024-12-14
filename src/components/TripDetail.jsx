@@ -106,7 +106,7 @@ export default function TripDetail({ trip }) {
             sx={() =>
               trip.status_id === TRIP_REQUEST_STATUS.tripCompleted
                 ? {
-                    backgroundColor: '#19ae47',
+                    backgroundColor: '#00beae',
                     color: '#fff',
                   }
                 : trip.status_id === TRIP_REQUEST_STATUS.requestRejected
