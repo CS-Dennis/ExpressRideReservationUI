@@ -93,6 +93,9 @@ function App() {
       await supabase_client
         .from('user_role')
         .insert([{ user_id: session.user.id }]);
+      console.log('test', {
+        user_id: session.user.id,
+      });
 
       riderRole = await supabase_client.from('user_role').select('*, role(*)');
 
