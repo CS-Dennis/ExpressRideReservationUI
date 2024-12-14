@@ -134,6 +134,9 @@ export default function Title({ title }) {
                       <MenuItem onClick={() => {}} disabled>
                         Stats
                       </MenuItem>
+                      <MenuItem onClick={() => {}} disabled>
+                        My Customers
+                      </MenuItem>
                     </Box>
                   )}
 
