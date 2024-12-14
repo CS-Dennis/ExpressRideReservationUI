@@ -9,6 +9,10 @@ on:
     branches:
       - azure-dev
 
+env:
+  VITE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheGlja2VodG9kdGJ2cXhuZG56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI4Mjc1ODQsImV4cCI6MjA0ODQwMzU4NH0.lC_p5MeePbV04LppYF9MxkeJn0aN7Hd1aKrtNiZ8DFE
+  VITE_SUPABASE_URL: https://taxickehtodtbvqxndnz.supabase.co
+
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
