@@ -37,6 +37,7 @@ export default function Profile() {
               first_name: firstName,
               last_name: lastName,
               phone: phone,
+              email: context.session.user.email,
             },
           ])
           .select();
