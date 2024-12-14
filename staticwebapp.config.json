@@ -1,9 +1,10 @@
 {
-    "routes": [
-      {
-        "route": "/*",
+    "routes": [],
+    "responseOverrides": {
+      "404": {
         "redirect": "/",
-        "statusCode": 301
+        "statusCode": 302
       }
-    ]
+    }
   }
+  
