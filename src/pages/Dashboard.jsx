@@ -1,4 +1,10 @@
-import { Box, Grid2 as Grid, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Grid2 as Grid,
+  MenuItem,
+  Pagination,
+  Select,
+} from '@mui/material';
 import Title from '../components/Title';
 import { APP_TITLE } from '../constants';
 import { useEffect, useState } from 'react';
@@ -15,17 +21,46 @@ export default function Dashboard() {
 
   const [rideRequests, setRideRequests] = useState([]);
 
+  const [countsPerPage, setCountsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [filterUpdated, setFilterUpdated] = useState(false);
+
+  // get all upcoming requests
   const getAllPendingRequests = async (year) => {
+    // get upcoming requests count
+    const rideRequestsCountResponse = await supabase_client
+      .from('ride_request')
+      .select('id', { count: 'exact', head: true })
+      .in('status_id', [1, 2, 3]);
+
+    setTotalPages(Math.ceil(rideRequestsCountResponse.count / countsPerPage));
+
+    // get upcoming requests
+    if (filterUpdated) {
+      setPage(1);
+    }
+    const start = ((filterUpdated ? 1 : page) - 1) * countsPerPage;
+    const end = start + countsPerPage - 1;
     const { data, error } = await supabase_client
       .from('ride_request')
       .select('*, rider_info(*), trip_charge(*)')
       .in('status_id', [1, 2, 3])
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
-      .order('pickup_datetime', { ascending: false });
+      .order('pickup_datetime', { ascending: false })
+      .limit(countsPerPage)
+      .range(start, end);
+
+    setFilterUpdated(false);
 
     if (env === 'dev') {
       console.log('dev', 'pending requests', data);
+      console.log(
+        'dev',
+        'pending requests count',
+        rideRequestsCountResponse.count,
+      );
     }
     if (data) {
       setRideRequests([...data]);
@@ -36,16 +71,40 @@ export default function Dashboard() {
   };
 
   const getAllCompletedRequests = async (year) => {
+    const rideRequestsCountResponse = await supabase_client
+      .from('ride_request')
+      .select('id', { count: 'exact', head: true })
+      .eq('status_id', 4)
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+    setTotalPages(Math.ceil(rideRequestsCountResponse.count / countsPerPage));
+
+    if (filterUpdated) {
+      setPage(1);
+    }
+
+    const start = ((filterUpdated ? 1 : page) - 1) * countsPerPage;
+    const end = start + countsPerPage - 1;
+
     const { data, error } = await supabase_client
       .from('ride_request')
       .select('*, rider_info(*), trip_charge(*)')
       .eq('status_id', 4)
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
-      .order('pickup_datetime', { ascending: false });
+      .order('pickup_datetime', { ascending: false })
+      .range(start, end);
+
+    setFilterUpdated(false);
 
     if (env === 'dev') {
       console.log('dev', 'completed requests', data);
+      console.log(
+        'dev',
+        'completed requests count',
+        rideRequestsCountResponse.count,
+      );
     }
     if (data) {
       setRideRequests([...data]);
@@ -56,16 +115,41 @@ export default function Dashboard() {
   };
 
   const getAllTerminatedRequests = async (year) => {
+    const rideRequestsCountResponse = await supabase_client
+      .from('ride_request')
+      .select('id', { count: 'exact', head: true })
+      .in('status_id', [5, 6])
+      .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
+      .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
+      .order('pickup_datetime', { ascending: false });
+
+    setTotalPages(Math.ceil(rideRequestsCountResponse.count / countsPerPage));
+
+    if (filterUpdated) {
+      setPage(1);
+    }
+
+    const start = ((filterUpdated ? 1 : page) - 1) * countsPerPage;
+    const end = start + countsPerPage - 1;
+
     const { data, error } = await supabase_client
       .from('ride_request')
       .select('*, rider_info(*), trip_charge(*)')
       .in('status_id', [5, 6])
       .gte('pickup_datetime', moment(JSON.stringify(year)).toISOString())
       .lt('pickup_datetime', moment(JSON.stringify(year + 1)).toISOString())
-      .order('pickup_datetime', { ascending: false });
+      .order('pickup_datetime', { ascending: false })
+      .range(start, end);
+
+    setFilterUpdated(false);
 
     if (env === 'dev') {
       console.log('dev', 'completed requests', data);
+      console.log(
+        'dev',
+        'completed requests count',
+        rideRequestsCountResponse.count,
+      );
     }
     if (data) {
       setRideRequests([...data]);
@@ -99,7 +183,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     getRequests(requestsType, selectedYear);
-  }, [requestsType, selectedYear]);
+  }, [requestsType, selectedYear, page]);
 
   useEffect(() => {
     setYears(getYearsForFilters(2024));
@@ -133,7 +217,13 @@ export default function Dashboard() {
                   sx={{ width: '270px' }}
                 >
                   <Box className="flex self-center mr-2">By Type: </Box>
-                  <Select value={requestsType} onChange={selectRequests}>
+                  <Select
+                    value={requestsType}
+                    onChange={(e) => {
+                      selectRequests(e);
+                      setFilterUpdated(true);
+                    }}
+                  >
                     <MenuItem value={'pending'}>Upcoming Requests</MenuItem>
                     <MenuItem value={'completed'}>Completed Requests</MenuItem>
                     <MenuItem value={'terminated'}>
@@ -169,6 +259,16 @@ export default function Dashboard() {
                 requestsType={requestsType}
                 getRequests={getRequests}
               />
+            </Box>
+
+            <Box className="flex justify-center items-center">
+              <Pagination
+                count={totalPages}
+                page={page}
+                color="primary"
+                onChange={(e, value) => setPage(value)}
+              />{' '}
+              <Box>10/Page</Box>
             </Box>
           </Box>
         </Grid>
