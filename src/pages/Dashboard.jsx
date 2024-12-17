@@ -261,7 +261,7 @@ export default function Dashboard() {
               />
             </Box>
 
-            <Box className="flex justify-center items-center">
+            <Box className="flex justify-center items-center pb-4">
               <Pagination
                 count={totalPages}
                 page={page}
