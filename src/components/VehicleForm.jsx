@@ -23,13 +23,20 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
                   value={VEHICLE_TYPES[0]}
                   control={<Radio />}
                   label={
-                    <Box className="flex">
-                      <img src="assets/imgs/tesla.png" className="w-56" />
-                      <Box className="font-bold text-xl self-center ml-4">
-                        <Box>Sedan (Tesla)</Box>
-                        <Box>4 Passengers - 2 Luggages</Box>
-                      </Box>
-                    </Box>
+                    <Grid container>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <img
+                          src="assets/imgs/tesla.png"
+                          className="w-56 h-fit"
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <Box className="font-bold text-xl self-center ml-4">
+                          <Box>Sedan (Tesla)</Box>
+                          <Box>4 Passengers - 2 Luggages</Box>
+                        </Box>
+                      </Grid>
+                    </Grid>
                   }
                 />
               </Box>
@@ -41,13 +48,20 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
                   value={VEHICLE_TYPES[1]}
                   control={<Radio />}
                   label={
-                    <Box className="flex">
-                      <img src="assets/imgs/SUV1.png" className="w-56" />
-                      <Box className="font-bold text-xl self-center ml-4">
-                        <Box>SUV</Box>
-                        <Box>6 Passengers - 5 Luggages</Box>
-                      </Box>
-                    </Box>
+                    <Grid container>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <img
+                          src="assets/imgs/SUV1.png"
+                          className="w-56 h-fit"
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <Box className="font-bold text-xl self-center ml-4">
+                          <Box>SUV (Blazer)</Box>
+                          <Box>6 Passengers - 5 Luggages</Box>
+                        </Box>
+                      </Grid>
+                    </Grid>
                   }
                 />
               </Box>
