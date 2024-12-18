@@ -42,7 +42,11 @@ export default function PriceCalculator() {
     console.log(digitString, dollorPerMile + digitString);
     if (dollorPerMileSelected) {
       if (digitString !== '.') {
-        setDollorPerMile(parseFloat(dollorPerMile + digitString).toString());
+        if (digitString !== '0') {
+          setDollorPerMile(parseFloat(dollorPerMile + digitString).toString());
+        } else {
+          setDollorPerMile(dollorPerMile + digitString);
+        }
       } else {
         if (!dollorPerMile.includes('.')) {
           setDollorPerMile(dollorPerMile + '.');
@@ -50,7 +54,11 @@ export default function PriceCalculator() {
       }
     } else {
       if (digitString !== '.') {
-        setTotalMiles(parseFloat(totalMiles + digitString).toString());
+        if (digitString !== '0') {
+          setTotalMiles(parseFloat(totalMiles + digitString).toString());
+        } else {
+          setTotalMiles(totalMiles + digitString);
+        }
       } else {
         if (!totalMiles.includes('.')) {
           setTotalMiles(totalMiles + '.');
@@ -61,7 +69,9 @@ export default function PriceCalculator() {
 
   useEffect(() => {
     setTotalPrice(
-      (parseFloat(dollorPerMile) * parseFloat(totalMiles)).toString(),
+      (parseFloat(dollorPerMile) * parseFloat(totalMiles))
+        .toFixed(2)
+        .toString(),
     );
   }, [dollorPerMile, totalMiles]);
 
