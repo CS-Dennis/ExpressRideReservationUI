@@ -285,7 +285,7 @@ export const estimatedPrice = (
       }
       break;
     default:
-      break;
+      return null;
   }
 };
 

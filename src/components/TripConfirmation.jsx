@@ -38,12 +38,14 @@ export default function TripConfirmation({
           {tripType !== 'oneWay' && (
             <Box>
               <b>Estimated Price:</b>{' '}
-              {`$${estimatedPrice(
-                tripType,
-                vehicleType,
-                pickupAddress.city,
-                dropoffAddress.city,
-              )}`}
+              {`$${
+                estimatedPrice(
+                  tripType,
+                  vehicleType,
+                  pickupAddress.city,
+                  dropoffAddress.city,
+                ) || `N/A`
+              }`}
             </Box>
           )}
           <Box>

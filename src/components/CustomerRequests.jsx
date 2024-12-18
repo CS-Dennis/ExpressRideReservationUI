@@ -8,6 +8,8 @@ import { useContext, useState } from 'react';
 import TripDetail from './TripDetail';
 import { AppContext, env, supabase_client } from '../App';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
+import PriceCalculator from './PriceCalculator';
 
 // used on driver's Dashboard screen
 export default function CustomerRequests({
@@ -214,6 +216,10 @@ export default function CustomerRequests({
             />
           </Box>
 
+          <Box className="flex">
+            <PriceCalculator />
+          </Box>
+
           <Box
             className="mt-1 cursor-pointer p-2 hover:bg-slate-200 hover:rounded-md"
             onClick={() => showRequestDetail(request)}
@@ -288,6 +294,22 @@ export default function CustomerRequests({
             Accept Request
           </Box>
           <Box>
+            <Link
+              to={`https://www.google.com/maps/dir/${selectedRequest?.pickup_address}, ${selectedRequest?.pickup_city}, ${selectedRequest?.pickup_state} ${selectedRequest?.pickup_zip}/${selectedRequest?.dropoff_address}, ${selectedRequest?.dropoff_city}, ${selectedRequest?.dropoff_state} ${selectedRequest?.dropoff_zip}`}
+              target="_blank"
+            >
+              <Box className="flex flex-col bg-slate-100">
+                <Box className="flex self-center">Show on Map</Box>
+                <Box className="flex self-center">
+                  <img
+                    src="../../assets/icons/location.png"
+                    style={{ height: '40px' }}
+                  />
+                </Box>
+              </Box>
+            </Link>
+          </Box>
+          <Box>
             <Box className="mt-4 flex">
               <Box className="flex self-center mr-2">$</Box>
               <TextField
@@ -296,6 +318,9 @@ export default function CustomerRequests({
                 onChange={(e) => setSuggestedPrice(e.target.value)}
                 fullWidth
               />
+              <Box className="w-20">
+                <PriceCalculator />
+              </Box>
             </Box>
             <Box className="mt-4">
               <TextField
