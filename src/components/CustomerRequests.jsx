@@ -232,7 +232,9 @@ export default function CustomerRequests({
               <Box className="font-bold">Drop-off location:</Box>
               {`${request.dropoff_address}, ${request.dropoff_city}, ${request.dropoff_state} ${request.dropoff_zip} `}
             </Box>
-            {request.status_id === 2 && <Box>Price: {`$${request.price}`}</Box>}
+            {request.status_id === 2 && (
+              <Box>Price: {`$${request.trip_charge?.price}`}</Box>
+            )}
           </Box>
 
           {/* accept the customer's request */}
