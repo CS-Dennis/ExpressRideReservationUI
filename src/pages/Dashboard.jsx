@@ -7,14 +7,19 @@ import {
 } from '@mui/material';
 import Title from '../components/Title';
 import { APP_TITLE } from '../constants';
-import { useEffect, useState } from 'react';
-import { env, supabase_client } from '../App';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext, env, supabase_client } from '../App';
 import CustomerRequests from '../components/CustomerRequests';
 import RequestStatusDemo from '../components/RequestStatusDemo';
 import { getYearsForFilters } from '../util';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
+// driver's dashboard
 export default function Dashboard() {
+  const context = useContext(AppContext);
+  const navigate = useNavigate();
+
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState(moment().year());
   const [requestsType, setRequestsType] = useState('pending');
@@ -188,6 +193,12 @@ export default function Dashboard() {
   useEffect(() => {
     setYears(getYearsForFilters(2024));
   }, []);
+
+  useEffect(() => {
+    if (context.userProfile?.role?.id !== 2) {
+      navigate('/');
+    }
+  }, [context.userProfile]);
 
   return (
     <>
