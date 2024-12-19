@@ -30,6 +30,8 @@ function App() {
   const [userProfile, setUserProfile] = useState(null);
   const [newUser, setNewUser] = useState(false);
 
+  const [suggestedPrice, setSuggestedPrice] = useState('');
+
   const authUser = async () => {
     if (env === 'dev') {
       console.log('dev', 'auth user');
@@ -140,6 +142,8 @@ function App() {
           setSnackbarMessage,
           setLoading,
           getUserProfile,
+          suggestedPrice,
+          setSuggestedPrice,
         }}
       >
         <BrowserRouter>
