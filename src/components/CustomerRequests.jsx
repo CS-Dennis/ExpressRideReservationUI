@@ -24,7 +24,7 @@ export default function CustomerRequests({
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [showRequestDetailModal, setShowRequestDetailModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [suggestedPrice, setSuggestedPrice] = useState(null);
+  // const [suggestedPrice, setSuggestedPrice] = useState(null);
   const [driversNotes, setDriversNotes] = useState(null);
 
   const [showCompleteTripModal, setShowCompleteTripModal] = useState(false);
@@ -36,12 +36,12 @@ export default function CustomerRequests({
 
   const closeAcceptModal = () => {
     setShowAcceptModal(false);
-    setSuggestedPrice(null);
-    setDriversNotes(null);
+    context.setSuggestedPrice('');
+    setDriversNotes('');
   };
 
   const confirmRequest = async () => {
-    if (suggestedPrice === null) {
+    if (!context.suggestedPrice) {
       context.setSnackbarFlag(true);
       context.setSnackbarType('error');
       context.setSnackbarMessage(
@@ -65,7 +65,7 @@ export default function CustomerRequests({
       .insert({
         user_id: selectedRequest.user_id,
         ride_request_id: selectedRequest.id,
-        price: suggestedPrice,
+        price: context.suggestedPrice,
         drivers_note: driversNotes,
       })
       .select();
@@ -315,11 +315,13 @@ export default function CustomerRequests({
               <TextField
                 label="Suggested Price"
                 type="number"
-                onChange={(e) => setSuggestedPrice(e.target.value)}
+                variant="outlined"
+                value={context.suggestedPrice}
+                onChange={(e) => context.setSuggestedPrice(e.target.value)}
                 fullWidth
               />
               <Box className="w-20">
-                <PriceCalculator />
+                <PriceCalculator addPriceButton={true} />
               </Box>
             </Box>
             <Box className="mt-4">

@@ -1,14 +1,17 @@
 import {
   Box,
+  Button,
   IconButton,
   InputAdornment,
   Modal,
   TextField,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { AppContext } from '../App';
 
-export default function PriceCalculator() {
+export default function PriceCalculator({ addPriceButton = false }) {
+  const context = useContext(AppContext);
   const [showPriceCalculator, setShowPriceCalculator] = useState(false);
 
   const [dollorPerMile, setDollorPerMile] = useState('0');
@@ -90,7 +93,12 @@ export default function PriceCalculator() {
         w-80 max-w-full h-fit bg-white rounded-lg p-4"
         >
           <Box className="flex justify-end">
-            <IconButton onClick={() => setShowPriceCalculator(false)}>
+            <IconButton
+              onClick={() => {
+                setShowPriceCalculator(false);
+                context.setSuggestedPrice('');
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
@@ -288,6 +296,19 @@ export default function PriceCalculator() {
                 </IconButton>
               </Box>
             </Box>
+            {addPriceButton && (
+              <Box className="mt-2">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    context.setSuggestedPrice(totalPrice.toString());
+                    setShowPriceCalculator(false);
+                  }}
+                >
+                  Add Price
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Modal>

@@ -14,7 +14,7 @@
 
 # driver dashboard (completed)
 
-# In app: price calculator
+# In app: price calculator (completed)
 
 # driver's earnings dashboard
 
