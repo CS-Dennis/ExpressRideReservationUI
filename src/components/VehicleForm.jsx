@@ -11,13 +11,17 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
   return (
     <>
       <Box className="font-bold text-4xl mt-4">Vehicle Type</Box>
-      <Box>
+      <Box className="mb-6">
         <RadioGroup
           value={vehicleType}
           onChange={(e) => setVehicleType(e.target.value)}
         >
           <Grid container>
-            <Grid size={{ sx: 12, lg: 6 }}>
+            <Grid
+              size={{ sm: 12, md: 6 }}
+              sx={{ height: '160px' }}
+              className="flex items-center"
+            >
               <Box className="mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[0]}
@@ -26,7 +30,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
                     <Grid container>
                       <Grid size={{ xs: 12, sm: 6 }}>
                         <img
-                          src="assets/imgs/tesla.png"
+                          src="assets/imgs/tesla.jpeg"
                           className="w-56 h-fit"
                         />
                       </Grid>
@@ -42,8 +46,12 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
               </Box>
             </Grid>
 
-            <Grid size={{ sx: 12, lg: 6 }}>
-              <Box className="flex mt-4">
+            <Grid
+              size={{ sm: 12, md: 6 }}
+              sx={{ height: '160px' }}
+              className="flex items-center"
+            >
+              <Box className="mt-4">
                 <FormControlLabel
                   value={VEHICLE_TYPES[1]}
                   control={<Radio />}
@@ -51,7 +59,7 @@ export default function VehicleForm({ vehicleType, setVehicleType }) {
                     <Grid container>
                       <Grid size={{ xs: 12, sm: 6 }}>
                         <img
-                          src="assets/imgs/SUV1.png"
+                          src="assets/imgs/SUV.jpeg"
                           className="w-56 h-fit"
                         />
                       </Grid>
