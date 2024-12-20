@@ -13,6 +13,7 @@ import LandingPage from './pages/LandingPage';
 import Profile from './pages/Profile';
 import CustomerTrips from './pages/CustomerTrips';
 import Dashboard from './pages/Dashboard';
+import DriverEarnings from './pages/DriverEarnings';
 
 export const AppContext = createContext();
 export const env = import.meta.env.VITE_NODE_ENV;
@@ -162,8 +163,9 @@ function App() {
               element={<CustomerTripReceipt />}
             />
 
-            {/* dashboard for driver */}
+            {/* screens for driver */}
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/earnings" element={<DriverEarnings />} />
 
             {/* dashboard for driver - old dashboard */}
             {/* <Route path="/dashboard_old" element={<DashboardOld />} /> */}
