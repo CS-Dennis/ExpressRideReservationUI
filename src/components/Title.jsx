@@ -37,6 +37,10 @@ export default function Title({ title }) {
     navigate('/dashboard');
   };
 
+  const driverDarningPage = () => {
+    navigate('/earnings');
+  };
+
   const profilePage = () => {
     handleClose();
     navigate('/profile');
@@ -131,8 +135,8 @@ export default function Title({ title }) {
                       >
                         Dashboard
                       </MenuItem>
-                      <MenuItem onClick={() => {}} disabled>
-                        Stats
+                      <MenuItem onClick={driverDarningPage}>
+                        My Earnings
                       </MenuItem>
                       <MenuItem onClick={() => {}} disabled>
                         My Customers

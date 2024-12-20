@@ -46,6 +46,21 @@ export const NUM_OF_PASSENGERS = [1, 2, 3, 4, 5];
 export const NUM_OF_LUGGAGES = [0, 1, 2, 3, 4];
 export const VEHICLE_TYPES = ['Sedan', 'SUV'];
 
+export const MONTHS = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+];
+
 export const STATES = [
   'Alabama',
   'Alaska',

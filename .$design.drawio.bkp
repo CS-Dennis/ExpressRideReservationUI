@@ -977,7 +977,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="yupGjEcGUd0UMXfvOLw3" name="UI">
-    <mxGraphModel dx="4097" dy="2206" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="4097" dy="2606" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1517,6 +1517,33 @@
         </mxCell>
         <mxCell id="WX0l4ljR7I2CSeW0UCQX-18" value="Categories: EV, SUV" style="rounded=1;whiteSpace=wrap;html=1;fontSize=35;" vertex="1" parent="1">
           <mxGeometry x="9789" y="1248" width="356" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-19" value="Export All Completed Trips" style="rounded=1;whiteSpace=wrap;html=1;fontSize=35;" vertex="1" parent="1">
+          <mxGeometry x="10145" y="143" width="458" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-23" value="" style="rounded=1;whiteSpace=wrap;html=1;arcSize=1;" vertex="1" parent="1">
+          <mxGeometry x="10919" y="-349" width="1062" height="742" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.003;entryY=0.481;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;strokeWidth=6;" edge="1" parent="1" source="WX0l4ljR7I2CSeW0UCQX-19" target="WX0l4ljR7I2CSeW0UCQX-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-25" value="Export All Completed Trips" style="rounded=1;whiteSpace=wrap;html=1;fontSize=35;" vertex="1" parent="1">
+          <mxGeometry x="11211" y="-309" width="458" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-27" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="11442" y="-57" width="196" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-28" value="2024" style="rounded=1;whiteSpace=wrap;html=1;fontSize=35;" vertex="1" parent="WX0l4ljR7I2CSeW0UCQX-27">
+          <mxGeometry width="196" height="63" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-29" value="" style="triangle;whiteSpace=wrap;html=1;strokeColor=none;fillColor=#000000;rotation=90;" vertex="1" parent="WX0l4ljR7I2CSeW0UCQX-27">
+          <mxGeometry x="152" y="14" width="31.5" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-30" value="Pick a Year:" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=35;" vertex="1" parent="1">
+          <mxGeometry x="11186" y="-51.5" width="222" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="WX0l4ljR7I2CSeW0UCQX-31" value="Download" style="rounded=1;whiteSpace=wrap;html=1;fontSize=35;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="11289" y="179" width="220" height="63" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

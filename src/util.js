@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { env } from './App';
-import { DASHBAORD_PAGE } from './constants';
+import { DASHBAORD_PAGE, VEHICLE_TYPES } from './constants';
 
 export const capitalizeString = (rawString) => {
   if (rawString === '') {
@@ -187,7 +187,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'rockwall' ||
         pickupCity.toLowerCase() === 'fate'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 75;
         } else {
           return 85;
@@ -196,7 +196,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'royse city' ||
         pickupCity.toLowerCase() === 'caddo mills'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 85;
         } else {
           return 95;
@@ -221,7 +221,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'rockwall' ||
         pickupCity.toLowerCase() === 'fate'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 65;
         } else {
           return 75;
@@ -230,7 +230,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'royse city' ||
         pickupCity.toLowerCase() === 'caddo mills'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 75;
         } else {
           return 85;
@@ -268,7 +268,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'rockwall' ||
         pickupCity.toLowerCase() === 'fate'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 65;
         } else {
           return 75;
@@ -277,7 +277,7 @@ export const estimatedPrice = (
         pickupCity.toLowerCase() === 'royse city' ||
         pickupCity.toLowerCase() === 'caddo mills'
       ) {
-        if (vehicleType === 'Sedan') {
+        if (vehicleType === VEHICLE_TYPES[0]) {
           return 75;
         } else {
           return 85;
@@ -305,12 +305,17 @@ export const checkUserLogin = (context, navigation) => {
   }
 };
 
-export const getYearsForFilters = (initYear) => {
+export const getYearsForFilters = (initYear, endingNextYear = true) => {
   var years = [];
 
   const nextYear = moment().year() + 1;
+  const currentYear = moment().year();
 
-  for (let index = nextYear - initYear; index >= 0; index--) {
+  for (
+    let index = (endingNextYear ? nextYear : currentYear) - initYear;
+    index >= 0;
+    index--
+  ) {
     years.push(initYear + index);
   }
 
@@ -319,4 +324,295 @@ export const getYearsForFilters = (initYear) => {
   }
 
   return years;
+};
+
+// [
+//   {
+//       "pickup_datetime": "2024-12-21T00:30:00+00:00",
+//       "vehicle_type": "Sedan",
+//       "trip_charge": {
+//           "price": 75
+//       }
+//   },
+//   {
+//       "pickup_datetime": "2024-12-18T01:35:00+00:00",
+//       "vehicle_type": "Sedan",
+//       "trip_charge": {
+//           "price": 1032
+//       }
+//   },
+//   {
+//       "pickup_datetime": "2024-12-13T06:00:00+00:00",
+//       "vehicle_type": "Sedan",
+//       "trip_charge": {
+//           "price": 100
+//       }
+//   }
+// ]
+export const transformRideRequestsToObjectByMonth = (rideRequests) => {
+  var transformedData = {
+    jan: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    feb: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    mar: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    apr: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    may: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    jun: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    jul: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    aug: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    sep: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    oct: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    nov: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+    dec: {
+      requests: [],
+      total: 0,
+      sedan: 0,
+      suv: 0,
+      totalTrips: 0,
+      sedanTrips: 0,
+      suvTrips: 0,
+    },
+  };
+
+  if (rideRequests?.length > 1) {
+    rideRequests.forEach((request) => {
+      const month = moment(request.pickup_datetime).month();
+      switch (month) {
+        case 0:
+          transformedData.jan.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.jan.sedan += request?.trip_charge?.price;
+            transformedData.jan.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.jan.suv += request?.trip_charge?.price;
+            transformedData.jan.suvTrips += 1;
+          }
+          transformedData.jan.total += request?.trip_charge?.price;
+          transformedData.jan.totalTrips += 1;
+          break;
+        case 1:
+          transformedData.feb.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.feb.sedan += request?.trip_charge?.price;
+            transformedData.feb.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.feb.suv += request?.trip_charge?.price;
+            transformedData.feb.suvTrips += 1;
+          }
+          transformedData.feb.total += request?.trip_charge?.price;
+          transformedData.feb.totalTrips += 1;
+          break;
+        case 2:
+          transformedData.mar.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.mar.sedan += request?.trip_charge?.price;
+            transformedData.mar.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.mar.suv += request?.trip_charge?.price;
+            transformedData.mar.suvTrips += 1;
+          }
+          transformedData.mar.total += request?.trip_charge?.price;
+          transformedData.mar.totalTrips += 1;
+          break;
+        case 3:
+          transformedData.apr.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.apr.sedan += request?.trip_charge?.price;
+            transformedData.apr.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.apr.suv += request?.trip_charge?.price;
+            transformedData.apr.suvTrips += 1;
+          }
+          transformedData.apr.total += request?.trip_charge?.price;
+          transformedData.apr.totalTrips += 1;
+          break;
+        case 4:
+          transformedData.may.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.may.sedan += request?.trip_charge?.price;
+            transformedData.may.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.may.suv += request?.trip_charge?.price;
+            transformedData.may.suvTrips += 1;
+          }
+          transformedData.may.total += request?.trip_charge?.price;
+          transformedData.may.totalTrips += 1;
+          break;
+        case 5:
+          transformedData.jun.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.jun.sedan += request?.trip_charge?.price;
+            transformedData.jun.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.jun.suv += request?.trip_charge?.price;
+            transformedData.jun.suvTrips += 1;
+          }
+          transformedData.jun.total += request?.trip_charge?.price;
+          transformedData.jun.totalTrips += 1;
+          break;
+        case 6:
+          transformedData.jul.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.jul.sedan += request?.trip_charge?.price;
+            transformedData.jul.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.jul.suv += request?.trip_charge?.price;
+            transformedData.jul.suvTrips += 1;
+          }
+          transformedData.jul.total += request?.trip_charge?.price;
+          transformedData.jul.totalTrips += 1;
+          break;
+        case 7:
+          transformedData.aug.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.aug.sedan += request?.trip_charge?.price;
+            transformedData.aug.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.aug.suv += request?.trip_charge?.price;
+            transformedData.aug.suvTrips += 1;
+          }
+          transformedData.aug.total += request?.trip_charge?.price;
+          transformedData.aug.totalTrips += 1;
+          break;
+        case 8:
+          transformedData.sep.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.sep.sedan += request?.trip_charge?.price;
+            transformedData.sep.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.sep.suv += request?.trip_charge?.price;
+            transformedData.sep.suvTrips += 1;
+          }
+          transformedData.sep.total += request?.trip_charge?.price;
+          transformedData.sep.totalTrips += 1;
+          break;
+        case 9:
+          transformedData.oct.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.oct.sedan += request?.trip_charge?.price;
+            transformedData.oct.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.oct.suv += request?.trip_charge?.price;
+            transformedData.oct.suvTrips += 1;
+          }
+          transformedData.oct.total += request?.trip_charge?.price;
+          transformedData.oct.totalTrips += 1;
+          break;
+        case 10:
+          transformedData.nov.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.nov.sedan += request?.trip_charge?.price;
+            transformedData.nov.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.nov.suv += request?.trip_charge?.price;
+            transformedData.nov.suvTrips += 1;
+          }
+          transformedData.nov.total += request?.trip_charge?.price;
+          transformedData.nov.totalTrips += 1;
+          break;
+        case 11:
+          transformedData.dec.requests.push(request);
+          if (request.vehicle_type === VEHICLE_TYPES[0]) {
+            transformedData.dec.sedan += request?.trip_charge?.price;
+            transformedData.dec.sedanTrips += 1;
+          } else if (request.vehicle_type === VEHICLE_TYPES[1]) {
+            transformedData.dec.suv += request?.trip_charge?.price;
+            transformedData.dec.suvTrips += 1;
+          }
+          transformedData.dec.total += request?.trip_charge?.price;
+          transformedData.dec.totalTrips += 1;
+          break;
+        default:
+          break;
+      }
+    });
+  }
+  return transformedData;
 };

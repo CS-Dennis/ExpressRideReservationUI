@@ -305,7 +305,7 @@ export default function TripDetailsForm({
       </Box>
 
       <Grid container>
-        <Grid size={{ sx: 12, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }}>
           <Box className="mr-2 w-full">
             <FormControl variant="standard" className="w-full">
               <InputLabel
@@ -333,7 +333,7 @@ export default function TripDetailsForm({
             </FormControl>
           </Box>
         </Grid>
-        <Grid size={{ sx: 12, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 12, lg: 6 }}>
           <Box className="ml-2 w-full flex">
             <FormControl variant="standard" className="w-full">
               <InputLabel
