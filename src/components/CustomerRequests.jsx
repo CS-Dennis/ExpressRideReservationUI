@@ -172,12 +172,12 @@ export default function CustomerRequests({
   return (
     <>
       {/* individual request cards */}
-      {rideRequests.length === 0 && (
+      {rideRequests?.length === 0 && (
         <Box className="flex justify-center font-bold text-lg">
           No ride requests found.
         </Box>
       )}
-      {rideRequests.map((request, i) => (
+      {rideRequests?.map((request, i) => (
         <Box
           key={i}
           className="border border-gray-100 py-4 px-2 rounded-md mb-4 bg-slate-100"

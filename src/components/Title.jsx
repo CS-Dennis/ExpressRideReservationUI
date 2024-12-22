@@ -2,6 +2,7 @@ import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   Menu,
   MenuItem,
   Toolbar,
@@ -92,61 +93,79 @@ export default function Title({ title }) {
             )}
             {context.session && !context.newUser && (
               <>
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  sx={{ marginRight: '1em' }}
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={(e) => handleClick(e)}
-                >
-                  {`${context.userProfile?.first_name} ${context.userProfile?.last_name}`}
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                >
-                  {/* for customer */}
-                  {context.userProfile?.role?.id === 3 && (
-                    <Box>
-                      <MenuItem sx={{ minWidth: '110px' }} onClick={homePage}>
-                        Request A Ride
-                      </MenuItem>
-                      <MenuItem onClick={() => tripsPage()}>My Trips</MenuItem>
-                    </Box>
-                  )}
-
-                  {/* for driver */}
-                  {context.userProfile?.role?.id === 2 && (
-                    <Box>
-                      <MenuItem
-                        sx={{ minWidth: '110px' }}
-                        onClick={dashboardPage}
+                {context.userProfile?.first_name &&
+                  context.userProfile?.last_name && (
+                    <>
+                      <Button
+                        color="secondary"
+                        variant="outlined"
+                        sx={{ marginRight: '1em' }}
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={(e) => handleClick(e)}
                       >
-                        Dashboard
-                      </MenuItem>
-                      <MenuItem onClick={driverDarningPage}>
-                        My Earnings
-                      </MenuItem>
-                      <MenuItem onClick={() => {}} disabled>
-                        My Customers
-                      </MenuItem>
-                    </Box>
+                        {`${context.userProfile?.first_name} ${context.userProfile?.last_name}`}
+                      </Button>
+                      <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button',
+                        }}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'left',
+                        }}
+                      >
+                        {/* for customer */}
+                        {context.userProfile?.role?.id === 3 && (
+                          <Box>
+                            <MenuItem
+                              sx={{ minWidth: '110px' }}
+                              onClick={homePage}
+                            >
+                              Request A Ride
+                            </MenuItem>
+                            <MenuItem onClick={() => tripsPage()}>
+                              My Trips
+                            </MenuItem>
+                          </Box>
+                        )}
+
+                        {/* for driver */}
+                        {context.userProfile?.role?.id === 2 && (
+                          <Box>
+                            <MenuItem
+                              sx={{ minWidth: '110px' }}
+                              onClick={dashboardPage}
+                            >
+                              Dashboard
+                            </MenuItem>
+                            <MenuItem onClick={driverDarningPage}>
+                              My Earnings
+                            </MenuItem>
+                            <MenuItem onClick={() => {}} disabled>
+                              My Customers
+                            </MenuItem>
+                          </Box>
+                        )}
+
+                        <MenuItem onClick={profilePage}>Profile</MenuItem>
+                        <MenuItem onClick={logout}>Sign out</MenuItem>
+                      </Menu>
+                    </>
                   )}
 
-                  <MenuItem onClick={profilePage}>Profile</MenuItem>
-                  <MenuItem onClick={logout}>Sign out</MenuItem>
-                </Menu>
+                  {
+                    (!context.userProfile?.first_name ||
+                    !context.userProfile?.last_name) &&
+                    <>
+                      <CircularProgress sx={{color: '#FFF'}} />
+                    </>
+                  }
               </>
             )}
 

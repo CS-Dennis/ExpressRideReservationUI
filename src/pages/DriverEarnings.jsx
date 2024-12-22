@@ -1,14 +1,16 @@
 import {
+  Backdrop,
   Box,
   Button,
   ButtonGroup,
   Chip,
+  CircularProgress,
   Grid2 as Grid,
   MenuItem,
   Select,
 } from '@mui/material';
 import Title from '../components/Title';
-import { APP_TITLE, MONTHS, VEHICLE_TYPES } from '../constants';
+import { APP_TITLE, MONTHS } from '../constants';
 import { useContext, useEffect, useState } from 'react';
 import {
   getYearsForFilters,
@@ -30,8 +32,8 @@ export default function DriverEarnings() {
 
   const [chartType, setChartType] = useState('earnings');
 
-  const [barChartDataEarnings, setBarChartDataEarnings] = useState([]);
-  const [barChartDataTrips, setBarChartDataTrips] = useState([]);
+  const [barChartDataEarnings, setBarChartDataEarnings] = useState(null);
+  const [barChartDataTrips, setBarChartDataTrips] = useState(null);
 
   function valueFormatterEarnings(value) {
     return `$${value}`;
@@ -108,6 +110,7 @@ export default function DriverEarnings() {
   useEffect(() => {
     setYears(getYearsForFilters(2024, false));
   }, []);
+
   useEffect(() => {
     getAllCompletedRequests();
   }, [selectedYear]);
@@ -172,7 +175,7 @@ export default function DriverEarnings() {
             {chartType === 'earnings' && (
               <Box>
                 <BarChart
-                  dataset={barChartDataEarnings}
+                  dataset={barChartDataEarnings || []}
                   series={[
                     {
                       dataKey: 'total',
@@ -211,7 +214,7 @@ export default function DriverEarnings() {
             {chartType === 'trips' && (
               <Box>
                 <BarChart
-                  dataset={barChartDataTrips}
+                  dataset={barChartDataTrips || []}
                   series={[
                     {
                       dataKey: 'totalTrips',
@@ -259,6 +262,15 @@ export default function DriverEarnings() {
         </Grid>
         <Grid size={{ md: 12, lg: 1 }} />
       </Grid>
+
+      {(!barChartDataEarnings || !barChartDataTrips) && (
+        <Backdrop
+          open={true}
+          sx={{ zIndex: 10, backgroundColor: 'rgba(0,0,0,0.5)' }}
+        >
+          <CircularProgress />
+        </Backdrop>
+      )}
     </>
   );
 }
