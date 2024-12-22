@@ -1,4 +1,11 @@
-import { Box, Grid2 as Grid, MenuItem, Select } from '@mui/material';
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Grid2 as Grid,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import Title from '../components/Title';
 import { APP_TITLE } from '../constants';
 import { useEffect, useState } from 'react';
@@ -9,7 +16,7 @@ import moment from 'moment';
 
 // customer's My Trips screen
 export default function CustomerTrips() {
-  const [trips, setTrips] = useState([]);
+  const [trips, setTrips] = useState(null);
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState(moment().year());
 
@@ -73,8 +80,8 @@ export default function CustomerTrips() {
 
             {/* my trips section */}
             <Box className="mt-5">
-              {trips.length > 0 &&
-                trips.map((trip, i) => (
+              {trips?.length > 0 &&
+                trips?.map((trip, i) => (
                   <Box className="mx-5" key={i}>
                     <TripCard
                       trip={trip}
@@ -84,16 +91,27 @@ export default function CustomerTrips() {
                   </Box>
                 ))}
 
-              {trips.length === 0 && (
-                <Box className="flex justify-center mt-4 font-bold text-lg">
-                  No Requests Found
-                </Box>
+              {trips?.length === 0 && (
+                <>
+                  <Box className="flex justify-center mt-4 font-bold text-lg">
+                    No Requests Found
+                  </Box>
+                </>
               )}
             </Box>
           </Box>
         </Grid>
         <Grid size={{ md: 12, lg: 1 }} />
       </Grid>
+
+      {trips === null && (
+        <Backdrop
+          sx={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 10 }}
+          open={true}
+        >
+          <CircularProgress />
+        </Backdrop>
+      )}
     </>
   );
 }

@@ -1,5 +1,7 @@
 import {
+  Backdrop,
   Box,
+  CircularProgress,
   Grid2 as Grid,
   MenuItem,
   Pagination,
@@ -24,9 +26,9 @@ export default function Dashboard() {
   const [selectedYear, setSelectedYear] = useState(moment().year());
   const [requestsType, setRequestsType] = useState('pending');
 
-  const [rideRequests, setRideRequests] = useState([]);
+  const [rideRequests, setRideRequests] = useState(null);
 
-  const [countsPerPage, setCountsPerPage] = useState(10);
+  const [countsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [filterUpdated, setFilterUpdated] = useState(false);
@@ -187,6 +189,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    setRideRequests(null);
     getRequests(requestsType, selectedYear);
   }, [requestsType, selectedYear, page]);
 
@@ -285,6 +288,20 @@ export default function Dashboard() {
         </Grid>
         <Grid size={{ md: 12, lg: 1 }} />
       </Grid>
+
+      {rideRequests === null && (
+        <>
+          <Backdrop
+            sx={{
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              zIndex: 10,
+            }}
+            open={true}
+          >
+            <CircularProgress />
+          </Backdrop>
+        </>
+      )}
     </>
   );
 }
